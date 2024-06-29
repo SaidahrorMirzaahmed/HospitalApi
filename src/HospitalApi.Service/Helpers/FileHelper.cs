@@ -12,9 +12,9 @@ namespace Tenge.Service.Helpers;
 
 public class FileHelper
 {
-    public static async Task<(string Path, string Name)> CreateFileAsync(IFormFile file, FileType type)
+    public static async Task<(string Path, string Name)> CreateFileAsync(IFormFile file)
     {
-        var directoryPath = Path.Combine(EnvironmentHelper.WebRootPath, type.ToString());
+        var directoryPath = Path.Combine(EnvironmentHelper.WebRootPath, "Photos");
         if (!Directory.Exists(directoryPath))
             Directory.CreateDirectory(directoryPath);
 

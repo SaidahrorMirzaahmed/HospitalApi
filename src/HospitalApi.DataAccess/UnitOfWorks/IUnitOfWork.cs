@@ -10,5 +10,5 @@ public interface IUnitOfWork : IDisposable
     IRepository<News> NewsList { get; }
     IRepository<Recipe> Recipes { get; }
     IRepository<User> Users { get; }
-    ValueTask<bool> SaveAsync();
+    Task<bool> SaveAsync();
 }

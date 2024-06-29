@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HospitalApi.DataAccess\HospitalApi.DataAccess.csproj" />
     <ProjectReference Include="..\HospitalApi.Domain\HospitalApi.Domain.csproj" />
   </ItemGroup>
 
