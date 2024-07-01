@@ -10,7 +10,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly AppDbContext context;
     public IRepository<Asset> Assets { get; }
     public IRepository<Booking> Bookings { get; }
-    public IRepository<News> NewsList { get; }
+    public IRepository<NewsList> NewsList { get; }
     public IRepository<Recipe> Recipes { get; }
     public IRepository<User> Users { get; }
 
@@ -22,7 +22,7 @@ public class UnitOfWork : IUnitOfWork
         Users = new Repository<User>(this.context);
         Assets = new Repository<Asset>(this.context);
         Bookings = new Repository<Booking>(this.context);
-        NewsList = new Repository<News>(this.context);
+        NewsList = new Repository<NewsList>(this.context);
         Recipes = new Repository<Recipe>(this.context);
     }
 

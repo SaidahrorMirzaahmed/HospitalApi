@@ -7,7 +7,7 @@ public interface IUnitOfWork : IDisposable
 {
     IRepository<Asset> Assets { get; }
     IRepository<Booking> Bookings { get; }
-    IRepository<News> NewsList { get; }
+    IRepository<NewsList> NewsList { get; }
     IRepository<Recipe> Recipes { get; }
     IRepository<User> Users { get; }
     Task<bool> SaveAsync();

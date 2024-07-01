@@ -8,7 +8,7 @@ using HospitalApi.Domain.Entities;
 
 namespace HospitalApi.Domain.Entities;
 
-public class News : Auditable
+public class NewsList : Auditable
 {
     public long PublisherId { get; set; }
     public User Publisher { get; set; }

@@ -17,7 +17,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Asset> Assets { get; set; }
     public DbSet<Booking> Bookings { get; set; }
-    public DbSet<News> NewsList { get; set; }
+    public DbSet<NewsList> NewsList { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<User> Users { get; set; }
 }
