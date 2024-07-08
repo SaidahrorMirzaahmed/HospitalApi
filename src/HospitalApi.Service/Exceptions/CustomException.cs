@@ -1,4 +1,4 @@
-﻿namespace Tenge.Service.Exceptions;
+﻿namespace HospitalApi.Service.Exceptions;
 
 public class CustomException : Exception
 {

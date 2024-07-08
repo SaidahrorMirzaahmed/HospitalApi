@@ -1,10 +1,10 @@
 ﻿using Arcana.Service.Extensions;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Tenge.Service.Configurations;
-using Tenge.Service.Exceptions;
 using Tenge.Service.Helpers;
 using Tenge.WebApi.Configurations;
 
@@ -98,6 +98,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
         existUser.FirstName = user.FirstName;
         existUser.UpdatedAt = DateTime.UtcNow;
         existUser.UpdatedByUserId = HttpContextHelper.UserId;
+
         await unitOfWork.SaveAsync();
         return existUser;
     }

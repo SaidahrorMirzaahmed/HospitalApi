@@ -16,5 +16,5 @@ public class Recipe : Auditable
     public User Client { get; set; }
     public long PictureId {  get; set; }
     public Asset Picture { get; set; }
-    public DateOnly Date {  get; set; }
+    public DateTime Date {  get; set; }
 }

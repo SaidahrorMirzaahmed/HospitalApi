@@ -13,5 +13,5 @@ public interface IUserService
     Task<User> GetByIdAsync(long id);
     Task<IEnumerable<User>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
     Task<bool> SendSMSCodeAsync(string phone);
-    Task<(User user, string token)> VerifySMSCode(string phone, long code);
+    Task<(User user, string token)> VerifySMSCode(string phone,long code);
 }

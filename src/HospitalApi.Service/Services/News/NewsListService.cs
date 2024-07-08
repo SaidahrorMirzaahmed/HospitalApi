@@ -1,6 +1,7 @@
 ﻿using Arcana.Service.Extensions;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Exceptions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,8 @@ public class NewsListService(IUnitOfWork unitOfWork) : INewsListService
         existNews.Publisher = news.Publisher;
         existNews.PublisherId = news.PublisherId;
         existNews.Update();
+
+        await unitOfWork.SaveAsync();
 
         return existNews;
     }

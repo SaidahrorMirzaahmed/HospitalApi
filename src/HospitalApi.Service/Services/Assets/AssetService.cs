@@ -1,13 +1,7 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualBasic.FileIO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tenge.Service.Exceptions;
 using Tenge.Service.Helpers;
 using Tenge.WebApi.Configurations;
 

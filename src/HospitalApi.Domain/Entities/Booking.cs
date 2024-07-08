@@ -15,5 +15,6 @@ public class Booking : Auditable
     public User Staff { get; set; }
     public long ClientId {  get; set; }
     public User Client { get; set; }
-    public TimesOfBooking Date {  get; set; }
+    public TimesOfBooking Time {  get; set; }
+    public DateOnly Date { get; set; }
 }
