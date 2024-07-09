@@ -2,20 +2,14 @@
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Exceptions;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HospitalApi.Service.Services.Assets;
 using Tenge.Service.Configurations;
-using Tenge.Service.Exceptions;
 using Tenge.Service.Extensions;
 using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.News;
 
-public class NewsListService(IUnitOfWork unitOfWork) : INewsListService
+public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : INewsListService
 {
     public async Task<NewsList> CreateAsync(NewsList news)
     {
@@ -42,7 +36,7 @@ public class NewsListService(IUnitOfWork unitOfWork) : INewsListService
     public async Task<IEnumerable<NewsList>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var res = unitOfWork.NewsList
-            .SelectAsQueryable(expression: user => !user.IsDeleted, isTracked: false)
+            .SelectAsQueryable(expression: user => !user.IsDeleted, isTracked: false, includes: ["Picture"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -52,9 +46,9 @@ public class NewsListService(IUnitOfWork unitOfWork) : INewsListService
         return await Task.FromResult(res);
     }
 
-    public async Task<NewsList> GetAsyncAsync(long id)
+    public async Task<NewsList> GetAsync(long id)
     {
-        var existNews = await unitOfWork.NewsList.SelectAsync(x => !x.IsDeleted && x.Id == id)
+        var existNews = await unitOfWork.NewsList.SelectAsync(x => !x.IsDeleted && x.Id == id, includes: ["Picture"])
             ?? throw new NotFoundException($"News with this id is not found Id = {id}");
 
         return existNews;

@@ -3,7 +3,6 @@ using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Exceptions;
 using Tenge.Service.Configurations;
-using Tenge.Service.Exceptions;
 using Tenge.Service.Extensions;
 using Tenge.WebApi.Configurations;
 
@@ -36,6 +35,19 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
     {
         var res = unitOfWork.Recipes
             .SelectAsQueryable(expression: recipe => !recipe.IsDeleted, isTracked: false, includes: ["Staff", "Client", "Picture"])
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            res = res.Where(recipe =>
+                recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search));
+
+        return await Task.FromResult(res);
+    }
+
+    public async Task<IEnumerable<Recipe>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
+    {
+        var res = unitOfWork.Recipes
+            .SelectAsQueryable(expression: recipe => !recipe.IsDeleted && recipe.ClientId == id, isTracked: false, includes: ["Staff", "Client", "Picture"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))

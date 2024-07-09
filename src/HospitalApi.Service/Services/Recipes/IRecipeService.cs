@@ -16,4 +16,5 @@ public interface IRecipeService
     Task<bool> DeleteAsync(long id);
     Task<Recipe> GetAsync(long id);
     Task<IEnumerable<Recipe>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
+    Task<IEnumerable<Recipe>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null);
 }

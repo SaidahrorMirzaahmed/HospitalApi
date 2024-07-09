@@ -1,14 +1,10 @@
-﻿using HospitalApi.Service.Services.Users;
+﻿using HospitalApi.Domain.Entities;
 
 namespace HospitalApi.WebApi.ApiServices.Accounts
 {
     public interface IAccountApiService
     {
-
-    }
-
-    public class AccountApiService(IUserService service) : IAccountApiService 
-    { 
-        
+        Task<bool> SendSMSCodeAsync(string phone);
+        Task<(User user, string token)> VerifySMSCode(string phone, long code);
     }
 }

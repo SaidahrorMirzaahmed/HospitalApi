@@ -11,4 +11,6 @@ public interface IUnitOfWork : IDisposable
     IRepository<Recipe> Recipes { get; }
     IRepository<User> Users { get; }
     Task<bool> SaveAsync();
+    Task BeginTransactionAsync();
+    Task CommitTransactionAsync();
 }
