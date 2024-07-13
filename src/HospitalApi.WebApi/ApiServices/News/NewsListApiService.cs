@@ -7,6 +7,7 @@ using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Validations.News;
 using Tenge.Service.Configurations;
+using Tenge.Service.Helpers;
 using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.News;
@@ -24,6 +25,7 @@ public class NewsListApiService(
         await validations.EnsureValidatedAsync(createModel);
         await unitOfWork.BeginTransactionAsync();
         var mappedNews = mapper.Map<NewsList>(createModel);
+        mappedNews.PublisherId = HttpContextHelper.UserId;
 
         var res = await service.CreateAsync(mappedNews);
         var asset = await assetService.UploadAsync(createModel.Picture);

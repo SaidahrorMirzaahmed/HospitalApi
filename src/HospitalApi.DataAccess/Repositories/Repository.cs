@@ -15,18 +15,18 @@ public class Repository<T> : IRepository<T> where T : Auditable
         this.set = context.Set<T>();
     }
 
-    public async ValueTask<T> InsertAsync(T entity)
+    public async Task<T> InsertAsync(T entity)
     {
         entity.CreatedAt = DateTime.UtcNow;
         return (await set.AddAsync(entity)).Entity;
     }
 
-    //public async ValueTask BulkInsertAsync(IEnumerable<T> entities)
+    //public async Task BulkInsertAsync(IEnumerable<T> entities)
     //{
     //    await context.BulkInsertAsync(entities);
     //}
 
-    public async ValueTask<T> UpdateAsync(T entity)
+    public async Task<T> UpdateAsync(T entity)
     {
         entity.UpdatedAt = DateTime.UtcNow;
         set.Entry(entity).State = EntityState.Modified;
@@ -34,7 +34,7 @@ public class Repository<T> : IRepository<T> where T : Auditable
         return await Task.FromResult(entity);
     }
 
-    //public async ValueTask BulkUpdateAsync(IEnumerable<T> entities)
+    //public async Task BulkUpdateAsync(IEnumerable<T> entities)
     //{
     //    await context.BulkUpdateAsync(entities.Select(entity =>
     //        {
@@ -43,7 +43,7 @@ public class Repository<T> : IRepository<T> where T : Auditable
     //        }));
     //}
 
-    public async ValueTask<T> DeleteAsync(T entity)
+    public async Task<T> DeleteAsync(T entity)
     {
         entity.IsDeleted = true;
         entity.DeletedAt = DateTime.UtcNow;
@@ -51,7 +51,7 @@ public class Repository<T> : IRepository<T> where T : Auditable
         return await Task.FromResult(entity);
     }
 
-    //public async ValueTask BulkDeleteAsyn(IEnumerable<T> entities)
+    //public async Task BulkDeleteAsyn(IEnumerable<T> entities)
     //{
     //    await context.BulkUpdateAsync(entities.Select(entity =>
     //        {
@@ -61,17 +61,17 @@ public class Repository<T> : IRepository<T> where T : Auditable
     //        }));
     //}
 
-    public async ValueTask<T> DropAsync(T entity)
+    public async Task<T> DropAsync(T entity)
     {
         return await Task.FromResult(set.Remove(entity).Entity);
     }
 
-    //public async ValueTask BulkDropAsync(IEnumerable<T> entities)
+    //public async Task BulkDropAsync(IEnumerable<T> entities)
     //{
     //    await context.BulkDeleteAsync(entities);
     //}
 
-    public async ValueTask<T> SelectAsync(Expression<Func<T, bool>> expression, string[] includes = null)
+    public async Task<T> SelectAsync(Expression<Func<T, bool>> expression, string[] includes = null)
     {
         var query = set.Where(expression);
 
@@ -82,7 +82,7 @@ public class Repository<T> : IRepository<T> where T : Auditable
         return await query.FirstOrDefaultAsync();
     }
 
-    public async ValueTask<IEnumerable<T>> SelectAsEnumerableAsync(
+    public async Task<IEnumerable<T>> SelectAsEnumerableAsync(
         Expression<Func<T, bool>> expression = null,
         string[] includes = null,
         bool isTracked = true)

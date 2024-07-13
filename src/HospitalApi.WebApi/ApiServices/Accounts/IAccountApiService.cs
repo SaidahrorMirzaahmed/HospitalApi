@@ -1,10 +1,11 @@
 ﻿using HospitalApi.Domain.Entities;
+using HospitalApi.WebApi.Models.Logins;
 
 namespace HospitalApi.WebApi.ApiServices.Accounts
 {
     public interface IAccountApiService
     {
         Task<bool> SendSMSCodeAsync(string phone);
-        Task<(User user, string token)> VerifySMSCode(string phone, long code);
+        Task<LoginViewModel> VerifySMSCode(string phone, long code);
     }
 }

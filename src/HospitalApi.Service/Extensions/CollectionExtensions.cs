@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using HospitalApi.Service.Exceptions;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Tenge.Service.Configurations;
-using Tenge.Service.Exceptions;
 using Tenge.Service.Helpers;
 using Tenge.WebApi.Configurations;
 

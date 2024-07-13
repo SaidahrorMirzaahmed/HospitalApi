@@ -7,7 +7,6 @@ public class NewsListUpdateModelValidator : AbstractValidator<NewsListUpdateMode
 {
     public NewsListUpdateModelValidator()
     {
-        RuleFor(x => x.PublisherId).NotNull().NotEmpty()
-            .WithMessage(x => $"{nameof(x.PublisherId)} should not be null or empty");
+        
     }
 }

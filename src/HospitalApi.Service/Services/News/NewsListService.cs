@@ -15,7 +15,6 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
     {
         news.Create();
         var res = await unitOfWork.NewsList.InsertAsync(news);
-        await unitOfWork.SaveAsync();
 
         return res;
     }
@@ -36,7 +35,7 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
     public async Task<IEnumerable<NewsList>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var res = unitOfWork.NewsList
-            .SelectAsQueryable(expression: user => !user.IsDeleted, isTracked: false, includes: ["Picture"])
+            .SelectAsQueryable(expression: user => !user.IsDeleted, isTracked: false, includes: ["Picture", "Publisher"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -48,7 +47,7 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
 
     public async Task<NewsList> GetAsync(long id)
     {
-        var existNews = await unitOfWork.NewsList.SelectAsync(x => !x.IsDeleted && x.Id == id, includes: ["Picture"])
+        var existNews = await unitOfWork.NewsList.SelectAsync(x => !x.IsDeleted && x.Id == id, includes: ["Picture", "Publisher"])
             ?? throw new NotFoundException($"News with this id is not found Id = {id}");
 
         return existNews;

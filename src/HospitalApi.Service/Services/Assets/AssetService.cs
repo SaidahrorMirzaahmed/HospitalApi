@@ -31,7 +31,6 @@ public class AssetService(IUnitOfWork unitOfWork) : IAssetService
         };
 
         var createdAsset = await unitOfWork.Assets.InsertAsync(asset);
-        await unitOfWork.SaveAsync();
 
         return createdAsset;
     }

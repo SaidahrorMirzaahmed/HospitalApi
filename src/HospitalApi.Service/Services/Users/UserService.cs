@@ -120,7 +120,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
             }
         }
         else
-        {
+            {
             throw new NotFoundException("Code not found or expired");
         }
     }

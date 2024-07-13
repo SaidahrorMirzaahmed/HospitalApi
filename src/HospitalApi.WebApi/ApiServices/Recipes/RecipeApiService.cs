@@ -7,6 +7,7 @@ using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Validations.Recipes;
 using Tenge.Service.Configurations;
+using Tenge.Service.Helpers;
 using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.Recipes;
@@ -24,6 +25,7 @@ public class RecipeApiService(
         await validations.EnsureValidatedAsync(createModel);
         await unitOfWork.BeginTransactionAsync();
         var mapped = mapper.Map<Recipe>(createModel);
+        mapped.StaffId = HttpContextHelper.UserId;
 
         var res = await service.CreateAsync(mapped);
         var asset = await assetService.UploadAsync(createModel.Picture);
@@ -43,6 +45,7 @@ public class RecipeApiService(
         await unitOfWork.BeginTransactionAsync();
 
         var mappedRecipe = mapper.Map<Recipe>(createModel);
+        mappedRecipe.StaffId = HttpContextHelper.UserId;
         var updatedRecipe = await service.UpdateAsync(id, mappedRecipe);
 
         var asset = await assetService.UploadAsync(createModel.Picture);

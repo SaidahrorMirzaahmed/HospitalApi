@@ -1,44 +1,66 @@
+using HospitalApi.DataAccess.Contexts;
+using HospitalApi.WebApi.Extensions;
+using HospitalApi.WebApi.Mappers;
+using HospitalApi.WebApi.RouteHelper;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+
+builder.Services.AddControllers(options =>
+    options.Conventions.Add(new RouteTokenTransformerConvention(new RouteHelper())));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureSwagger();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://sayidahror.uz")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultDbConnection")));
+
+builder.Services.AddJwtService(builder.Configuration);
+builder.Services.AddExceptionHandlers();
+builder.Services.AddProblemDetails();
+builder.Services.AddAuthorization();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddValidators();
+builder.Services.AddServices();
+builder.Services.AddApiServices();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+app.InjectEnvironmentItems();
+app.MapControllers();
+app.UseStaticFiles();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseRouting();
+app.UseCors("AllowSpecificOrigin");
+app.UseAuthorization();
+app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
