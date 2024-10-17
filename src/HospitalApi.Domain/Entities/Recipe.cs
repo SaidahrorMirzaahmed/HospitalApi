@@ -14,7 +14,10 @@ public class Recipe : Auditable
     public User Staff { get; set; }
     public long ClientId { get; set; }
     public User Client { get; set; }
-    public long PictureId {  get; set; }
-    public Asset Picture { get; set; }
-    public DateTime Date {  get; set; }
+    public long? PictureId {  get; set; }
+    public Asset? Picture { get; set; }
+    public string Title { get; set; }
+    public string SubTitle { get; set; }
+    public DateOnly DateOfVisit {  get; set; }
+    public DateOnly? DateOfReturn { get; set; } 
 }

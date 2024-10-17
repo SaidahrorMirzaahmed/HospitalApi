@@ -2,6 +2,7 @@
 
 public class NewsListCreateModel
 {
-    public string Text { get; set; }
-    public IFormFile Picture { get; set; } = null;
+    public string Title { get; set; }
+    public string SubTitle { get; set; }
+    public IFormFile? Picture { get; set; } = null;
 }

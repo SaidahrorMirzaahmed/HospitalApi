@@ -1,4 +1,5 @@
-﻿using HospitalApi.WebApi.ApiServices.News;
+﻿using HospitalApi.Domain.Enums;
+using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class NewsListController(INewsListApiService service) : BaseController
 {
     [HttpPost]

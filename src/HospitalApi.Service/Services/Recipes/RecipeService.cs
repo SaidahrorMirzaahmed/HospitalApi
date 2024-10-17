@@ -2,6 +2,7 @@
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Tenge.Service.Configurations;
 using Tenge.Service.Extensions;
 using Tenge.WebApi.Configurations;
@@ -14,7 +15,6 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
     {
         recipe.Create();
         var createdRecipe = await unitOfWork.Recipes.InsertAsync(recipe);
-        await unitOfWork.SaveAsync();
 
         return createdRecipe;
     }
@@ -41,7 +41,7 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
             res = res.Where(recipe =>
                 recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search));
 
-        return await Task.FromResult(res);
+        return await res.ToListAsync();
     }
 
     public async Task<IEnumerable<Recipe>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
@@ -77,7 +77,10 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
         existRecipe.StaffId = recipe.StaffId;
         existRecipe.ClientId = recipe.ClientId;
         existRecipe.Client = recipe.Client;
-        existRecipe.Date = recipe.Date;
+        existRecipe.Title = recipe.Title;
+        existRecipe.SubTitle = recipe.SubTitle;
+        existRecipe.DateOfVisit = recipe.DateOfVisit;
+        existRecipe.DateOfReturn = recipe.DateOfReturn;
 
         await unitOfWork.SaveAsync();
 

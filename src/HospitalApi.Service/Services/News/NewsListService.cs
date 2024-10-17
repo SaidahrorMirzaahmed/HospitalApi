@@ -40,7 +40,7 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
 
         if (!string.IsNullOrEmpty(search))
             res = res.Where(user =>
-                user.Text.ToLower().Contains(search));
+                user.Title.ToLower().Contains(search) || user.SubTitle.ToLower().Contains(search));
 
         return await Task.FromResult(res);
     }
@@ -59,7 +59,8 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
             ?? throw new NotFoundException($"News with this id is not found Id = {id}");
 
         existNews.Id = id;
-        existNews.Text = news.Text;
+        existNews.Title = news.Title;
+        existNews.SubTitle = news.SubTitle;
         existNews.Publisher = news.Publisher;
         existNews.PublisherId = news.PublisherId;
         existNews.Update();

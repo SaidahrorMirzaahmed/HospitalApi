@@ -8,7 +8,8 @@ public interface IUserService
 {
     Task<User> CreateStaffAsync(User user);
     Task<User> CreateUserAsync(User user);
-    Task<User> UpdateAsync(long id, User user);
+    Task<User> UpdateStaffAsync(long id, User user);
+    Task<User> UpdateClientAsync(long id, User user);
     Task<bool> DeleteAsync(long id);
     Task<User> GetByIdAsync(long id);
     Task<IEnumerable<User>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);

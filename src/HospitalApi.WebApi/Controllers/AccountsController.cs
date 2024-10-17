@@ -1,10 +1,12 @@
 ﻿using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
 
+[AllowAnonymous]
 [EnableCors("AllowSpecificOrigin")]
 [Route("api/[controller]")]
 [ApiController]

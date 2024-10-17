@@ -18,7 +18,7 @@ public class BookingApiService(
     public async Task<BookingViewModel> PostAsync(BookingCreateModel createModel)
     {
         await validations.EnsureValidatedAsync(createModel);
-        var res = service.CreateAsync(mapper.Map<Booking>(createModel));
+        var res = await service.CreateAsync(mapper.Map<Booking>(createModel));
 
         return mapper.Map<BookingViewModel>(res);
     }
@@ -26,7 +26,7 @@ public class BookingApiService(
     public async Task<BookingViewModel> PutAsync(long id, BookingUpdateModel createModel)
     {
         await validations1.EnsureValidatedAsync(createModel);
-        var res = service.UpdateAsync(id, mapper.Map<Booking>(createModel));
+        var res = await service.UpdateAsync(id, mapper.Map<Booking>(createModel));
 
         return mapper.Map<BookingViewModel>(res);
     }

@@ -69,7 +69,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
 
     public async Task<User> GetByIdAsync(long id)
     {
-        var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id && !u.IsDeleted, includes: ["Role"])
+        var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id && !u.IsDeleted)
             ?? throw new NotFoundException($"User is not found with this ID={id}");
 
         return existUser;
@@ -80,13 +80,33 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
         var code = AuthHelper.SendCodeToPhone(phone);
         cache.Set(phone, code, TimeSpan.FromMinutes(5));
 
-        return true;
+        return await Task.FromResult(true);
     }
 
-    public async Task<User> UpdateAsync(long id, User user)
+    public async Task<User> UpdateStaffAsync(long id, User user)
     {
         var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id && !u.IsDeleted)
             ?? throw new NotFoundException($"User is not found with this ID={id}");
+
+        var alreadyExistUser = await unitOfWork.Users.SelectAsync(u => (u.Phone == user.Phone || u.Phone == user.Phone) && !u.IsDeleted && u.Id != id);
+        if (alreadyExistUser is not null)
+            throw new AlreadyExistException($"This user already exists with this emil={user.Phone}");
+
+        existUser.Id = id;
+        existUser.Phone = user.Phone;
+        existUser.LastName = user.LastName;
+        existUser.FirstName = user.FirstName;
+        existUser.UpdatedAt = DateTime.UtcNow;
+        existUser.UpdatedByUserId = HttpContextHelper.UserId;
+
+        await unitOfWork.SaveAsync();
+        return existUser;
+    }
+    
+    public async Task<User> UpdateClientAsync(long id, User user)
+    {
+        var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id && !u.IsDeleted)
+                        ?? throw new NotFoundException($"User is not found with this ID={id}");
 
         var alreadyExistUser = await unitOfWork.Users.SelectAsync(u => (u.Phone == user.Phone || u.Phone == user.Phone) && !u.IsDeleted && u.Id != id);
         if (alreadyExistUser is not null)
@@ -120,7 +140,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
             }
         }
         else
-            {
+        { 
             throw new NotFoundException("Code not found or expired");
         }
     }

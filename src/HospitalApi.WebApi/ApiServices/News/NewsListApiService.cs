@@ -26,12 +26,15 @@ public class NewsListApiService(
         await unitOfWork.BeginTransactionAsync();
         var mappedNews = mapper.Map<NewsList>(createModel);
         mappedNews.PublisherId = HttpContextHelper.UserId;
-
         var res = await service.CreateAsync(mappedNews);
-        var asset = await assetService.UploadAsync(createModel.Picture);
+        
+        if (createModel.Picture is not null)
+        {
+            var asset = await assetService.UploadAsync(createModel.Picture);
 
-        res.PictureId = asset.Id;
-        res.Picture = asset;
+            res.PictureId = asset.Id;
+            res.Picture = asset;   
+        }
         
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
@@ -47,10 +50,17 @@ public class NewsListApiService(
         var mappedNews = mapper.Map<NewsList>(createModel);
         var updatedNews = await service.UpdateAsync(id, mappedNews);
 
-        var asset = await assetService.UploadAsync(createModel.Picture);
+        if (createModel.Picture is null)
+        {
+            updatedNews.PictureId = null;
+        }
+        else
+        {
+            var asset = await assetService.UploadAsync(createModel.Picture);
 
-        updatedNews.PictureId = asset.Id;
-        updatedNews.Picture = asset;
+            updatedNews.PictureId = asset.Id;
+            updatedNews.Picture = asset;   
+        }
 
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();

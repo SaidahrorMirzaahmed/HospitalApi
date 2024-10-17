@@ -55,11 +55,20 @@ public class UserApiService(IMapper mapper,
     }
 
 
-    public async Task<UserViewModel> PutAsync(long id, UserUpdateModel createModel)
+    public async Task<UserViewModel> PutStaffAsync(long id, UserUpdateModel createModel)
     {
         await validations1.EnsureValidatedAsync(createModel);
         var mapperUser = mapper.Map<User>(createModel);
-        var res = await service.UpdateAsync(id, mapperUser);
+        var res = await service.UpdateStaffAsync(id, mapperUser);
+
+        return mapper.Map<UserViewModel>(res);
+    }
+    
+    public async Task<UserViewModel> PutClientAsync(long id, UserUpdateModel createModel)
+    {
+        await validations1.EnsureValidatedAsync(createModel);
+        var mapperUser = mapper.Map<User>(createModel);
+        var res = await service.UpdateClientAsync(id, mapperUser);
 
         return mapper.Map<UserViewModel>(res);
     }

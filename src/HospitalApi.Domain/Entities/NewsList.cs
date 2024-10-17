@@ -12,7 +12,8 @@ public class NewsList : Auditable
 {
     public long PublisherId { get; set; }
     public User Publisher { get; set; }
-    public string Text { get; set; }
-    public long PictureId { get; set; }
-    public Asset Picture { get; set; }
+    public string Title { get; set; }
+    public string SubTitle { get; set; }
+    public long? PictureId { get; set; }
+    public Asset? Picture { get; set; }
 }

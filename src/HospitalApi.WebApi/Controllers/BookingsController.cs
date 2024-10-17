@@ -1,4 +1,5 @@
-﻿using HospitalApi.Service.Services.Assets;
+﻿using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Services.Assets;
 using HospitalApi.WebApi.ApiServices.Bookings;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
@@ -11,6 +12,7 @@ using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class BookingsController(IBookingApiService service) : BaseController
 {
     [HttpPost]
@@ -46,7 +48,7 @@ public class BookingsController(IBookingApiService service) : BaseController
             Data = await service.DeleteAsync(id)
         });
     }
-    [AllowAnonymous]
+    
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
     {
@@ -58,6 +60,7 @@ public class BookingsController(IBookingApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Client), nameof(UserRole.Owner))]
     [AllowAnonymous]
     [HttpGet("user-id/{id:long}")]
     public async ValueTask<IActionResult> GetbyUserIdAsync(

@@ -9,6 +9,7 @@ using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
+//[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class UsersController(IUserApiService service) : BaseController
 {
     [HttpPost("/staff")]
@@ -22,6 +23,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [AllowAnonymous]
     [HttpPost("/client")]
     public async ValueTask<IActionResult> PostNonAdminAsync(UserCreateModel createModel)
     {
@@ -32,15 +34,27 @@ public class UsersController(IUserApiService service) : BaseController
             Data = await service.PostClientAsync(createModel)
         });
     }
-
+    
+    [AllowAnonymous]
     [HttpPut("{id:long}")]
-    public async ValueTask<IActionResult> PutAsync(long id, UserUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutClientAsync(long id, UserUpdateModel updateModel)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await service.PutAsync(id, updateModel)
+            Data = await service.PutClientAsync(id, updateModel)
+        });
+    }
+    
+    [HttpPut("{id:long}/staff")]
+    public async ValueTask<IActionResult> PutStaffAsync(long id, UserUpdateModel updateModel)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.PutStaffAsync(id, updateModel)
         });
     }
 
