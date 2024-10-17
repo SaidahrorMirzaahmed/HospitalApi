@@ -6,11 +6,11 @@ namespace HospitalApi.WebApi.Models.Recipes;
 public class RecipeViewModel
 {
     public long Id { get; set; }
-    public UserViewModel Staff { get;}
-    public UserViewModel Client { get;}
-    public AssetViewModel? Picture { get; }
-    public string Title { get; }
-    public string SubTitle { get; }
-    public DateOnly Date { get; }
-    public DateOnly? DateOfReturn { get; }
+    public UserViewModel Staff { get; set; }
+    public UserViewModel Client { get; set; }
+    public AssetViewModel? Picture { get; set; }
+    public string Title { get; set; }
+    public string SubTitle { get; set; }
+    public DateOnly DateOfVisit { get; set; }
+    public DateOnly? DateOfReturn { get; set; }
 }

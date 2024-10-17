@@ -21,11 +21,9 @@ public class MappingProfile : Profile
         CreateMap<BookingCreateModel, Booking>().ReverseMap();
         CreateMap<BookingUpdateModel, Booking>().ReverseMap();
 
-        CreateMap<Recipe, RecipeViewModel>().ReverseMap();     
-        CreateMap<RecipeCreateModel, Recipe>()
-            .ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
-        CreateMap<RecipeUpdateModel, Recipe>()
-            .ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
+        CreateMap<Recipe, RecipeViewModel>().ReverseMap();
+        CreateMap<RecipeCreateModel, Recipe>().ReverseMap();
+        CreateMap<RecipeUpdateModel, Recipe>().ReverseMap();
 
         CreateMap<NewsList, NewsListViewModel>().ReverseMap();
         CreateMap<NewsListCreateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();

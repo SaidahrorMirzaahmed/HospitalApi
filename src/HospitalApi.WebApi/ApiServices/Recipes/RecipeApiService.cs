@@ -77,13 +77,15 @@ public class RecipeApiService(
     public async Task<IEnumerable<RecipeViewModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         IEnumerable<Recipe> newsList = await service.GetAllAsync(@params, filter, search);
-        return mapper.Map<IEnumerable<RecipeViewModel>>(newsList);
+        var res = newsList.AsEnumerable();
+        return mapper.Map<IEnumerable<RecipeViewModel>>(res);
     }
 
     public async Task<IEnumerable<RecipeViewModel>> GetAllbyUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
     {
         var newsList = await service.GetAllByUserIdAsync(id, @params, filter, search);
-        return mapper.Map<IEnumerable<RecipeViewModel>>(newsList);
+        var res = newsList.AsEnumerable();
+        return mapper.Map<IEnumerable<RecipeViewModel>>(res);
     }
 
     public async Task<RecipeViewModel> GetAsync(long id)

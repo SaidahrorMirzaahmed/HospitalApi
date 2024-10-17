@@ -4,7 +4,6 @@ using HospitalApi.WebApi.Mappers;
 using HospitalApi.WebApi.RouteHelper;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,14 +29,19 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddSwaggerGen(options => {
-    options.MapType<DateOnly>(() => new OpenApiSchema { 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.MapType<DateOnly>(() => new OpenApiSchema
+    {
         Type = "string",
-        Format = "date" });
+        Format = "date"
+    });
 });
 
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultDbConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection")));
 
 builder.Services.AddJwtService(builder.Configuration);
 builder.Services.AddExceptionHandlers();

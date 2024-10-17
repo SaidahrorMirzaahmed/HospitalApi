@@ -10,7 +10,7 @@ public class AppDbContext : DbContext
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     public DbSet<Asset> Assets { get; set; }
@@ -37,5 +37,17 @@ public class AppDbContext : DbContext
                 Phone = "+998906900045",
                 Role = UserRole.Owner,
             });
+
+        modelBuilder.Entity<Booking>()
+             .HasOne(b => b.Staff) // Assuming Booking has a navigation property User
+             .WithMany() // Assuming User has a collection of Bookings
+             .HasForeignKey(b => b.StaffId)
+             .OnDelete(DeleteBehavior.ClientSetNull);
+
+        modelBuilder.Entity<Recipe>()
+            .HasOne(b => b.Staff) // Assuming Booking has a navigation property User
+            .WithMany() // Assuming User has a collection of Bookings
+            .HasForeignKey(b => b.StaffId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }
