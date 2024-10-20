@@ -28,9 +28,4 @@ public class AuthHelper
 
         return tokenHandler.WriteToken(token);
     }
-
-    public static long SendCodeToPhone(string phone)
-    {
-        return 2323;
-    }
 }

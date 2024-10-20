@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Tenge.Service.Helpers;
+using Tenge.Service.Services.Notifications;
 using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Extensions;
@@ -42,6 +43,7 @@ public static class CollectionExtension
         services.AddScoped<INewsListApiService, NewsListApiService>();
         services.AddScoped<IRecipeApiService, RecipeApiService>();
         services.AddScoped<IBookingApiService, BookingApiService>();
+        services.AddScoped<ICodeSenderService, CodeSenderService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     }
     public static void AddExceptionHandlers(this IServiceCollection services)
@@ -64,6 +66,8 @@ public static class CollectionExtension
         EnvironmentHelper.SmtpHost = app.Configuration.GetSection("Email:Host").Value;
         EnvironmentHelper.PageSize = Convert.ToInt32(app.Configuration.GetSection("PaginationParams:PageSize").Value);
         EnvironmentHelper.PageIndex = Convert.ToInt32(app.Configuration.GetSection("PaginationParams:PageIndex").Value);
+        EnvironmentHelper.CodeSenderBotToken = app.Configuration.GetSection("CodeSenderBot:Token").Value;
+        EnvironmentHelper.CodeSenderBotReceiverChatId = app.Configuration.GetSection("CodeSenderBot:ChatId").Value;
     }
 
     public static void AddValidators(this IServiceCollection services)

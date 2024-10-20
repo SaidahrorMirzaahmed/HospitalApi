@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Tenge.Service.Configurations;
 using Tenge.Service.Helpers;
+using Tenge.Service.Services.Notifications;
 using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Users;
 
-public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserService
+public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSenderService codeSenderService) : IUserService
 {
     public async Task<User> CreateStaffAsync(User user)
     {
@@ -77,7 +78,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache) : IUserServ
 
     public async Task<bool> SendSMSCodeAsync(string phone)
     {
-        var code = AuthHelper.SendCodeToPhone(phone);
+        var code = await codeSenderService.SendCodeToPhone(phone);
         cache.Set(phone, code, TimeSpan.FromMinutes(5));
 
         return await Task.FromResult(true);
