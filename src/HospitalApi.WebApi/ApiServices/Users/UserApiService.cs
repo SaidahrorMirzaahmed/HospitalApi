@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.Users;
@@ -72,4 +73,10 @@ public class UserApiService(IMapper mapper,
 
         return mapper.Map<UserViewModel>(res);
     }
+
+    public async Task<IEnumerable<UserViewModel>> GetAllClientAsync(PaginationParams @params, Filter filter, string search = null) =>
+        (await GetAllAsync(@params, filter, search)).Where(user => user.Role == UserRole.Client);
+
+    public async Task<IEnumerable<UserViewModel>> GetAllStaffAsync(PaginationParams @params, Filter filter, string search = null) =>
+        (await GetAllAsync(@params, filter, search)).Where(user => user.Role == UserRole.Staff);
 }

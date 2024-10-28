@@ -1,4 +1,5 @@
 ﻿using HospitalApi.WebApi.Models.Users;
+using Microsoft.AspNetCore.Mvc;
 using Tenge.Service.Configurations;
 using Tenge.WebApi.Configurations;
 
@@ -13,4 +14,6 @@ public interface IUserApiService
     Task<bool> DeleteAsync(long id);
     Task<UserViewModel> GetAsync(long id);
     Task<IEnumerable<UserViewModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
+    Task<IEnumerable<UserViewModel>> GetAllClientAsync(PaginationParams @params, Filter filter, string search = null);
+    Task<IEnumerable<UserViewModel>> GetAllStaffAsync(PaginationParams @params, Filter filter, string search = null);
 }

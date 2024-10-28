@@ -1,5 +1,4 @@
-﻿using HospitalApi.Domain.Enums;
-using HospitalApi.WebApi.ApiServices.Users;
+﻿using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Models.Responses;
 using HospitalApi.WebApi.Models.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +33,7 @@ public class UsersController(IUserApiService service) : BaseController
             Data = await service.PostClientAsync(createModel)
         });
     }
-    
+
     [AllowAnonymous]
     [HttpPut("{id:long}")]
     public async ValueTask<IActionResult> PutClientAsync(long id, UserUpdateModel updateModel)
@@ -46,7 +45,7 @@ public class UsersController(IUserApiService service) : BaseController
             Data = await service.PutClientAsync(id, updateModel)
         });
     }
-    
+
     [HttpPut("{id:long}/staff")]
     public async ValueTask<IActionResult> PutStaffAsync(long id, UserUpdateModel updateModel)
     {
@@ -91,6 +90,34 @@ public class UsersController(IUserApiService service) : BaseController
             StatusCode = 200,
             Message = "Ok",
             Data = await service.GetAllAsync(@params, filter, search)
+        });
+    }
+
+    [HttpGet("/client")]
+    public async ValueTask<IActionResult> GetAllClient(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GetAllClientAsync(@params, filter, search)
+        });
+    }
+
+    [HttpGet("/staff")]
+    public async ValueTask<IActionResult> GetAllStaff(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GetAllStaffAsync(@params, filter, search)
         });
     }
 }
