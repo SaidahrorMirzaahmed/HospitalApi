@@ -59,7 +59,7 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
     public async Task<IEnumerable<Booking>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
     {
         var bookings = unitOfWork.Bookings
-            .SelectAsQueryable(expression: x => !x.IsDeleted && x.ClientId == id && x.StaffId == id, isTracked: false, includes: ["Staff", "Client"])
+            .SelectAsQueryable(expression: x => !x.IsDeleted && x.ClientId == id || x.StaffId == id, isTracked: false, includes: ["Staff", "Client"])
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
