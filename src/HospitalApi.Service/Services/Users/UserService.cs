@@ -1,6 +1,7 @@
 ﻿using Arcana.Service.Extensions;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -103,7 +104,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
         await unitOfWork.SaveAsync();
         return existUser;
     }
-    
+
     public async Task<User> UpdateClientAsync(long id, User user)
     {
         var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id && !u.IsDeleted)
@@ -141,8 +142,34 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
             }
         }
         else
-        { 
+        {
             throw new NotFoundException("Code not found or expired");
         }
+    }
+
+    public async Task<IEnumerable<User>> GetAllClientAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var users = unitOfWork.Users
+            .SelectAsQueryable(expression: user => !user.IsDeleted && user.Role == UserRole.Client, isTracked: false)
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            users = users.Where(user =>
+                user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search));
+
+        return await users.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
+    public async Task<IEnumerable<User>> GetAllStaffAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var users = unitOfWork.Users
+            .SelectAsQueryable(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false)
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            users = users.Where(user =>
+            user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search));
+
+        return await users.ToPaginateAsQueryable(@params).ToListAsync();
     }
 }

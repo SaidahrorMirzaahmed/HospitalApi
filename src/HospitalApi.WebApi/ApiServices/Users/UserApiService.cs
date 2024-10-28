@@ -74,9 +74,17 @@ public class UserApiService(IMapper mapper,
         return mapper.Map<UserViewModel>(res);
     }
 
-    public async Task<IEnumerable<UserViewModel>> GetAllClientAsync(PaginationParams @params, Filter filter, string search = null) =>
-        (await GetAllAsync(@params, filter, search)).Where(user => user.Role == UserRole.Client);
+    public async Task<IEnumerable<UserViewModel>> GetAllClientAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var result = await service.GetAllClientAsync(@params, filter, search);
 
-    public async Task<IEnumerable<UserViewModel>> GetAllStaffAsync(PaginationParams @params, Filter filter, string search = null) =>
-        (await GetAllAsync(@params, filter, search)).Where(user => user.Role == UserRole.Staff);
+        return mapper.Map<IEnumerable<UserViewModel>>(result);
+    }
+
+    public async Task<IEnumerable<UserViewModel>> GetAllStaffAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var result = await service.GetAllStaffAsync(@params, filter, search);
+
+        return mapper.Map<IEnumerable<UserViewModel>>(result);
+    }
 }
