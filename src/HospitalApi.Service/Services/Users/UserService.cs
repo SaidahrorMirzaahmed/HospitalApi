@@ -1,4 +1,4 @@
-﻿using Arcana.Service.Extensions;
+﻿using HospitalApi.Service.Extensions;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Domain.Enums;
