@@ -1,4 +1,4 @@
-﻿namespace Tenge.Service.Helpers;
+﻿namespace HospitalApi.Service.Helpers;
 
 public static class PasswordHasher
 {

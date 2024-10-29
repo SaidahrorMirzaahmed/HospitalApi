@@ -6,9 +6,9 @@ using HospitalApi.Service.Services.News;
 using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Validations.News;
-using Tenge.Service.Configurations;
-using Tenge.Service.Helpers;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Helpers;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.News;
 

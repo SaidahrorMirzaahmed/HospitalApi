@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
-using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Services.Users;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.Users;
 using HospitalApi.WebApi.Validations.Users;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.Users;
 
@@ -64,7 +63,7 @@ public class UserApiService(IMapper mapper,
 
         return mapper.Map<UserViewModel>(res);
     }
-    
+
     public async Task<UserViewModel> PutClientAsync(long id, UserUpdateModel createModel)
     {
         await validations1.EnsureValidatedAsync(createModel);

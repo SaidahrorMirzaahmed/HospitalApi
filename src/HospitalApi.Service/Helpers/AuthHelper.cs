@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Tenge.WebApi.Configurations;
+using HospitalApi.WebApi.Configurations;
 
-namespace Tenge.Service.Helpers;
+namespace HospitalApi.Service.Helpers;
 
 public class AuthHelper
 {

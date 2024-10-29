@@ -1,7 +1,6 @@
-﻿using HospitalApi.WebApi.Models.News;
-using HospitalApi.WebApi.Models.Users;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
+﻿using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Models.News;
 
 namespace HospitalApi.WebApi.ApiServices.News;
 

@@ -7,6 +7,6 @@ public class NewsListCreateModelValidator : AbstractValidator<NewsListCreateMode
 {
     public NewsListCreateModelValidator()
     {
-        
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using Tenge.WebApi.Configurations;
+﻿using HospitalApi.WebApi.Configurations;
 
-namespace Tenge.Service.Configurations;
+namespace HospitalApi.Service.Configurations;
 
 public class PaginationMetaData
 {

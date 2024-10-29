@@ -1,11 +1,10 @@
-﻿using Arcana.Service.Extensions;
-using HospitalApi.DataAccess.UnitOfWorks;
+﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
+using HospitalApi.Service.Extensions;
+using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Tenge.Service.Configurations;
-using Tenge.Service.Extensions;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Recipes;
 

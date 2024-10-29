@@ -1,10 +1,9 @@
-﻿using Arcana.Service.Extensions;
-using HospitalApi.DataAccess.UnitOfWorks;
+﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
-using Tenge.Service.Configurations;
-using Tenge.Service.Extensions;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Extensions;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Bookings;
 
@@ -12,11 +11,11 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
 {
     public async Task<Booking> CreateAsync(Booking booking)
     {
-        var existStaff = await unitOfWork.Users.SelectAsync(s=> s.Id == booking.StaffId)
+        var existStaff = await unitOfWork.Users.SelectAsync(s => s.Id == booking.StaffId)
             ?? throw new NotFoundException($"User with this Id is not found Id = {booking.StaffId}");
         var existClient = await unitOfWork.Users.SelectAsync(s => s.Id == booking.ClientId)
             ?? throw new NotFoundException($"User with this Id is not found Id = {booking.Client}");
-        if(existStaff.Role != Domain.Enums.UserRole.Staff || existClient.Role != Domain.Enums.UserRole.Client)
+        if (existStaff.Role != Domain.Enums.UserRole.Staff || existClient.Role != Domain.Enums.UserRole.Client)
             throw new ArgumentIsNotValidException("Bookings should be only from Clients to Staff");
 
         var alreadyExistBooking = await unitOfWork.Bookings.SelectAsync(x => !x.IsDeleted && x.Date == booking.Date && x.StaffId == booking.StaffId && x.Time == booking.Time);

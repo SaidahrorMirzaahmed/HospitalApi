@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Tenge.Service.Helpers;
+namespace HospitalApi.Service.Helpers;
 
 public static class HttpContextHelper
 {

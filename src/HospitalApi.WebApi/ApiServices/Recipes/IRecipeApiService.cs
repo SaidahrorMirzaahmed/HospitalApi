@@ -1,7 +1,6 @@
-﻿using HospitalApi.WebApi.Models.Bookings;
+﻿using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Recipes;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.Recipes;
 

@@ -1,14 +1,11 @@
 ﻿using HospitalApi.Domain.Enums;
-using HospitalApi.Service.Services.Assets;
+using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.Bookings;
-using HospitalApi.WebApi.Models.Assets;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Bookings;
-using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
@@ -48,7 +45,7 @@ public class BookingsController(IBookingApiService service) : BaseController
             Data = await service.DeleteAsync(id)
         });
     }
-    
+
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
     {

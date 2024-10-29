@@ -4,8 +4,8 @@ using HospitalApi.Service.Services.Bookings;
 using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Validations.Bookings;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.ApiServices.Bookings;
 

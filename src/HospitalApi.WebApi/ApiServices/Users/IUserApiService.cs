@@ -1,7 +1,6 @@
-﻿using HospitalApi.WebApi.Models.Users;
-using Microsoft.AspNetCore.Mvc;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
+﻿using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Models.Users;
 
 namespace HospitalApi.WebApi.ApiServices.Users;
 

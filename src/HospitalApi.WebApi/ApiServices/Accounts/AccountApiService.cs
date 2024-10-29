@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Exceptions;
+using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.Models.Logins;
 using HospitalApi.WebApi.Models.Users;
-using Tenge.Service.Helpers;
 
 namespace HospitalApi.WebApi.ApiServices.Accounts
 {

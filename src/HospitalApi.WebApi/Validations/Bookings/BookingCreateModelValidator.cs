@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using HospitalApi.Domain.Entities;
 using HospitalApi.WebApi.Models.Bookings;
 
 namespace HospitalApi.WebApi.Validations.Bookings;

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HospitalApi.Domain.Entities;
+﻿using HospitalApi.Domain.Entities;
 using HospitalApi.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using HospitalApi.WebApi.Models.Users;
-using Tenge.Service.Helpers;
+using HospitalApi.Service.Helpers;
 
 namespace HospitalApi.WebApi.Validations.Users;
 

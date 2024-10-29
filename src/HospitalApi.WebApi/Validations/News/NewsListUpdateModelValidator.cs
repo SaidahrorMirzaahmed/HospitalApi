@@ -7,6 +7,6 @@ public class NewsListUpdateModelValidator : AbstractValidator<NewsListUpdateMode
 {
     public NewsListUpdateModelValidator()
     {
-        
+
     }
 }

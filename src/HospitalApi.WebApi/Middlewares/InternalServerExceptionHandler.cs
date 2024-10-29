@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using HospitalApi.WebApi.Models.Responses;
+﻿using HospitalApi.WebApi.Models.Responses;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace HospitalApi.WebApi.Middlewares;
 
