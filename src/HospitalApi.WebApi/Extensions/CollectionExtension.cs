@@ -1,7 +1,9 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
+using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Assets;
 using HospitalApi.Service.Services.Bookings;
 using HospitalApi.Service.Services.News;
+using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.Recipes;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
@@ -9,6 +11,7 @@ using HospitalApi.WebApi.ApiServices.Bookings;
 using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.ApiServices.Users;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Middlewares;
 using HospitalApi.WebApi.Validations.Bookings;
 using HospitalApi.WebApi.Validations.News;
@@ -18,9 +21,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Tenge.Service.Helpers;
-using Tenge.Service.Services.Notifications;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Extensions;
 

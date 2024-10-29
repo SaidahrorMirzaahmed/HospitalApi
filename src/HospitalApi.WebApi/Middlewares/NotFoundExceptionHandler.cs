@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using HospitalApi.Service.Exceptions;
+﻿using HospitalApi.Service.Exceptions;
 using HospitalApi.WebApi.Models.Responses;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace HospitalApi.WebApi.Middlewares;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Tenge.Service.Helpers;
+namespace HospitalApi.Service.Helpers;
 
 public static class ValidationHelper
 {

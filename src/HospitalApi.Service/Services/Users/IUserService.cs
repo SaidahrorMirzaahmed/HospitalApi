@@ -1,6 +1,6 @@
 ﻿using HospitalApi.Domain.Entities;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Users;
 

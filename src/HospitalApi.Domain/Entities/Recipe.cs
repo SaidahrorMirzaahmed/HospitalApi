@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HospitalApi.Domain.Commons;
-using HospitalApi.Domain.Entities;
+﻿using HospitalApi.Domain.Commons;
 
 namespace HospitalApi.Domain.Entities;
 
@@ -14,10 +8,10 @@ public class Recipe : Auditable
     public User Staff { get; set; }
     public long ClientId { get; set; }
     public User Client { get; set; }
-    public long? PictureId {  get; set; }
+    public long? PictureId { get; set; }
     public Asset? Picture { get; set; }
     public string Title { get; set; }
     public string SubTitle { get; set; }
-    public DateOnly DateOfVisit {  get; set; }
-    public DateOnly? DateOfReturn { get; set; } 
+    public DateOnly DateOfVisit { get; set; }
+    public DateOnly? DateOfReturn { get; set; }
 }

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using HospitalApi.DataAccess.Contexts;
+﻿using HospitalApi.DataAccess.Contexts;
 using HospitalApi.Domain.Commons;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HospitalApi.DataAccess.Repositories;
 

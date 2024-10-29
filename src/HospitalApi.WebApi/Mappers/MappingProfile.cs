@@ -36,4 +36,3 @@ public class MappingProfile : Profile
         CreateMap<NewsListUpdateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
     }
 }
-

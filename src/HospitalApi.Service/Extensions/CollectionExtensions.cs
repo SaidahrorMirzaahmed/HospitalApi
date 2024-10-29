@@ -1,11 +1,11 @@
-﻿using HospitalApi.Service.Exceptions;
+﻿using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Exceptions;
+using HospitalApi.Service.Helpers;
+using HospitalApi.WebApi.Configurations;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
-using Tenge.Service.Configurations;
-using Tenge.Service.Helpers;
-using Tenge.WebApi.Configurations;
 
-namespace Arcana.Service.Extensions;
+namespace HospitalApi.Service.Extensions;
 
 public static class CollectionExtensions
 {

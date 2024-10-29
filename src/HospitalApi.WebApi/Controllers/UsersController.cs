@@ -1,10 +1,10 @@
-﻿using HospitalApi.WebApi.ApiServices.Users;
+﻿using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.ApiServices.Users;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Responses;
 using HospitalApi.WebApi.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 

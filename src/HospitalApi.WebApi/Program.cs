@@ -38,8 +38,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection")));
 
@@ -71,7 +69,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
+
 //app.UseHttpsRedirection();
-
-
 app.Run();

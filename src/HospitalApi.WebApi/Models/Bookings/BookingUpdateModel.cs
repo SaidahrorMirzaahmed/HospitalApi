@@ -9,5 +9,3 @@ public class BookingUpdateModel
     public TimesOfBooking Time { get; set; }
     public DateOnly Date { get; set; }
 }
-
-

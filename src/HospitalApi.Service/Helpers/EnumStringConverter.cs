@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Tenge.Service.Helpers;
+namespace HospitalApi.Service.Helpers;
 
 public class EnumStringConverter : StringEnumConverter
 {

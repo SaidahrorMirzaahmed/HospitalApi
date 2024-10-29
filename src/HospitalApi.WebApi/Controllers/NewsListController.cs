@@ -4,8 +4,8 @@ using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Configurations;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 

@@ -2,8 +2,8 @@
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Tenge.Service.Helpers;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Helpers;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Assets;
 

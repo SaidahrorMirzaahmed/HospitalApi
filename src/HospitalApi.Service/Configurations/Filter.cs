@@ -1,4 +1,4 @@
-﻿namespace Tenge.Service.Configurations;
+﻿namespace HospitalApi.Service.Configurations;
 
 public class Filter
 {

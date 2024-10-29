@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
-using Tenge.WebApi.Configurations;
+using HospitalApi.WebApi.Configurations;
 
-namespace Tenge.Service.Services.Notifications;
+namespace HospitalApi.Service.Services.Notifications;
 
 public class CodeSenderService : ICodeSenderService
 {

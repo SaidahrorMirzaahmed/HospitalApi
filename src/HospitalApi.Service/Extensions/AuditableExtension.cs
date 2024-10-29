@@ -1,7 +1,7 @@
 ﻿using HospitalApi.Domain.Commons;
-using Tenge.Service.Helpers;
+using HospitalApi.Service.Helpers;
 
-namespace Tenge.Service.Extensions;
+namespace HospitalApi.Service.Extensions;
 
 public static class AuditableExtension
 {

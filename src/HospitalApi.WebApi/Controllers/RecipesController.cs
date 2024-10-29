@@ -1,11 +1,10 @@
 ﻿using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.Recipes;
+using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tenge.Service.Configurations;
-using Tenge.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
@@ -44,7 +43,7 @@ public class RecipesController(IRecipeApiService service) : BaseController
             Data = await service.DeleteAsync(id)
         });
     }
-    
+
     [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Client), nameof(UserRole.Owner))]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
@@ -56,7 +55,7 @@ public class RecipesController(IRecipeApiService service) : BaseController
             Data = await service.GetAsync(id)
         });
     }
-    
+
     [HttpGet]
     public async ValueTask<IActionResult> GetAllAsync(
         [FromQuery] PaginationParams @params,

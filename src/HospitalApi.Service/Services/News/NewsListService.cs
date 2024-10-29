@@ -1,11 +1,10 @@
-﻿using Arcana.Service.Extensions;
-using HospitalApi.DataAccess.UnitOfWorks;
+﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
+using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Services.Assets;
-using Tenge.Service.Configurations;
-using Tenge.Service.Extensions;
-using Tenge.WebApi.Configurations;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.News;
 

@@ -7,5 +7,5 @@ public class RecipeUpdateModel
     public string Title { get; set; }
     public string SubTitle { get; set; }
     public DateOnly Date { get; set; }
-    public DateOnly? DateOfReturn { get; set; } 
+    public DateOnly? DateOfReturn { get; set; }
 }

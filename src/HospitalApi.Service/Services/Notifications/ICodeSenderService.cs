@@ -1,4 +1,4 @@
-﻿namespace Tenge.Service.Services.Notifications;
+﻿namespace HospitalApi.Service.Services.Notifications;
 
 public interface ICodeSenderService
 {

@@ -1,14 +1,14 @@
-﻿using Arcana.Service.Extensions;
+﻿using HospitalApi.Service.Extensions;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Tenge.Service.Configurations;
-using Tenge.Service.Helpers;
-using Tenge.Service.Services.Notifications;
-using Tenge.WebApi.Configurations;
+using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Helpers;
+using HospitalApi.Service.Services.Notifications;
+using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Users;
 

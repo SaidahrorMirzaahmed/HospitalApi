@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HospitalApi.Domain.Commons;
-using HospitalApi.Domain.Entities;
+﻿using HospitalApi.Domain.Commons;
 
 namespace HospitalApi.Domain.Entities;
 

@@ -1,4 +1,4 @@
-﻿namespace Tenge.WebApi.Configurations;
+﻿namespace HospitalApi.WebApi.Configurations;
 
 public class EnvironmentHelper
 {
