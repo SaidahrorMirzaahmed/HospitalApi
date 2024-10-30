@@ -21,7 +21,7 @@ public class StaffCreateModelValidator : AbstractValidator<StaffCreateModel>
             .WithMessage(user => $"{nameof(user.Phone)} is not specified");
 
         RuleFor(user => user.MedicalSpecialists)
-            .NotNull()
+            .Must(ValidationHelper.IsValidSpecialist)
             .WithMessage(user => $"{nameof(user.MedicalSpecialists)} is not specified");
 
         RuleFor(user => user.Phone)

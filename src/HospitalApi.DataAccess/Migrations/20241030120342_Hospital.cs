@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HospitalApi.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Name : Migration
+    public partial class Hospital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,6 +41,7 @@ namespace HospitalApi.DataAccess.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MedicalSpecialists = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -167,8 +168,8 @@ namespace HospitalApi.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "CreatedAt", "CreatedByUserId", "DeletedAt", "DeletedByUserId", "FirstName", "IsDeleted", "LastName", "Phone", "Role", "UpdatedAt", "UpdatedByUserId" },
-                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1L, null, null, "Admin", false, "Admin", "+998906900045", 0, null, null });
+                columns: new[] { "Id", "CreatedAt", "CreatedByUserId", "DeletedAt", "DeletedByUserId", "FirstName", "IsDeleted", "LastName", "MedicalSpecialists", "Phone", "Role", "UpdatedAt", "UpdatedByUserId" },
+                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1L, null, null, "Admin", false, "Admin", 0, "+998906900045", 0, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ClientId",
