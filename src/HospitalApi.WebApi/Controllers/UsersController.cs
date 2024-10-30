@@ -12,7 +12,7 @@ namespace HospitalApi.WebApi.Controllers;
 public class UsersController(IUserApiService service) : BaseController
 {
     [HttpPost("/staff")]
-    public async ValueTask<IActionResult> PostStaffAsync(UserCreateModel createModel)
+    public async ValueTask<IActionResult> PostStaffAsync(StaffCreateModel createModel)
     {
         return Ok(new Response
         {
@@ -47,7 +47,7 @@ public class UsersController(IUserApiService service) : BaseController
     }
 
     [HttpPut("{id:long}/staff")]
-    public async ValueTask<IActionResult> PutStaffAsync(long id, UserUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutStaffAsync(long id, StaffUpdateModel updateModel)
     {
         return Ok(new Response
         {

@@ -16,6 +16,8 @@ public class MappingProfile : Profile
         CreateMap<User, UserViewModel>().ReverseMap();
         CreateMap<UserCreateModel, User>().ReverseMap();
         CreateMap<UserUpdateModel, User>().ReverseMap();
+        CreateMap<StaffCreateModel, User>().ReverseMap();
+        CreateMap<StaffUpdateModel, User>().ReverseMap();
 
         CreateMap<Booking, BookingViewModel>().ReverseMap();
         CreateMap<BookingCreateModel, Booking>().ReverseMap();

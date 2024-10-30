@@ -8,5 +8,6 @@ public class UserViewModel
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public UserRole Role { get; set; }
+    public string MedicalSpecialists { get; set; }
     public string Phone { get; set; }
 }

@@ -83,6 +83,8 @@ public static class CollectionExtension
 
         services.AddTransient<UserCreateModelValidator>();
         services.AddTransient<UserUpdateModelValidator>();
+        services.AddTransient<StaffCreateModelValidator>();
+        services.AddTransient<StaffUpdateModelValidator>();
     }
     public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
     {
