@@ -11,21 +11,23 @@ namespace HospitalApi.WebApi.ApiServices.Users;
 
 public class UserApiService(IMapper mapper,
     IUserService service,
-    UserCreateModelValidator validations,
-    UserUpdateModelValidator validations1) : IUserApiService
+    UserCreateModelValidator userCreateModelValidation,
+    UserUpdateModelValidator userUpdateModelValidation,
+    StaffCreateModelValidator staffCreateModelValidation,
+    StaffUpdateModelValidator staffUpdateModelValidation) : IUserApiService
 {
     public async Task<UserViewModel> PostClientAsync(UserCreateModel createModel)
     {
-        await validations.EnsureValidatedAsync(createModel);
+        await userCreateModelValidation.EnsureValidatedAsync(createModel);
         var createdUser = mapper.Map<User>(createModel);
         var res = await service.CreateUserAsync(createdUser);
 
         return mapper.Map<UserViewModel>(res);
     }
 
-    public async Task<UserViewModel> PostStaffAsync(UserCreateModel createModel)
+    public async Task<UserViewModel> PostStaffAsync(StaffCreateModel createModel)
     {
-        await validations.EnsureValidatedAsync(createModel);
+        await staffCreateModelValidation.EnsureValidatedAsync(createModel);
         var createdUser = mapper.Map<User>(createModel);
         var res = await service.CreateStaffAsync(createdUser);
 
@@ -55,9 +57,9 @@ public class UserApiService(IMapper mapper,
     }
 
 
-    public async Task<UserViewModel> PutStaffAsync(long id, UserUpdateModel createModel)
+    public async Task<UserViewModel> PutStaffAsync(long id, StaffUpdateModel createModel)
     {
-        await validations1.EnsureValidatedAsync(createModel);
+        await staffUpdateModelValidation.EnsureValidatedAsync(createModel);
         var mapperUser = mapper.Map<User>(createModel);
         var res = await service.UpdateStaffAsync(id, mapperUser);
 
@@ -66,7 +68,7 @@ public class UserApiService(IMapper mapper,
 
     public async Task<UserViewModel> PutClientAsync(long id, UserUpdateModel createModel)
     {
-        await validations1.EnsureValidatedAsync(createModel);
+        await userUpdateModelValidation.EnsureValidatedAsync(createModel);
         var mapperUser = mapper.Map<User>(createModel);
         var res = await service.UpdateClientAsync(id, mapperUser);
 

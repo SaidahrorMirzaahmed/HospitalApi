@@ -18,9 +18,11 @@ using HospitalApi.WebApi.Validations.News;
 using HospitalApi.WebApi.Validations.Recipes;
 using HospitalApi.WebApi.Validations.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace HospitalApi.WebApi.Extensions;
 
@@ -83,6 +85,8 @@ public static class CollectionExtension
 
         services.AddTransient<UserCreateModelValidator>();
         services.AddTransient<UserUpdateModelValidator>();
+        services.AddTransient<StaffCreateModelValidator>();
+        services.AddTransient<StaffUpdateModelValidator>();
     }
     public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
     {
@@ -104,6 +108,13 @@ public static class CollectionExtension
                 ValidAudience = configuration["JWT:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
+        });
+    }
+    public static void AddJsonConverter(this IServiceCollection services)
+    {
+        services.Configure<JsonOptions>(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
     }
 

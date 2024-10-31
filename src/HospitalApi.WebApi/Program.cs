@@ -53,6 +53,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddValidators();
 builder.Services.AddServices();
 builder.Services.AddApiServices();
+builder.Services.AddJsonConverter();
 
 var app = builder.Build();
 

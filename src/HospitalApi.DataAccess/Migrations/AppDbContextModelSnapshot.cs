@@ -252,6 +252,9 @@ namespace HospitalApi.DataAccess.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MedicalSpecialists")
+                        .HasColumnType("int");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -277,6 +280,7 @@ namespace HospitalApi.DataAccess.Migrations
                             FirstName = "Admin",
                             IsDeleted = false,
                             LastName = "Admin",
+                            MedicalSpecialists = 0,
                             Phone = "+998906900045",
                             Role = 0
                         });
