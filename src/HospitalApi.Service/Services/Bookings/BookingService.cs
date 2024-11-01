@@ -98,8 +98,8 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
 
     public async Task<IEnumerable<(User, IEnumerable<TimesOfBooking>)>> GetByDateAsync(DateOnly date, PaginationParams @params, Filter filter, string search = null)
     {
-        var users = await unitOfWork.Users
-            .SelectAsEnumerableAsync(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false);
+        var users = unitOfWork.Users
+            .SelectAsQueryable(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false).AsEnumerable();
 
         var bookings = unitOfWork.Bookings.SelectAsQueryable(booking => booking.Date == date, isTracked: false)
             .OrderBy(filter);
