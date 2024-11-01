@@ -99,20 +99,20 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
     public async Task<IEnumerable<(User, IEnumerable<TimesOfBooking>)>> GetByDateAsync(DateOnly date, PaginationParams @params, Filter filter, string search = null)
     {
         var users = unitOfWork.Users
-            .SelectAsQueryable(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false).AsEnumerable();
+            .SelectAsQueryable(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false);
 
         var bookings = unitOfWork.Bookings.SelectAsQueryable(booking => booking.Date == date, isTracked: false)
             .OrderBy(filter);
 
-        if (!string.IsNullOrWhiteSpace(search))
-            users = users
-                .Where(x =>
-                    x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    x.MedicalSpecialists.ToString().Contains(search, StringComparison.OrdinalIgnoreCase
-                ));
+        //if (!string.IsNullOrWhiteSpace(search))
+        //    users = users
+        //        .Where(x =>
+        //            x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+        //            x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+        //            x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+        //            x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+        //            x.MedicalSpecialists.ToString().Contains(search, StringComparison.OrdinalIgnoreCase
+        //        ));
 
         var result = new List<(User, IEnumerable<TimesOfBooking>)>();
 
