@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Models.News;
@@ -22,15 +23,20 @@ public class MappingProfile : Profile
         CreateMap<Booking, BookingViewModel>().ReverseMap();
         CreateMap<BookingCreateModel, Booking>().ReverseMap();
         CreateMap<BookingUpdateModel, Booking>().ReverseMap();
+        CreateMap<(User, IEnumerable<TimesOfBooking>), BookingViewModelByDate>()
+            .ConstructUsing((src, context) => new BookingViewModelByDate
+            {
+                UserViewModel = context.Mapper.Map<UserViewModel>(src.Item1),
+                BookedTimes = src.Item2
+            })
+            .ReverseMap();
 
         CreateMap<Recipe, RecipeViewModel>().ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
-            .ForMember(member => member.Picture,
-            option => option.Ignore())
+            .ForMember(member => member.Picture, option => option.Ignore())
             .ReverseMap();
         CreateMap<RecipeUpdateModel, Recipe>()
-            .ForMember(member => member.Picture,
-            option => option.Ignore())
+            .ForMember(member => member.Picture, option => option.Ignore())
             .ReverseMap();
 
         CreateMap<NewsList, NewsListViewModel>().ReverseMap();

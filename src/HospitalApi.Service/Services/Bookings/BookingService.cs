@@ -1,9 +1,11 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.WebApi.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitalApi.Service.Services.Bookings;
 
@@ -92,5 +94,37 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
         await unitOfWork.SaveAsync();
 
         return existBooking;
+    }
+
+    public async Task<IEnumerable<(User, IEnumerable<TimesOfBooking>)>> GetByDateAsync(DateOnly date, PaginationParams @params, Filter filter, string search = null)
+    {
+        var users = await unitOfWork.Users
+            .SelectAsEnumerableAsync(expression: user => !user.IsDeleted && user.Role == UserRole.Staff, isTracked: false);
+
+        var bookings = unitOfWork.Bookings.SelectAsQueryable(booking => booking.Date == date, isTracked: false)
+            .OrderBy(filter);
+
+        if (!string.IsNullOrWhiteSpace(search))
+            users = users
+                .Where(x =>
+                    x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    x.MedicalSpecialists.ToString().Contains(search, StringComparison.OrdinalIgnoreCase
+                ));
+
+        var result = new List<(User, IEnumerable<TimesOfBooking>)>();
+
+        foreach (var user in users)
+        {
+            var list = bookings
+                .Where(booking => booking.StaffId == user.Id)
+                .Select(booking => booking.Time).AsEnumerable();
+
+            result.Add((user, list));
+        }
+
+        return result.AsEnumerable();
     }
 }

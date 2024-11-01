@@ -1,4 +1,5 @@
 ﻿using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.Configurations;
 
@@ -12,4 +13,5 @@ public interface IBookingService
     Task<Booking> GetAsync(long id);
     Task<IEnumerable<Booking>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
     Task<IEnumerable<Booking>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null);
+    Task<IEnumerable<(User, IEnumerable<TimesOfBooking>)>> GetByDateAsync(DateOnly date, PaginationParams @params, Filter filter, string search = null);
 }

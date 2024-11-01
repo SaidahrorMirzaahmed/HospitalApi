@@ -6,6 +6,7 @@ using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Validations.Bookings;
 using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.Configurations;
+using System.Collections.Generic;
 
 namespace HospitalApi.WebApi.ApiServices.Bookings;
 
@@ -54,5 +55,12 @@ public class BookingApiService(
     {
         var booking = await service.GetAsync(id);
         return mapper.Map<BookingViewModel>(booking);
+    }
+    
+    public async Task<IEnumerable<BookingViewModelByDate>> GetByDateAsync(DateOnly date, PaginationParams @params, Filter filter, string search = null)
+    {
+        var bookings = await service.GetByDateAsync(date, @params, filter, search);
+
+        return mapper.Map<IEnumerable<BookingViewModelByDate>>(bookings);
     }
 }
