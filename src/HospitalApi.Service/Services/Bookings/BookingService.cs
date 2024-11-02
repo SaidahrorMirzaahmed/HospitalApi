@@ -104,15 +104,14 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
         var bookings = unitOfWork.Bookings.SelectAsQueryable(booking => booking.Date == date, isTracked: false)
             .OrderBy(filter);
 
-        //if (!string.IsNullOrWhiteSpace(search))
-        //    users = users
-        //        .Where(x =>
-        //            x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-        //            x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-        //            x.FirstName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-        //            x.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-        //            x.MedicalSpecialists.ToString().Contains(search, StringComparison.OrdinalIgnoreCase
-        //        ));
+        if (!string.IsNullOrWhiteSpace(search))
+            users = users
+                .Where(x =>
+                    x.FirstName.ToLower().Contains(search.ToLower()) ||
+                    x.LastName.ToLower().Contains(search.ToLower()) ||
+                    x.FirstName.ToLower().Contains(search.ToLower()) ||
+                    x.LastName.ToLower().Contains(search.ToLower())
+                );
 
         var result = new List<(User, IEnumerable<TimesOfBooking>)>();
 
