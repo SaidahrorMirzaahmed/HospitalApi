@@ -6,6 +6,7 @@ using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace HospitalApi.WebApi.Controllers;
 
@@ -88,6 +89,24 @@ public class BookingsController(IBookingApiService service) : BaseController
             Data = await service.GetAllAsync(@params, filter, search)
         });
     }
+
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [AllowAnonymous]
+    [HttpGet("date")]
+    public async ValueTask<IActionResult> GetByDate(
+        [Required] DateOnly date,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GetByDateAsync(date, @params, filter, search)
+        });
+    }
+
 
     //[HttpPost("{id:long}/files/upload")]
     //public async Task<IActionResult> PictureUploadAsync(long id, AssetCreateModel asset)
