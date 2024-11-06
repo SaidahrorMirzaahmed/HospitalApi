@@ -71,11 +71,8 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
 
         existRecipe.Update();
 
-        existRecipe.Picture = recipe.Picture;
-        existRecipe.Staff = recipe.Staff;
-        existRecipe.StaffId = recipe.StaffId;
         existRecipe.ClientId = recipe.ClientId;
-        existRecipe.Client = recipe.Client;
+        existRecipe.StaffId = recipe.StaffId;
         existRecipe.Title = recipe.Title;
         existRecipe.SubTitle = recipe.SubTitle;
         existRecipe.DateOfVisit = recipe.DateOfVisit;
