@@ -31,7 +31,14 @@ public class MappingProfile : Profile
             })
             .ReverseMap();
 
-        CreateMap<Recipe, RecipeViewModel>().ReverseMap();
+        CreateMap<Recipe, RecipeViewModel>()
+            .ConstructUsing((src, context) => new RecipeViewModel
+            {
+                Client = context.Mapper.Map<UserViewModel>(src.Client),
+                Staff = context.Mapper.Map<UserViewModel>(src.Staff),
+                Picture = context.Mapper.Map<AssetViewModel>(src.Picture),
+            })
+            .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
             .ForMember(member => member.Picture, option => option.Ignore())
             .ReverseMap();
