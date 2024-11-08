@@ -5,6 +5,7 @@ using HospitalApi.Service.Services.Bookings;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.Recipes;
+using HospitalApi.Service.Services.SettingsProvider;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.ApiServices.Bookings;
@@ -47,6 +48,7 @@ public static class CollectionExtension
         services.AddScoped<IBookingApiService, BookingApiService>();
         services.AddScoped<ICodeSenderService, CodeSenderService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddSingleton<IBotSettingsProvider, BotSettingsProvider>();
     }
     public static void AddExceptionHandlers(this IServiceCollection services)
     {
@@ -68,8 +70,6 @@ public static class CollectionExtension
         EnvironmentHelper.SmtpHost = app.Configuration.GetSection("Email:Host").Value;
         EnvironmentHelper.PageSize = Convert.ToInt32(app.Configuration.GetSection("PaginationParams:PageSize").Value);
         EnvironmentHelper.PageIndex = Convert.ToInt32(app.Configuration.GetSection("PaginationParams:PageIndex").Value);
-        EnvironmentHelper.CodeSenderBotToken = app.Configuration.GetSection("CodeSenderBot:Token").Value;
-        EnvironmentHelper.CodeSenderBotReceiverChatId = app.Configuration.GetSection("CodeSenderBot:ChatId").Value;
     }
 
     public static void AddValidators(this IServiceCollection services)
