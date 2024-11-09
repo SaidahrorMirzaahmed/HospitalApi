@@ -44,6 +44,7 @@ public class NewsListController(INewsListApiService service) : BaseController
             Data = await service.DeleteAsync(id)
         });
     }
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
@@ -56,6 +57,7 @@ public class NewsListController(INewsListApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> GetAllAsync(
