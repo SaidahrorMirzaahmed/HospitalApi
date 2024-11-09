@@ -15,7 +15,8 @@ public class AssetService(IUnitOfWork unitOfWork) : IAssetService
         if (!Directory.Exists(directoryPath))
             Directory.CreateDirectory(directoryPath);
 
-        var fullPath = Path.Combine(directoryPath, file.FileName);
+        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        var fullPath = Path.Combine(directoryPath, fileName);
 
         var fileStream = new FileStream(fullPath, FileMode.OpenOrCreate);
         var memoryStream = new MemoryStream();
@@ -26,7 +27,7 @@ public class AssetService(IUnitOfWork unitOfWork) : IAssetService
         var asset = new Asset
         {
             Path = fullPath,
-            Name = file.Name,
+            Name = fileName,
             CreatedByUserId = HttpContextHelper.UserId
         };
 

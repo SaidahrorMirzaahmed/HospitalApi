@@ -4,6 +4,7 @@ using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
@@ -44,7 +45,8 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
-    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Client), nameof(UserRole.Owner))]
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
     {
@@ -53,6 +55,23 @@ public class RecipesController(IRecipeApiService service) : BaseController
             StatusCode = 200,
             Message = "Ok",
             Data = await service.GetAsync(id)
+        });
+    }
+
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [AllowAnonymous]
+    [HttpGet("user-id/{id:long}")]
+    public async ValueTask<IActionResult> GetByUserId(
+        long id,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GetAllbyUserIdAsync(id, @params, filter, search)
         });
     }
 
