@@ -1,17 +1,15 @@
-﻿using HospitalApi.Service.Services.SettingsProvider;
+﻿using HospitalApi.WebApi.Configurations;
 using Telegram.Bot;
 
 namespace HospitalApi.Service.Services.Notifications;
 
 public class CodeSenderService : ICodeSenderService
 {
-    private readonly (string token, string chatId) _botSettings;
     private readonly TelegramBotClient _botClient;
 
-    public CodeSenderService(IBotSettingsProvider settingsProvider)
+    public CodeSenderService()
     {
-        _botSettings = new Lazy<Task<(string token, string chatId)>>(async () => await settingsProvider.GetBotSettingsAsync()).Value.Result;
-        _botClient = new TelegramBotClient(_botSettings.token);
+        _botClient = new TelegramBotClient(EnvironmentHelper.CodeSenderBotToken);
     }
 
     public async Task<long> SendCodeToPhone(string phoneNumber)
@@ -19,7 +17,7 @@ public class CodeSenderService : ICodeSenderService
         var code = GenerateCode();
 
         await _botClient
-            .SendTextMessageAsync(_botSettings.chatId, CreateBotMessage(phoneNumber, code));
+            .SendTextMessageAsync(EnvironmentHelper.CodeSenderBotReceiverChatId, CreateBotMessage(phoneNumber, code));
 
         return code;
     }
