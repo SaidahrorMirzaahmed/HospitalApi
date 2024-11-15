@@ -79,6 +79,9 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
     public async Task<bool> SendSMSCodeAsync(string phone)
     {
+        var existUser = await unitOfWork.Users.SelectAsync(user => user.Phone == phone && !user.IsDeleted) ??
+            throw new NotFoundException($"The number, {phone}, is not registered.");
+
         var code = await codeSenderService.SendCodeToPhone(phone);
         cache.Set(phone, code, TimeSpan.FromMinutes(5));
 
