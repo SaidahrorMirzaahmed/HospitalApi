@@ -43,6 +43,7 @@ public static class CollectionExtension
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<ILaboratoryService, LaboratoryService>();
+        services.AddScoped<ICommonAnalysisOfBloodTableService, CommonAnalysisOfBloodTableService>();
     }
 
     public static void AddApiServices(this IServiceCollection services)
@@ -56,6 +57,7 @@ public static class CollectionExtension
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
+        services.AddScoped<ICommonAnalysisOfBloodTableApiService, CommonAnalysisOfBloodTableApiService>();
     }
     public static void AddExceptionHandlers(this IServiceCollection services)
     {

@@ -13,6 +13,7 @@ public interface IUnitOfWork : IDisposable
     IRepository<User> Users { get; }
     IRepository<Laboratory> Laboratories { get; }
     IRepository<TorchTable> TorchTables { get; }
+    IRepository<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; }
     Task<bool> SaveAsync();
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();

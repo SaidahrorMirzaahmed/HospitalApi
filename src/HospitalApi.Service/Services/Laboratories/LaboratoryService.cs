@@ -11,7 +11,9 @@ using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Laboratories;
 
-public class LaboratoryService(IUnitOfWork unitOfWork, ITorchTableService torchTableService) : ILaboratoryService
+public class LaboratoryService(IUnitOfWork unitOfWork, 
+    ITorchTableService torchTableService,
+    ICommonAnalysisOfBloodTableService commonAnalysisOfBloodTable) : ILaboratoryService
 {
     public async Task<IEnumerable<Laboratory>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
@@ -55,6 +57,23 @@ public class LaboratoryService(IUnitOfWork unitOfWork, ITorchTableService torchT
         laboratory.StaffId = HttpContextHelper.UserId;
         laboratory.LaboratoryTableType = LaboratoryTableType.Torch;
         var torch = await torchTableService.CreateAsync();
+        laboratory.TableId = torch.Id;
+
+        await unitOfWork.Laboratories.InsertAsync(laboratory);
+        await unitOfWork.SaveAsync();
+
+        return laboratory;
+    }
+
+    public async Task<Laboratory> CreateByCommonAnalysisOfBloodAsync(long clientId)
+    {
+        var laboratory = new Laboratory();
+        laboratory.Create();
+
+        laboratory.ClientId = clientId;
+        laboratory.StaffId = HttpContextHelper.UserId;
+        laboratory.LaboratoryTableType = LaboratoryTableType.CommonAnalysisOfBlood;
+        var torch = await commonAnalysisOfBloodTable.CreateAsync();
         laboratory.TableId = torch.Id;
 
         await unitOfWork.Laboratories.InsertAsync(laboratory);

@@ -16,6 +16,7 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<User> Users { get; }
     public IRepository<Laboratory> Laboratories { get; }
     public IRepository<TorchTable> TorchTables { get; }
+    public IRepository<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; }
 
     private IDbContextTransaction transaction;
 
@@ -29,6 +30,7 @@ public class UnitOfWork : IUnitOfWork
         Recipes = new Repository<Recipe>(this.context);
         Laboratories = new Repository<Laboratory>(this.context);
         TorchTables = new Repository<TorchTable>(this.context);
+        CommonAnalysisOfBloodTables = new Repository<CommonAnalysisOfBloodTable>(this.context);
     }
 
     public void Dispose()

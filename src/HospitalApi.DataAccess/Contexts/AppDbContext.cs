@@ -21,6 +21,8 @@ public class AppDbContext : DbContext
     public DbSet<Laboratory> Laboratories { get; set; }
     public DbSet<TorchTable> TorchTables { get; set; }
     public DbSet<TorchTableResult> TorchTableResults { get; set; }
+    public DbSet<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; set; }
+    public DbSet<CommonAnalysisOfBloodTableResult> CommonAnalysisOfBloodTableResults { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -9,6 +9,8 @@ public interface ILaboratoryApiService
 {
     Task<LaboratoryViewModel> CreateByTorchAsync(long clientId);
 
+    Task<LaboratoryViewModel> CreateByCommonAnalysisOfBloodAsync(long clientId);
+
     Task<LaboratoryViewModel> UpdateAsync(long id, long clientId);
 
     Task<bool> DeleteAsync(long id);
