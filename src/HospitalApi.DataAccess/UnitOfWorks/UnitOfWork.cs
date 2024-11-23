@@ -15,8 +15,11 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Recipe> Recipes { get; }
     public IRepository<User> Users { get; }
     public IRepository<Laboratory> Laboratories { get; }
-    public IRepository<TorchTable> TorchTables { get; }
+    public IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
+    public IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
     public IRepository<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; }
+    public IRepository<CommonAnalysisOfUrineTable> CommonAnalysisOfUrineTable { get; }
+    public IRepository<TorchTable> TorchTables { get; }
 
     private IDbContextTransaction transaction;
 

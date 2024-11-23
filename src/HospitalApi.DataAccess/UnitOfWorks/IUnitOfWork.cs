@@ -12,8 +12,11 @@ public interface IUnitOfWork : IDisposable
     IRepository<Recipe> Recipes { get; }
     IRepository<User> Users { get; }
     IRepository<Laboratory> Laboratories { get; }
-    IRepository<TorchTable> TorchTables { get; }
+    IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
+    IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
     IRepository<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; }
+    IRepository<CommonAnalysisOfUrineTable> CommonAnalysisOfUrineTable { get; }
+    IRepository<TorchTable> TorchTables { get; }
     Task<bool> SaveAsync();
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();

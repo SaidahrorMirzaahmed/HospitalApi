@@ -19,10 +19,21 @@ public class AppDbContext : DbContext
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Laboratory> Laboratories { get; set; }
-    public DbSet<TorchTable> TorchTables { get; set; }
-    public DbSet<TorchTableResult> TorchTableResults { get; set; }
+    // Tables
+    // feces
+    public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }
+    public DbSet<AnalysisOfFecesTableResult> AnalysisOfFecesTableResults { get; set; }
+    // Blood
+    public DbSet<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; set; }
+    public DbSet<BiochemicalAnalysisOfBloodTableResult> BiochemicalAnalysisOfBloodTableResults { get; set; }
     public DbSet<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; set; }
     public DbSet<CommonAnalysisOfBloodTableResult> CommonAnalysisOfBloodTableResults { get; set; }
+    // Urine
+    public DbSet<CommonAnalysisOfUrineTable> CommonAnalysisOfUrineTables { get; set; }
+    public DbSet<CommonAnalysisOfUrineTableResult> CommonAnalysisOfUrineTableResults { get; set; }
+    // Torch
+    public DbSet<TorchTable> TorchTables { get; set; }
+    public DbSet<TorchTableResult> TorchTableResults { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
