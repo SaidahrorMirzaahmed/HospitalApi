@@ -71,13 +71,16 @@ public class Repository<T> : IRepository<T> where T : Auditable
     //    await context.BulkDeleteAsync(entities);
     //}
 
-    public async Task<T> SelectAsync(Expression<Func<T, bool>> expression, string[] includes = null)
+    public async Task<T> SelectAsync(Expression<Func<T, bool>> expression, string[] includes = null, bool isTracked = true)
     {
         var query = set.Where(expression);
 
         if (includes is not null)
             foreach (var include in includes)
                 query = query.Include(include);
+
+        if (!isTracked)
+            query = query.AsNoTracking();
 
         return await query.FirstOrDefaultAsync();
     }

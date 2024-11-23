@@ -1,6 +1,7 @@
 ﻿using HospitalApi.DataAccess.Contexts;
 using HospitalApi.DataAccess.Repositories;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Entities.Tables;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HospitalApi.DataAccess.UnitOfWorks;
@@ -13,6 +14,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<NewsList> NewsList { get; }
     public IRepository<Recipe> Recipes { get; }
     public IRepository<User> Users { get; }
+    public IRepository<Laboratory> Laboratories { get; }
+    public IRepository<TorchTable> TorchTables { get; }
 
     private IDbContextTransaction transaction;
 
@@ -24,6 +27,8 @@ public class UnitOfWork : IUnitOfWork
         Bookings = new Repository<Booking>(this.context);
         NewsList = new Repository<NewsList>(this.context);
         Recipes = new Repository<Recipe>(this.context);
+        Laboratories = new Repository<Laboratory>(this.context);
+        TorchTables = new Repository<TorchTable>(this.context);
     }
 
     public void Dispose()

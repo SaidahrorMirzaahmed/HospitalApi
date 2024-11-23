@@ -2,17 +2,22 @@
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Assets;
 using HospitalApi.Service.Services.Bookings;
+using HospitalApi.Service.Services.Laboratories;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.Recipes;
+using HospitalApi.Service.Services.Tables;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.ApiServices.Bookings;
+using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.ApiServices.Recipes;
+using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Middlewares;
+using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Validations.Bookings;
 using HospitalApi.WebApi.Validations.News;
 using HospitalApi.WebApi.Validations.Recipes;
@@ -36,6 +41,8 @@ public static class CollectionExtension
         services.AddScoped<INewsListService, NewsListService>();
         services.AddScoped<IRecipeService, RecipeService>();
         services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<ITorchTableService, TorchTableService>();
+        services.AddScoped<ILaboratoryService, LaboratoryService>();
     }
 
     public static void AddApiServices(this IServiceCollection services)
@@ -47,6 +54,8 @@ public static class CollectionExtension
         services.AddScoped<IBookingApiService, BookingApiService>();
         services.AddScoped<ICodeSenderService, CodeSenderService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<ITorchTableApiService, TorchTableApiService>();
+        services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
     }
     public static void AddExceptionHandlers(this IServiceCollection services)
     {
