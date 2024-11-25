@@ -2,6 +2,7 @@
 using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -110,13 +111,13 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
     }
 
     [HttpPut("{id:long}")]
-    public async ValueTask<IActionResult> Put(long id, long clientId)
+    public async ValueTask<IActionResult> Put(long id, LaboratoryUpdateModel update)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await service.UpdateAsync(id, clientId)
+            Data = await service.UpdateAsync(id, update)
         });
     }
 

@@ -10,5 +10,5 @@ public interface ITorchTableService
 
     Task<TorchTable> UpdateAsync(long id, TorchTable table, bool saveChanges = true);
 
-    Task<bool> DeleteAsync(long id, bool saveChanges = true);
+    Task<bool> DeleteAsync(long tableId, bool saveChanges = true);
 }

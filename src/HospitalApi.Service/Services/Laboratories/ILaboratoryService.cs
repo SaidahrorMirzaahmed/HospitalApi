@@ -1,4 +1,5 @@
 ﻿using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.Configurations;
 
@@ -16,7 +17,7 @@ public interface ILaboratoryService
 
     Task<Laboratory> CreateByCommonAnalysisOfUrineAsync(long clientId);
 
-    Task<Laboratory> UpdateAsync(long id, long clientId);
+    Task<Laboratory> UpdateAsync(long id, long clientId, LaboratoryTableType laboratoryTableType);
     
     Task<bool> DeleteAsync(long id);
     

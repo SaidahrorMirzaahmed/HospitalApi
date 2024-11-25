@@ -44,9 +44,9 @@ public class LaboratoryApiService(ILaboratoryService laboratoryService, IMapper 
         return mapper.Map<LaboratoryViewModel>(laboratory);
     }
 
-    public async Task<LaboratoryViewModel> UpdateAsync(long id, long clientId)
+    public async Task<LaboratoryViewModel> UpdateAsync(long id, LaboratoryUpdateModel update)
     {
-        var laboratory = await laboratoryService.UpdateAsync(id, clientId);
+        var laboratory = await laboratoryService.UpdateAsync(id, update.ClientId, update.LaboratoryTableType);
 
         return mapper.Map<LaboratoryViewModel>(laboratory);
     }

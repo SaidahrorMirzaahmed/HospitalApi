@@ -32,7 +32,7 @@ public class TorchTableService(IUnitOfWork unitOfWork) : ITorchTableService
     public async Task<TorchTable> UpdateAsync(long id, TorchTable table, bool saveChanges = true)
     {
         var exists = await unitOfWork.TorchTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: true)
-            ?? throw new NotFoundException($"{nameof(TorchTable)} is not exists with the id = {id}");
+            ?? throw new NotFoundException($"{nameof(TorchTable)} is not exists with the tableId = {id}");
 
         exists.Update();
         exists.Items = table.Items;
@@ -44,10 +44,10 @@ public class TorchTableService(IUnitOfWork unitOfWork) : ITorchTableService
         return exists;
     }
 
-    public async Task<bool> DeleteAsync(long id, bool saveChanges = true)
+    public async Task<bool> DeleteAsync(long tableId, bool saveChanges = true)
     {
-        var exists = await unitOfWork.TorchTables.SelectAsync(torchTable => torchTable.Id == id && !torchTable.IsDeleted)
-            ?? throw new NotFoundException($"{nameof(TorchTable)} is not exists with the id = {id}");
+        var exists = await unitOfWork.TorchTables.SelectAsync(torchTable => torchTable.Id == tableId && !torchTable.IsDeleted)
+            ?? throw new NotFoundException($"{nameof(TorchTable)} is not exists with the tableId = {tableId}");
 
         exists.Delete();
 

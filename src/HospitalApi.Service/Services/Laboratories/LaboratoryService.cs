@@ -135,7 +135,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         return laboratory;
     }
 
-    public async Task<Laboratory> UpdateAsync(long id, long clientId)
+    public async Task<Laboratory> UpdateAsync(long id, long clientId, LaboratoryTableType laboratoryTableType)
     {
         var exists = await unitOfWork.Laboratories.SelectAsync(laboratory => laboratory.Id == id && !laboratory.IsDeleted)
             ?? throw new NotFoundException($"{nameof(Laboratory)} is not exists with the id = {id}");
@@ -143,6 +143,13 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         exists.Update();
         exists.ClientId = clientId;
 
+        if (laboratoryTableType != exists.LaboratoryTableType)
+        {
+            var updated = await DeleteByTable(exists, laboratoryTableType);
+            exists = updated;
+        }
+
+        exists.LaboratoryTableType = laboratoryTableType;
         await unitOfWork.SaveAsync();
 
         return exists;
@@ -161,4 +168,59 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         return true;
     }
 
+    private async Task<Laboratory> DeleteByTable(Laboratory exists, LaboratoryTableType laboratoryTableType)
+    {
+        if (exists.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
+        {
+            await analysisOfFecesTableService.DeleteAsync(exists.TableId);
+        }
+        else if (exists.LaboratoryTableType == LaboratoryTableType.BiochemicalAnalysisOfBlood)
+        {
+            await biochemicalAnalysisOfBloodTableService.DeleteAsync(exists.TableId);
+        }
+        else if (exists.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfBlood)
+        {
+            await commonAnalysisOfBloodTableService.DeleteAsync(exists.TableId);
+        }
+        else if (exists.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfUrine)
+        {
+            await commonAnalysisOfBloodTableService.DeleteAsync(exists.TableId);
+        }
+        else if (exists.LaboratoryTableType == LaboratoryTableType.Torch)
+        {
+            await torchTableService.DeleteAsync(exists.TableId);
+        }
+        else
+            throw new ArgumentIsNotValidException($"Table is not exists with id = {exists.TableId}");
+
+        if (laboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
+        {
+            var table = await analysisOfFecesTableService.CreateAsync();
+            exists.TableId = table.Id;
+        }
+        else if (laboratoryTableType == LaboratoryTableType.BiochemicalAnalysisOfBlood)
+        {
+            var table = await biochemicalAnalysisOfBloodTableService.CreateAsync();
+            exists.TableId = table.Id;
+        }
+        else if (laboratoryTableType == LaboratoryTableType.CommonAnalysisOfBlood)
+        {
+            var table = await commonAnalysisOfBloodTableService.CreateAsync();
+            exists.TableId = table.Id;
+        }
+        else if (laboratoryTableType == LaboratoryTableType.CommonAnalysisOfUrine)
+        {
+            var table = await commonAnalysisOfUrineTableService.CreateAsync();
+            exists.TableId = table.Id;
+        }
+        else if (laboratoryTableType == LaboratoryTableType.Torch)
+        {
+            var table = await torchTableService.CreateAsync();
+            exists.TableId = table.Id;
+        }
+        else
+            throw new ArgumentIsNotValidException($"Table is not exists with id = {exists.TableId}");
+
+        return exists;
+    }
 }

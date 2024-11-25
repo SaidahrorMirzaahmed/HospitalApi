@@ -2,9 +2,9 @@
 
 public enum LaboratoryTableType
 {
+    AnalysisOfFeces,
     BiochemicalAnalysisOfBlood,
     CommonAnalysisOfBlood,
-    AnalysisOfFeces,
     CommonAnalysisOfUrine,
     Torch,
 }
