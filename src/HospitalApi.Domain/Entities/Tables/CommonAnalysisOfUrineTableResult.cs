@@ -1,6 +1,8 @@
-﻿namespace HospitalApi.Domain.Entities.Tables;
+﻿using HospitalApi.Domain.Commons;
 
-public class CommonAnalysisOfUrineTableResult
+namespace HospitalApi.Domain.Entities.Tables;
+
+public class CommonAnalysisOfUrineTableResult : Auditable
 {
     public long CommonAnalysisOfUrineTableId { get; set; }
 

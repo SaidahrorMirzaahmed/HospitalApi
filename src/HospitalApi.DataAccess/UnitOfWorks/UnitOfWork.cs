@@ -32,8 +32,11 @@ public class UnitOfWork : IUnitOfWork
         NewsList = new Repository<NewsList>(this.context);
         Recipes = new Repository<Recipe>(this.context);
         Laboratories = new Repository<Laboratory>(this.context);
-        TorchTables = new Repository<TorchTable>(this.context);
+        AnalysisOfFecesTables = new Repository<AnalysisOfFecesTable>(this.context);
+        BiochemicalAnalysisOfBloodTables = new Repository<BiochemicalAnalysisOfBloodTable>(this.context);
         CommonAnalysisOfBloodTables = new Repository<CommonAnalysisOfBloodTable>(this.context);
+        CommonAnalysisOfUrineTable = new Repository<CommonAnalysisOfUrineTable>(this.context);
+        TorchTables = new Repository<TorchTable>(this.context);
     }
 
     public void Dispose()

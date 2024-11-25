@@ -34,11 +34,11 @@ public static class CommonAnalysisOfBloodTableMapper
     };
     #endregion
 
-    public static CommonAnalysisOfBloodTableViewModel GetCommonAnalysisOfBloodTableView(CommonAnalysisOfBloodTable torchTable)
+    public static CommonAnalysisOfBloodTableViewModel GetCommonAnalysisOfBloodTableView(CommonAnalysisOfBloodTable table)
     {
         var view = new Dictionary<int, CommonAnalysisOfBloodTableResultViewModel>(_keyValuePairs);
 
-        foreach (var item in torchTable.Items.Select(x => new { x.Index, x.Result }))
+        foreach (var item in table.Items.Select(x => new { x.Index, x.Result }))
         {
             if (view.ContainsKey(item.Index))
             {
@@ -48,7 +48,7 @@ public static class CommonAnalysisOfBloodTableMapper
 
         return new CommonAnalysisOfBloodTableViewModel
         {
-            Id = torchTable.Id,
+            Id = table.Id,
             Items = view.Values,
         };
     }
@@ -57,29 +57,29 @@ public static class CommonAnalysisOfBloodTableMapper
     {
         var items = new List<CommonAnalysisOfBloodTableResult>
         {
-            new() { Id = id, Result = update.FirstItemResult, Index = 1 },
-            new() { Id = id, Result = update.SecondItemResult, Index = 2 },
-            new() { Id = id, Result = update.ThirdItemResult, Index = 3 },
-            new() { Id = id, Result = update.FourthItemResult, Index = 4 },
-            new() { Id = id, Result = update.FifthItemResult, Index = 5 },
-            new() { Id = id, Result = update.SixthItemResult, Index = 6 },
-            new() { Id = id, Result = update.SeventhItemResult, Index = 7 },
-            new() { Id = id, Result = update.EighthItemResult, Index = 8 },
-            new() { Id = id, Result = update.NinthItemResult, Index = 9 },
-            new() { Id = id, Result = update.TenthItemResult, Index = 10 },
-            new() { Id = id, Result = update.EleventhItemResult, Index = 11 },
-            new() { Id = id, Result = update.TwelfthItemResult, Index = 12 },
-            new() { Id = id, Result = update.ThirteenthItemResult, Index = 13 },
-            new() { Id = id, Result = update.FourteenthItemResult, Index = 14 },
-            new() { Id = id, Result = update.FifteenthItemResult, Index = 15 },
-            new() { Id = id, Result = update.SixteenthItemResult, Index = 16 },
-            new() { Id = id, Result = update.SeventeenthItemResult, Index = 17 },
-            new() { Id = id, Result = update.EighteenthItemResult, Index = 18 },
-            new() { Id = id, Result = update.NineteenthItemResult, Index = 19 },
-            new() { Id = id, Result = update.TwentiethItemResult, Index = 20 },
-            new() { Id = id, Result = update.TwentyFirstItemResult, Index = 21 },
-            new() { Id = id, Result = update.TwentySecondItemResult, Index = 22 },
-            new() { Id = id, Result = update.TwentyThirdItemResult, Index = 23 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.FirstItemResult, Index = 1 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.SecondItemResult, Index = 2 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.ThirdItemResult, Index = 3 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.FourthItemResult, Index = 4 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.FifthItemResult, Index = 5 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.SixthItemResult, Index = 6 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.SeventhItemResult, Index = 7 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.EighthItemResult, Index = 8 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.NinthItemResult, Index = 9 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TenthItemResult, Index = 10 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.EleventhItemResult, Index = 11 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TwelfthItemResult, Index = 12 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.ThirteenthItemResult, Index = 13 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.FourteenthItemResult, Index = 14 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.FifteenthItemResult, Index = 15 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.SixteenthItemResult, Index = 16 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.SeventeenthItemResult, Index = 17 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.EighteenthItemResult, Index = 18 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.NineteenthItemResult, Index = 19 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TwentiethItemResult, Index = 20 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TwentyFirstItemResult, Index = 21 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TwentySecondItemResult, Index = 22 },
+            new() { CommonAnalysisOfBloodTableId = id, Result = update.TwentyThirdItemResult, Index = 23 },
 
         };
 

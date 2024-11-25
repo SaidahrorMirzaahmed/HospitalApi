@@ -65,6 +65,17 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [HttpPost("biochemical-analysis-of-blood-table/client/{id:long}")]
+    public async ValueTask<IActionResult> PostBiochemicalAnalysisOfBloodTable(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.CreateByBiochemicalAnalysisOfBloodTableAsync(id)
+        });
+    }
+
     [HttpPost("common-analysis-of-blood-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostCommonAnalysisOfBlood(long id)
     {

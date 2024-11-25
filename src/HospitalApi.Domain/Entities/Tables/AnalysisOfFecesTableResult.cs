@@ -1,6 +1,8 @@
-﻿namespace HospitalApi.Domain.Entities.Tables;
+﻿using HospitalApi.Domain.Commons;
 
-public class AnalysisOfFecesTableResult
+namespace HospitalApi.Domain.Entities.Tables;
+
+public class AnalysisOfFecesTableResult : Auditable
 {
     public long AnalysisOfFecesTableId { get; set; }
 

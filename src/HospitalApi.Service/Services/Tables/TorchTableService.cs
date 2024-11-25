@@ -10,7 +10,7 @@ public class TorchTableService(IUnitOfWork unitOfWork) : ITorchTableService
     public async Task<TorchTable> GetAsync(long id)
     {
         var exist = await unitOfWork.TorchTables.SelectAsync(x => x.Id == id && !x.IsDeleted, includes: ["Items"])
-           ?? throw new NotFoundException($"TorchTable with this Id is not found {id}");
+           ?? throw new NotFoundException($"{nameof(TorchTable)}with this Id is not found {id}");
 
         return exist;
     }

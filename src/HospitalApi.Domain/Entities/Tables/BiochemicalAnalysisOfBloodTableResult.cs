@@ -1,6 +1,8 @@
-﻿namespace HospitalApi.Domain.Entities.Tables;
+﻿using HospitalApi.Domain.Commons;
 
-public class BiochemicalAnalysisOfBloodTableResult
+namespace HospitalApi.Domain.Entities.Tables;
+
+public class BiochemicalAnalysisOfBloodTableResult : Auditable
 {
     public long BiochemicalAnalysisOfBloodTableId { get; set; }
 

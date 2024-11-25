@@ -44,16 +44,16 @@ public static class TorchMapper
     {
         var items = new List<TorchTableResult>
         {
-            new TorchTableResult { Id = id, Result = update.FirstItemResult, Index = 1 },
-            new TorchTableResult { Id = id, Result = update.SecondItemResult, Index = 2 },
-            new TorchTableResult { Id = id, Result = update.ThirdItemResult, Index = 3 },
-            new TorchTableResult { Id = id, Result = update.FourthItemResult, Index = 4 },
-            new TorchTableResult { Id = id, Result = update.FirstItemResult, Index = 5 },
-            new TorchTableResult { Id = id, Result = update.SixthItemResult, Index = 6 },
-            new TorchTableResult { Id = id, Result = update.SecondItemResult, Index = 7 },
-            new TorchTableResult { Id = id, Result = update.EighthItemResult, Index = 8 },
-            new TorchTableResult { Id = id, Result = update.NinthItemResult, Index = 9 },
-            new TorchTableResult { Id = id, Result = update.TenthItemResult, Index = 10 },
+            new TorchTableResult { TorchTableId = id, Result = update.FirstItemResult, Index = 1 },
+            new TorchTableResult { TorchTableId = id, Result = update.SecondItemResult, Index = 2 },
+            new TorchTableResult { TorchTableId = id, Result = update.ThirdItemResult, Index = 3 },
+            new TorchTableResult { TorchTableId = id, Result = update.FourthItemResult, Index = 4 },
+            new TorchTableResult { TorchTableId = id, Result = update.FirstItemResult, Index = 5 },
+            new TorchTableResult { TorchTableId = id, Result = update.SixthItemResult, Index = 6 },
+            new TorchTableResult { TorchTableId = id, Result = update.SecondItemResult, Index = 7 },
+            new TorchTableResult { TorchTableId = id, Result = update.EighthItemResult, Index = 8 },
+            new TorchTableResult { TorchTableId = id, Result = update.NinthItemResult, Index = 9 },
+            new TorchTableResult { TorchTableId = id, Result = update.TenthItemResult, Index = 10 },
         };
 
         return new TorchTable { Id = id, Items = items };
