@@ -43,6 +43,7 @@ public static class CollectionExtension
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<ILaboratoryService, LaboratoryService>();
+        services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
         services.AddScoped<IBiochemicalAnalysisOfBloodTableService, BiochemicalAnalysisOfBloodTableService>();
         services.AddScoped<ICommonAnalysisOfBloodTableService, CommonAnalysisOfBloodTableService>();
         services.AddScoped<ICommonAnalysisOfUrineTableService, CommonAnalysisOfUrineTableService>();
@@ -58,6 +59,7 @@ public static class CollectionExtension
         services.AddScoped<ICodeSenderService, CodeSenderService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
+        services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();
         services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
         services.AddScoped<IBiochemicalAnalysisOfBloodTableApiService, BiochemicalAnalysisOfBloodTableApiService>();
         services.AddScoped<ICommonAnalysisOfBloodTableApiService, CommonAnalysisOfBloodTableApiService>();

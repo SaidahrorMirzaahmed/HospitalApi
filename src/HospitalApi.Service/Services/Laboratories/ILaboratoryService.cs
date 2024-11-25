@@ -8,6 +8,8 @@ public interface ILaboratoryService
 {
     Task<Laboratory> CreateByTorchTableAsync(long clientId);
 
+    Task<Laboratory> CreateByAnalysisOfFecesTableAsync(long clientId);
+
     Task<Laboratory> CreateByBiochemicalAnalysisOfBloodTableAsync(long clientId);
 
     Task<Laboratory> CreateByCommonAnalysisOfBloodAsync(long clientId);

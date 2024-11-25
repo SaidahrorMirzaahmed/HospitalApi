@@ -54,14 +54,14 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [HttpPost("torch/client/{id:long}")]
-    public async ValueTask<IActionResult> PostTorch(long id)
+    [HttpPost("analysis-of-feces-table/{id:long}")]
+    public async ValueTask<IActionResult> PostAnalysisOfFecesTable(long id)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await service.CreateByTorchAsync(id)
+            Data = await service.CreateByAnalysisOfFecesAsync(id)
         });
     }
 
@@ -95,6 +95,17 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
             StatusCode = 200,
             Message = "Ok",
             Data = await service.CreateByCommonAnalysisOfUrineAsync(id)
+        });
+    }
+
+    [HttpPost("torch/client/{id:long}")]
+    public async ValueTask<IActionResult> PostTorch(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.CreateByTorchAsync(id)
         });
     }
 

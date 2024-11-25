@@ -11,6 +11,7 @@ using HospitalApi.WebApi.Configurations;
 namespace HospitalApi.Service.Services.Laboratories;
 
 public class LaboratoryService(IUnitOfWork unitOfWork,
+    IAnalysisOfFecesTableService analysisOfFecesTableService,
     ITorchTableService torchTableService,
     IBiochemicalAnalysisOfBloodTableService biochemicalAnalysisOfBloodTableService,
     ICommonAnalysisOfBloodTableService commonAnalysisOfBloodTableService,
@@ -45,6 +46,23 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         var laboratory = await unitOfWork.Laboratories
             .SelectAsync(expression: x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client"])
             ?? throw new NotFoundException($"{nameof(Laboratory)} with this Id is not found {id}");
+
+        return laboratory;
+    }
+
+    public async Task<Laboratory> CreateByAnalysisOfFecesTableAsync(long clientId)
+    {
+        var laboratory = new Laboratory();
+        laboratory.Create();
+
+        laboratory.ClientId = clientId;
+        laboratory.StaffId = HttpContextHelper.UserId;
+        laboratory.LaboratoryTableType = LaboratoryTableType.AnalysisOfFeces;
+        var torch = await analysisOfFecesTableService.CreateAsync();
+        laboratory.TableId = torch.Id;
+
+        await unitOfWork.Laboratories.InsertAsync(laboratory);
+        await unitOfWork.SaveAsync();
 
         return laboratory;
     }

@@ -9,31 +9,33 @@ namespace HospitalApi.WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
-public class TableController(ITorchTableApiService torchApiService,
+public class TableController(
+    IAnalysisOfFecesTableApiService analysisOfFecesTableApiService,
+    ITorchTableApiService torchApiService,
     IBiochemicalAnalysisOfBloodTableApiService biochemicalAnalysisOfBloodTableApiService,
     ICommonAnalysisOfBloodTableApiService commonAnalysisOfBloodTableApiService,
     ICommonAnalysisOfUrineTableApiService commonAnalysisOfUrineTableApiService) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpGet("torch/{id:long}")]
-    public async ValueTask<IActionResult> GetTorchTable(long id)
+    [HttpGet("analysis-of-feces-table/{id:long}")]
+    public async ValueTask<IActionResult> GetAnalysisOfFecesTable(long id)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await torchApiService.GetAsync(id)
+            Data = await analysisOfFecesTableApiService.GetAsync(id)
         });
     }
 
-    [HttpPut("torch/{id:long}")]
-    public async ValueTask<IActionResult> PutTorchTable(long id, TorchTableUpdateModel updateModel)
+    [HttpPut("analysis-of-feces-table/{id:long}")]
+    public async ValueTask<IActionResult> PutAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateModel updateModel)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await torchApiService.UpdateAsync(id, updateModel)
+            Data = await analysisOfFecesTableApiService.UpdateAsync(id, updateModel)
         });
     }
 
@@ -103,6 +105,29 @@ public class TableController(ITorchTableApiService torchApiService,
             StatusCode = 200,
             Message = "Ok",
             Data = await commonAnalysisOfUrineTableApiService.UpdateAsync(id, updateModel)
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpGet("torch/{id:long}")]
+    public async ValueTask<IActionResult> GetTorchTable(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await torchApiService.GetAsync(id)
+        });
+    }
+
+    [HttpPut("torch/{id:long}")]
+    public async ValueTask<IActionResult> PutTorchTable(long id, TorchTableUpdateModel updateModel)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await torchApiService.UpdateAsync(id, updateModel)
         });
     }
 }
