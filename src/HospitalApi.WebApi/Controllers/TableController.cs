@@ -11,7 +11,8 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class TableController(ITorchTableApiService torchApiService,
     IBiochemicalAnalysisOfBloodTableApiService biochemicalAnalysisOfBloodTableApiService,
-    ICommonAnalysisOfBloodTableApiService commonAnalysisOfBloodService) : ControllerBase
+    ICommonAnalysisOfBloodTableApiService commonAnalysisOfBloodTableApiService,
+    ICommonAnalysisOfUrineTableApiService commonAnalysisOfUrineTableApiService) : ControllerBase
 {
     [AllowAnonymous]
     [HttpGet("torch/{id:long}")]
@@ -67,7 +68,7 @@ public class TableController(ITorchTableApiService torchApiService,
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await commonAnalysisOfBloodService.GetAsync(id)
+            Data = await commonAnalysisOfBloodTableApiService.GetAsync(id)
         });
     }
 
@@ -78,7 +79,30 @@ public class TableController(ITorchTableApiService torchApiService,
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await commonAnalysisOfBloodService.UpdateAsync(id, updateModel)
+            Data = await commonAnalysisOfBloodTableApiService.UpdateAsync(id, updateModel)
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpGet("common-analysis-of-urine-table/{id:long}")]
+    public async ValueTask<IActionResult> GetCommonAnalysisOfUrineTable(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await commonAnalysisOfUrineTableApiService.GetAsync(id)
+        });
+    }
+
+    [HttpPut("common-analysis-of-urine-table/{id:long}")]
+    public async ValueTask<IActionResult> PutCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateModel updateModel)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await commonAnalysisOfUrineTableApiService.UpdateAsync(id, updateModel)
         });
     }
 }

@@ -31,7 +31,7 @@ public class CommonAnalysisOfBloodTableService(IUnitOfWork unitOfWork) : ICommon
 
     public async Task<CommonAnalysisOfBloodTable> UpdateAsync(long id, CommonAnalysisOfBloodTable table, bool saveChanges = true)
     {
-        var exists = await unitOfWork.CommonAnalysisOfBloodTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: false)
+        var exists = await unitOfWork.CommonAnalysisOfBloodTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: true)
             ?? throw new NotFoundException($"{nameof(CommonAnalysisOfBloodTable)} is not exists with the id = {id}");
 
         exists.Update();

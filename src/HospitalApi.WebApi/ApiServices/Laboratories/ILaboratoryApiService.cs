@@ -11,8 +11,9 @@ public interface ILaboratoryApiService
 
     Task<LaboratoryViewModel> CreateByCommonAnalysisOfBloodAsync(long clientId);
 
-    Task<LaboratoryViewModel> CreateByBiochemicalAnalysisOfBloodTableAsync(long clientId);
+    Task<LaboratoryViewModel> CreateByCommonAnalysisOfUrineAsync(long clientId);
 
+    Task<LaboratoryViewModel> CreateByBiochemicalAnalysisOfBloodTableAsync(long clientId);
 
     Task<LaboratoryViewModel> UpdateAsync(long id, long clientId);
 

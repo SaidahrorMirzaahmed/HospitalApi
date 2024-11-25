@@ -31,7 +31,7 @@ public class AnalysisOfFecesTableService(IUnitOfWork unitOfWork) : IAnalysisOfFe
 
     public async Task<AnalysisOfFecesTable> UpdateAsync(long id, AnalysisOfFecesTable table, bool saveChanges = true)
     {
-        var exists = await unitOfWork.AnalysisOfFecesTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: false)
+        var exists = await unitOfWork.AnalysisOfFecesTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: true)
             ?? throw new NotFoundException($"{nameof(AnalysisOfFecesTable)} is not exists with the id = {id}");
 
         exists.Update();

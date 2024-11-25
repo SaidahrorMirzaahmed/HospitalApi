@@ -31,7 +31,7 @@ public class BiochemicalAnalysisOfBloodTableService(IUnitOfWork unitOfWork) : IB
 
     public async Task<BiochemicalAnalysisOfBloodTable> UpdateAsync(long id, BiochemicalAnalysisOfBloodTable table, bool saveChanges = true)
     {
-        var exists = await unitOfWork.BiochemicalAnalysisOfBloodTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: false)
+        var exists = await unitOfWork.BiochemicalAnalysisOfBloodTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: true)
             ?? throw new NotFoundException($"{nameof(BiochemicalAnalysisOfBloodTable)} is not exists with the id = {id}");
 
         exists.Update();

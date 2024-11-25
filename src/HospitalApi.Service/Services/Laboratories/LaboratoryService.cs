@@ -1,6 +1,5 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
-using HospitalApi.Domain.Entities.Tables;
 using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
@@ -11,10 +10,11 @@ using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.Service.Services.Laboratories;
 
-public class LaboratoryService(IUnitOfWork unitOfWork, 
+public class LaboratoryService(IUnitOfWork unitOfWork,
     ITorchTableService torchTableService,
     IBiochemicalAnalysisOfBloodTableService biochemicalAnalysisOfBloodTableService,
-    ICommonAnalysisOfBloodTableService commonAnalysisOfBloodTableService) : ILaboratoryService
+    ICommonAnalysisOfBloodTableService commonAnalysisOfBloodTableService,
+    ICommonAnalysisOfUrineTableService commonAnalysisOfUrineTableService) : ILaboratoryService
 {
     public async Task<IEnumerable<Laboratory>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
@@ -92,6 +92,23 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         laboratory.StaffId = HttpContextHelper.UserId;
         laboratory.LaboratoryTableType = LaboratoryTableType.CommonAnalysisOfBlood;
         var torch = await commonAnalysisOfBloodTableService.CreateAsync();
+        laboratory.TableId = torch.Id;
+
+        await unitOfWork.Laboratories.InsertAsync(laboratory);
+        await unitOfWork.SaveAsync();
+
+        return laboratory;
+    }
+
+    public async Task<Laboratory> CreateByCommonAnalysisOfUrineAsync(long clientId)
+    {
+        var laboratory = new Laboratory();
+        laboratory.Create();
+
+        laboratory.ClientId = clientId;
+        laboratory.StaffId = HttpContextHelper.UserId;
+        laboratory.LaboratoryTableType = LaboratoryTableType.CommonAnalysisOfUrine;
+        var torch = await commonAnalysisOfUrineTableService.CreateAsync();
         laboratory.TableId = torch.Id;
 
         await unitOfWork.Laboratories.InsertAsync(laboratory);

@@ -23,6 +23,13 @@ public class LaboratoryApiService(ILaboratoryService laboratoryService, IMapper 
         return mapper.Map<LaboratoryViewModel>(laboratory);
     }
 
+    public async Task<LaboratoryViewModel> CreateByCommonAnalysisOfUrineAsync(long clientId)
+    {
+        var laboratory = await laboratoryService.CreateByCommonAnalysisOfUrineAsync(clientId);
+
+        return mapper.Map<LaboratoryViewModel>(laboratory);
+    }
+
     public async Task<LaboratoryViewModel> CreateByBiochemicalAnalysisOfBloodTableAsync(long clientId)
     {
         var laboratory = await laboratoryService.CreateByBiochemicalAnalysisOfBloodTableAsync(clientId);

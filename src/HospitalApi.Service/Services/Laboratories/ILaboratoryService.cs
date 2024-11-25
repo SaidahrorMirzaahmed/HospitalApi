@@ -12,6 +12,8 @@ public interface ILaboratoryService
 
     Task<Laboratory> CreateByCommonAnalysisOfBloodAsync(long clientId);
 
+    Task<Laboratory> CreateByCommonAnalysisOfUrineAsync(long clientId);
+
     Task<Laboratory> UpdateAsync(long id, long clientId);
     
     Task<bool> DeleteAsync(long id);

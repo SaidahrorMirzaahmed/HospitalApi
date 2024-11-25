@@ -87,6 +87,17 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [HttpPost("common-analysis-of-urine-table/client/{id:long}")]
+    public async ValueTask<IActionResult> PostCommonAnalysisOfUrine(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.CreateByCommonAnalysisOfUrineAsync(id)
+        });
+    }
+
     [HttpPut("{id:long}")]
     public async ValueTask<IActionResult> Put(long id, long clientId)
     {

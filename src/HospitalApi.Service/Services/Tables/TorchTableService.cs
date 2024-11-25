@@ -31,7 +31,7 @@ public class TorchTableService(IUnitOfWork unitOfWork) : ITorchTableService
 
     public async Task<TorchTable> UpdateAsync(long id, TorchTable table, bool saveChanges = true)
     {
-        var exists = await unitOfWork.TorchTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: false)
+        var exists = await unitOfWork.TorchTables.SelectAsync(expression: torchTable => torchTable.Id == id && !torchTable.IsDeleted, isTracked: true)
             ?? throw new NotFoundException($"{nameof(TorchTable)} is not exists with the id = {id}");
 
         exists.Update();
