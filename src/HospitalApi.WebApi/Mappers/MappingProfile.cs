@@ -40,6 +40,7 @@ public class MappingProfile : Profile
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
                 Staff = context.Mapper.Map<UserViewModel>(src.Staff),
                 Picture = context.Mapper.Map<AssetViewModel>(src.Picture),
+                DateOfVisit = src.CreatedAt
             })
             .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
