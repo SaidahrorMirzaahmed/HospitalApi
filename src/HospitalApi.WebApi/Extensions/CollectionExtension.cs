@@ -3,6 +3,7 @@ using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Assets;
 using HospitalApi.Service.Services.Bookings;
 using HospitalApi.Service.Services.Laboratories;
+using HospitalApi.Service.Services.MedicalServices;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.Recipes;
@@ -11,14 +12,15 @@ using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.ApiServices.Bookings;
 using HospitalApi.WebApi.ApiServices.Laboratories;
+using HospitalApi.WebApi.ApiServices.MedicalServices;
 using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Middlewares;
-using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Validations.Bookings;
+using HospitalApi.WebApi.Validations.MedicalServices;
 using HospitalApi.WebApi.Validations.News;
 using HospitalApi.WebApi.Validations.Recipes;
 using HospitalApi.WebApi.Validations.Users;
@@ -41,8 +43,10 @@ public static class CollectionExtension
         services.AddScoped<INewsListService, NewsListService>();
         services.AddScoped<IRecipeService, RecipeService>();
         services.AddScoped<IBookingService, BookingService>();
-        services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<ILaboratoryService, LaboratoryService>();
+        services.AddScoped<IMedicalServiceTypeService, MedicalServiceTypeService>();
+        // Table
+        services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
         services.AddScoped<IBiochemicalAnalysisOfBloodTableService, BiochemicalAnalysisOfBloodTableService>();
         services.AddScoped<ICommonAnalysisOfBloodTableService, CommonAnalysisOfBloodTableService>();
@@ -58,9 +62,11 @@ public static class CollectionExtension
         services.AddScoped<IBookingApiService, BookingApiService>();
         services.AddScoped<ICodeSenderService, CodeSenderService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
+        services.AddScoped<IMedicalServiceTypeApiService, MedicalServiceTypeApiService>();
+        // Table
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();
-        services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
         services.AddScoped<IBiochemicalAnalysisOfBloodTableApiService, BiochemicalAnalysisOfBloodTableApiService>();
         services.AddScoped<ICommonAnalysisOfBloodTableApiService, CommonAnalysisOfBloodTableApiService>();
         services.AddScoped<ICommonAnalysisOfUrineTableApiService, CommonAnalysisOfUrineTableApiService>();
@@ -104,6 +110,9 @@ public static class CollectionExtension
         services.AddTransient<UserUpdateModelValidator>();
         services.AddTransient<StaffCreateModelValidator>();
         services.AddTransient<StaffUpdateModelValidator>();
+
+        services.AddTransient<MedicalServiceTypeCreateModelValidator>();
+        services.AddTransient<MedicalServiceTypeUpdateModelValidator>();
     }
     public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
     {
