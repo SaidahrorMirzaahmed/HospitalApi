@@ -5,6 +5,7 @@ using HospitalApi.Domain.Enums;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Models.Laboratories;
+using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Tables;
@@ -55,5 +56,8 @@ public class MappingProfile : Profile
         CreateMap<NewsListUpdateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
 
         CreateMap<Laboratory, LaboratoryViewModel>().ReverseMap();
+        CreateMap<MedicalServiceType, MedicalServiceTypeViewModel>().ReverseMap();
+        CreateMap<MedicalServiceTypeCreateModel, MedicalServiceType>().ReverseMap();
+        CreateMap<MedicalServiceTypeUpdateModel, MedicalServiceType>().ReverseMap();
     }
 }

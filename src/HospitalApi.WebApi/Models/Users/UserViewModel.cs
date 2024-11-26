@@ -8,6 +8,8 @@ public class UserViewModel
     public long Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public DateOnly Birth { get; set; }
+    public string Address { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public UserRole Role { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]

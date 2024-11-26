@@ -19,6 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Laboratory> Laboratories { get; set; }
+    public DbSet<MedicalServiceType> MedicalServices { get; set; }
     // Tables
     // feces
     public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }

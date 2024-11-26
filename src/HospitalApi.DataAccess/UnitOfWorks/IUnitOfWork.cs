@@ -12,6 +12,8 @@ public interface IUnitOfWork : IDisposable
     IRepository<Recipe> Recipes { get; }
     IRepository<User> Users { get; }
     IRepository<Laboratory> Laboratories { get; }
+    IRepository<MedicalServiceType> MedicalServiceTypes { get; }
+    // Tables
     IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
     IRepository<CommonAnalysisOfBloodTable> CommonAnalysisOfBloodTables { get; }
