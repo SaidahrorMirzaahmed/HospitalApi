@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Entities.Tables;
 using HospitalApi.Domain.Enums;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
+using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Recipes;
+using HospitalApi.WebApi.Models.Tables;
 using HospitalApi.WebApi.Models.Users;
 
 namespace HospitalApi.WebApi.Mappers;
@@ -49,5 +52,7 @@ public class MappingProfile : Profile
         CreateMap<NewsList, NewsListViewModel>().ReverseMap();
         CreateMap<NewsListCreateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
         CreateMap<NewsListUpdateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
+
+        CreateMap<Laboratory, LaboratoryViewModel>().ReverseMap();
     }
 }
