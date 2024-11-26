@@ -73,5 +73,10 @@ public class AppDbContext : DbContext
             .HasOne(b => b.Picture)
             .WithMany()
             .HasForeignKey(b => b.PictureId);
+
+        modelBuilder.Entity<MedicalServiceType>()
+            .HasOne(b => b.Staff)
+            .WithMany()
+            .HasForeignKey(b => b.StaffId);
     }
 }

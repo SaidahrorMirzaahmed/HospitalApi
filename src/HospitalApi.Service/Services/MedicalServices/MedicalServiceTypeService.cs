@@ -11,7 +11,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
 {
     public async Task<MedicalServiceType> GetAsync(long id)
     {
-        var serviceType = await unitOfWork.MedicalServiceTypes.SelectAsync(type => type.Id == id && !type.IsDeleted)
+        var serviceType = await unitOfWork.MedicalServiceTypes.SelectAsync(type => type.Id == id && !type.IsDeleted, includes: ["Staff"])
             ?? throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists with the id = {id}");
 
         return serviceType;
@@ -20,7 +20,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
     public async Task<IEnumerable<MedicalServiceType>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var serviceTypes = unitOfWork.MedicalServiceTypes
-            .SelectAsQueryable(type => !type.IsDeleted)
+            .SelectAsQueryable(type => !type.IsDeleted, includes: ["Staff"])
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -46,6 +46,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
         exists.Update();
         exists.ServiceType = serviceType.ServiceType;
         exists.Price = serviceType.Price;
+        exists.StaffId = serviceType.StaffId;
 
         await unitOfWork.SaveAsync();
 

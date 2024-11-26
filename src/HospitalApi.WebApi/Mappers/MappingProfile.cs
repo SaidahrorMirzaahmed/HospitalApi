@@ -56,7 +56,14 @@ public class MappingProfile : Profile
         CreateMap<NewsListUpdateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
 
         CreateMap<Laboratory, LaboratoryViewModel>().ReverseMap();
-        CreateMap<MedicalServiceType, MedicalServiceTypeViewModel>().ReverseMap();
+        CreateMap<MedicalServiceType, MedicalServiceTypeViewModel>()
+            .ConstructUsing((src, context) =>
+            {
+                return new MedicalServiceTypeViewModel
+                {
+                    Staff = context.Mapper.Map<UserViewModel>(src.Staff)
+                };
+            });
         CreateMap<MedicalServiceTypeCreateModel, MedicalServiceType>().ReverseMap();
         CreateMap<MedicalServiceTypeUpdateModel, MedicalServiceType>().ReverseMap();
     }
