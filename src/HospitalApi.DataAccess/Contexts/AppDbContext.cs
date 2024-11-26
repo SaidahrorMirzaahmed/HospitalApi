@@ -67,5 +67,10 @@ public class AppDbContext : DbContext
             .WithMany() // Assuming User has a collection of Bookings
             .HasForeignKey(b => b.StaffId)
             .OnDelete(DeleteBehavior.ClientSetNull);
+
+        modelBuilder.Entity<Recipe>()
+            .HasOne(b => b.Picture)
+            .WithMany()
+            .HasForeignKey(b => b.PictureId);
     }
 }

@@ -73,10 +73,11 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
 
         existRecipe.ClientId = recipe.ClientId;
         existRecipe.StaffId = recipe.StaffId;
-        existRecipe.Title = recipe.Title;
-        existRecipe.SubTitle = recipe.SubTitle;
-        existRecipe.DateOfVisit = recipe.DateOfVisit;
-        existRecipe.DateOfReturn = recipe.DateOfReturn;
+        existRecipe.Complaints = recipe.Complaints;
+        existRecipe.Diagnosis = recipe.Diagnosis;
+        existRecipe.CheckUps = recipe.CheckUps;
+        existRecipe.Recommendations = recipe.Recommendations;
+        //existRecipe.DateOfVisit = recipe.DateOfVisit;
 
         await unitOfWork.SaveAsync();
 

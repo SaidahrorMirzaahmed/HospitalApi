@@ -10,8 +10,9 @@ public class Recipe : Auditable
     public User Client { get; set; }
     public long? PictureId { get; set; }
     public Asset? Picture { get; set; }
-    public string Title { get; set; }
-    public string SubTitle { get; set; }
-    public DateOnly DateOfVisit { get; set; }
-    public DateOnly? DateOfReturn { get; set; }
+    public string Complaints { get; set; }
+    public string Diagnosis { get; set; }
+    public string CheckUps { get; set; }
+    public string Recommendations { get; set; }
+    //public DateTime DateOfVisit { get; set; }
 }
