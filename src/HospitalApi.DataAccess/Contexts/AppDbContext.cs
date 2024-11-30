@@ -20,6 +20,8 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Laboratory> Laboratories { get; set; }
     public DbSet<MedicalServiceType> MedicalServices { get; set; }
+    public DbSet<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
     // Tables
     // feces
     public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }
@@ -73,10 +75,5 @@ public class AppDbContext : DbContext
             .HasOne(b => b.Picture)
             .WithMany()
             .HasForeignKey(b => b.PictureId);
-
-        modelBuilder.Entity<MedicalServiceType>()
-            .HasOne(b => b.Staff)
-            .WithMany()
-            .HasForeignKey(b => b.StaffId);
     }
 }

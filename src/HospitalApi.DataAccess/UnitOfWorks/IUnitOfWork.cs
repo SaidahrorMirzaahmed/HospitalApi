@@ -13,6 +13,8 @@ public interface IUnitOfWork : IDisposable
     IRepository<User> Users { get; }
     IRepository<Laboratory> Laboratories { get; }
     IRepository<MedicalServiceType> MedicalServiceTypes { get; }
+    IRepository<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; }
+    IRepository<Ticket> Tickets { get; }
     // Tables
     IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }

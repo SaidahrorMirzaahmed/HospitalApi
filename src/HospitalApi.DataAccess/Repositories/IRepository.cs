@@ -6,7 +6,7 @@ namespace HospitalApi.DataAccess.Repositories;
 public interface IRepository<T> where T : Auditable
 {
     Task<T> InsertAsync(T entity);
-    //Task BulkInsertAsync(IEnumerable<T> entities);
+    Task<IEnumerable<T>> BulkInsertAsync(IEnumerable<T> entities);
     Task<T> UpdateAsync(T entity);
     //Task BulkUpdateAsync(IEnumerable<T> entities);
     Task<T> DeleteAsync(T entity);

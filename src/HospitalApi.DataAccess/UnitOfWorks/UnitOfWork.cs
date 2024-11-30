@@ -16,6 +16,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<User> Users { get; }
     public IRepository<Laboratory> Laboratories { get; }
     public IRepository<MedicalServiceType> MedicalServiceTypes { get; }
+    public IRepository<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; }
+    public IRepository<Ticket> Tickets { get; }
     // Table
     public IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     public IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
@@ -35,6 +37,8 @@ public class UnitOfWork : IUnitOfWork
         Recipes = new Repository<Recipe>(this.context);
         Laboratories = new Repository<Laboratory>(this.context);
         MedicalServiceTypes = new Repository<MedicalServiceType>(this.context);
+        MedicalServiceTypeHistories = new Repository<MedicalServiceTypeHistory>(this.context);
+        Tickets = new Repository<Ticket>(this.context);
         // Table
         AnalysisOfFecesTables = new Repository<AnalysisOfFecesTable>(this.context);
         BiochemicalAnalysisOfBloodTables = new Repository<BiochemicalAnalysisOfBloodTable>(this.context);
