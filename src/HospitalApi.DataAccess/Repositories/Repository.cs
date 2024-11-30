@@ -21,10 +21,11 @@ public class Repository<T> : IRepository<T> where T : Auditable
         return (await set.AddAsync(entity)).Entity;
     }
 
-    //public async Task BulkInsertAsync(IEnumerable<T> entities)
-    //{
-    //    await context.BulkInsertAsync(entities);
-    //}
+    public async Task<IEnumerable<T>> BulkInsertAsync(IEnumerable<T> entities)
+    {
+        await set.AddRangeAsync(entities);
+        return entities;
+    }
 
     public async Task<T> UpdateAsync(T entity)
     {

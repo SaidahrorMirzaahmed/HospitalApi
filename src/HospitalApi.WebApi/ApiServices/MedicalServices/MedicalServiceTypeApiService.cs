@@ -25,7 +25,7 @@ public class MedicalServiceTypeApiService(IUnitOfWork unitOfWork,
 
     public async Task<IEnumerable<MedicalServiceTypeViewModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
-        var serviceTypes = await service.GetAllAsync(@params, filter, search);
+        IEnumerable<MedicalServiceType> serviceTypes = await service.GetAllAsync(@params, filter, search);
 
         return mapper.Map<IEnumerable<MedicalServiceTypeViewModel>>(serviceTypes);
     }

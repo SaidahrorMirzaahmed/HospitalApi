@@ -8,6 +8,10 @@ public class MedicalServiceType : Auditable
 
     public double Price { get; set; }
 
+    public int LastQueue { get; set; }
+
+    public DateOnly QueueDate { get; set; }
+
     public long StaffId { get; set; }
     public User Staff { get; set; }
 }

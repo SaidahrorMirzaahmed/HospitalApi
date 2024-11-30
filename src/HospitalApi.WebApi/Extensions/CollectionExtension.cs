@@ -4,18 +4,23 @@ using HospitalApi.Service.Services.Assets;
 using HospitalApi.Service.Services.Bookings;
 using HospitalApi.Service.Services.Laboratories;
 using HospitalApi.Service.Services.MedicalServices;
+using HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
+using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.Service.Services.Recipes;
 using HospitalApi.Service.Services.Tables;
+using HospitalApi.Service.Services.Tickets;
 using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.ApiServices.Bookings;
+using HospitalApi.WebApi.ApiServices.ClientBookings;
 using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.ApiServices.MedicalServices;
 using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.ApiServices.Tables;
+using HospitalApi.WebApi.ApiServices.Tickets;
 using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Middlewares;
@@ -45,6 +50,9 @@ public static class CollectionExtension
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<ILaboratoryService, LaboratoryService>();
         services.AddScoped<IMedicalServiceTypeService, MedicalServiceTypeService>();
+        services.AddScoped<IMedicalTypeServiceHistoryService, MedicalTypeServiceHistoryService>();
+        services.AddScoped<ITicketService, TicketService>();
+        services.AddScoped<IQueueService, QueueService>();
         // Table
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
@@ -64,6 +72,9 @@ public static class CollectionExtension
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ILaboratoryApiService, LaboratoryApiService>();
         services.AddScoped<IMedicalServiceTypeApiService, MedicalServiceTypeApiService>();
+        services.AddScoped<IMedicalServiceTypeApiService, MedicalServiceTypeApiService>();
+        services.AddScoped<ITicketApiService, TicketApiService>();
+        services.AddScoped<IClientBookingApiService, ClientBookingApiService>();
         // Table
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();

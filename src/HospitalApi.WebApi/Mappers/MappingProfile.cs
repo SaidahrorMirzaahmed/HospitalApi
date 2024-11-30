@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
-using HospitalApi.Domain.Entities.Tables;
 using HospitalApi.Domain.Enums;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
@@ -8,7 +7,7 @@ using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
 using HospitalApi.WebApi.Models.Recipes;
-using HospitalApi.WebApi.Models.Tables;
+using HospitalApi.WebApi.Models.Tickets;
 using HospitalApi.WebApi.Models.Users;
 
 namespace HospitalApi.WebApi.Mappers;
@@ -66,5 +65,19 @@ public class MappingProfile : Profile
             });
         CreateMap<MedicalServiceTypeCreateModel, MedicalServiceType>().ReverseMap();
         CreateMap<MedicalServiceTypeUpdateModel, MedicalServiceType>().ReverseMap();
+
+        CreateMap<MedicalServiceTypeHistory, MedicalServiceTypeHistoryViewModel>()
+            .ConstructUsing((src, context) => new MedicalServiceTypeHistoryViewModel
+            {
+                Client = context.Mapper.Map<UserViewModel>(src.Client),
+                MedicalServiceType = context.Mapper.Map<MedicalServiceTypeViewModel>(src.MedicalServiceType)
+            });
+
+        CreateMap<Ticket, TicketViewModelModel>()
+            .ConstructUsing((src, context) => new TicketViewModelModel
+            {
+                Client = context.Mapper.Map<UserViewModel>(src.Client),
+                MedicalServiceTypeHistories = context.Mapper.Map<IEnumerable<MedicalServiceTypeHistoryViewModel>>(src.MedicalServiceTypeHistories)
+            });
     }
 }

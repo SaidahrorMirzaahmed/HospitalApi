@@ -4,6 +4,7 @@ using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.WebApi.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitalApi.Service.Services.MedicalServices;
 
@@ -27,12 +28,13 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
             serviceTypes = serviceTypes
                 .Where(type => type.ServiceType.ToLower().Contains(search.ToLower()));
 
-        return await Task.FromResult(serviceTypes);
+        return await serviceTypes.ToListAsync();
     }
 
     public async Task<MedicalServiceType> CreateAsync(MedicalServiceType serviceType)
     {
         serviceType.Create();
+        serviceType.QueueDate = DateOnly.FromDateTime(DateTime.Now);
         var type = await unitOfWork.MedicalServiceTypes.InsertAsync(serviceType);
 
         return type;
