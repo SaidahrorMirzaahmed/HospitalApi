@@ -6,6 +6,8 @@ namespace HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 
 public interface IMedicalTypeServiceHistoryService
 {
+    Task<IEnumerable<MedicalServiceTypeHistory>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
+
     Task<MedicalServiceTypeHistory> GetByIdAsync(long id);
 
     Task<IEnumerable<MedicalServiceTypeHistory>> GetByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null);

@@ -11,7 +11,8 @@ public class AssetService(IUnitOfWork unitOfWork) : IAssetService
 {
     public async Task<Asset> UploadAsync(IFormFile file)
     {
-        var directoryPath = Path.Combine(EnvironmentHelper.WebRootPath, "Photos");
+        var folderName = "Uploads";
+        var directoryPath = Path.Combine(EnvironmentHelper.WebRootPath, folderName);
         if (!Directory.Exists(directoryPath))
             Directory.CreateDirectory(directoryPath);
 
@@ -26,7 +27,7 @@ public class AssetService(IUnitOfWork unitOfWork) : IAssetService
 
         var asset = new Asset
         {
-            Path = fullPath,
+            Path = $"{folderName}//{fileName}",
             Name = fileName,
             CreatedByUserId = HttpContextHelper.UserId
         };

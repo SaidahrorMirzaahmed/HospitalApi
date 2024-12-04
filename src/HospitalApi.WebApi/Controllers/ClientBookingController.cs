@@ -7,8 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalApi.WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class ClientBookingController(IClientBookingApiService service) : ControllerBase
+public class ClientBookingController(IClientBookingApiService apiService) : ControllerBase
 {
+    [HttpGet]
+    public async ValueTask<IActionResult> GetAll(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetAllAsync(@params, filter, search)
+        });
+    }
+
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -16,7 +30,7 @@ public class ClientBookingController(IClientBookingApiService service) : Control
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await service.Get(id)
+            Data = await apiService.GetAsync(id)
         });
     }
 
@@ -30,7 +44,7 @@ public class ClientBookingController(IClientBookingApiService service) : Control
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await service.GetByClientId(id, @params, filter, search)
+            Data = await apiService.GetByClientIdAsync(id, @params, filter, search)
         });
     }
 }

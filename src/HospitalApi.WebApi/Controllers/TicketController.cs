@@ -13,6 +13,21 @@ namespace HospitalApi.WebApi.Controllers;
 public class TicketController(ITicketApiService apiService) : ControllerBase
 {
     [AllowAnonymous]
+    [HttpGet]
+    public async ValueTask<IActionResult> GetAll(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetAllAsync(@params, filter, search)
+        });
+    }
+
+    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {

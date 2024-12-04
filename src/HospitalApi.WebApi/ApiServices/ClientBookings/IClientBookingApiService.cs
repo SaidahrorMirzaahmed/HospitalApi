@@ -7,7 +7,9 @@ namespace HospitalApi.WebApi.ApiServices.ClientBookings;
 
 public interface IClientBookingApiService
 {
-    ValueTask<MedicalServiceTypeHistoryViewModel> Get(long id);
+    ValueTask<IEnumerable<MedicalServiceTypeHistoryViewModel>> GetAllAsync([FromQuery] PaginationParams @params, [FromQuery] Filter filter, [FromQuery] string search = null);
 
-    ValueTask<IEnumerable<MedicalServiceTypeHistoryViewModel>> GetByClientId(long id, [FromQuery] PaginationParams @params, [FromQuery] Filter filter, [FromQuery] string search = null);
+    ValueTask<MedicalServiceTypeHistoryViewModel> GetAsync(long id);
+
+    ValueTask<IEnumerable<MedicalServiceTypeHistoryViewModel>> GetByClientIdAsync(long id, [FromQuery] PaginationParams @params, [FromQuery] Filter filter, [FromQuery] string search = null);
 }
