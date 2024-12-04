@@ -15,6 +15,8 @@ public interface IUnitOfWork : IDisposable
     IRepository<MedicalServiceType> MedicalServiceTypes { get; }
     IRepository<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; }
     IRepository<Ticket> Tickets { get; }
+    IRepository<ClinicQueue> ClinicQueues { get; }
+    IRepository<PdfDetails> PdfDetails { get; }
     // Tables
     IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }

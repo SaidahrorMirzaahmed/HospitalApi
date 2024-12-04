@@ -18,6 +18,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<MedicalServiceType> MedicalServiceTypes { get; }
     public IRepository<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; }
     public IRepository<Ticket> Tickets { get; }
+    public IRepository<ClinicQueue> ClinicQueues { get; }
+    public IRepository<PdfDetails> PdfDetails { get; }
     // Table
     public IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     public IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
@@ -45,6 +47,8 @@ public class UnitOfWork : IUnitOfWork
         CommonAnalysisOfBloodTables = new Repository<CommonAnalysisOfBloodTable>(this.context);
         CommonAnalysisOfUrineTable = new Repository<CommonAnalysisOfUrineTable>(this.context);
         TorchTables = new Repository<TorchTable>(this.context);
+        ClinicQueues = new Repository<ClinicQueue>(this.context);
+        PdfDetails = new Repository<PdfDetails>(this.context);
     }
 
     public void Dispose()

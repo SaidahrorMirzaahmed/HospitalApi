@@ -12,7 +12,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
 {
     public async Task<MedicalServiceType> GetAsync(long id)
     {
-        var serviceType = await unitOfWork.MedicalServiceTypes.SelectAsync(type => type.Id == id && !type.IsDeleted, includes: ["Staff"])
+        var serviceType = await unitOfWork.MedicalServiceTypes.SelectAsync(type => type.Id == id && !type.IsDeleted, includes: ["Staff", "ClinicQueue"])
             ?? throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists with the id = {id}");
 
         return serviceType;
@@ -21,7 +21,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
     public async Task<IEnumerable<MedicalServiceType>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var serviceTypes = unitOfWork.MedicalServiceTypes
-            .SelectAsQueryable(type => !type.IsDeleted, includes: ["Staff"])
+            .SelectAsQueryable(type => !type.IsDeleted, includes: ["Staff", "ClinicQueue"])
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -34,8 +34,9 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
     public async Task<MedicalServiceType> CreateAsync(MedicalServiceType serviceType)
     {
         serviceType.Create();
-        serviceType.QueueDate = DateOnly.FromDateTime(DateTime.Now);
         var type = await unitOfWork.MedicalServiceTypes.InsertAsync(serviceType);
+        var clinicQueue = await unitOfWork.ClinicQueues.InsertAsync(new ClinicQueue());
+        type.ClinicQueue = clinicQueue;
 
         return type;
     }
