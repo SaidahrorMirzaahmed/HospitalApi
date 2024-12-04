@@ -55,7 +55,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [HttpPost("analysis-of-feces-table/{id:long}")]
+    [HttpPost("analysis-of-feces-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostAnalysisOfFecesTable(long id)
     {
         return Ok(new Response
