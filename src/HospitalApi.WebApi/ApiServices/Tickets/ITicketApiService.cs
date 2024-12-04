@@ -8,6 +8,8 @@ namespace HospitalApi.WebApi.ApiServices.Tickets;
 
 public interface ITicketApiService
 {
+    Task<IEnumerable<TicketViewModelModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
+
     Task<TicketViewModelModel> GetByIdAsync(long id);
 
     Task<IEnumerable<TicketViewModelModel>> GetByClientIdAsync(long id, [FromQuery] PaginationParams @params, [FromQuery] Filter filter, [FromQuery] string search = null);

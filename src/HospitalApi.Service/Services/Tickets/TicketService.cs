@@ -5,11 +5,26 @@ using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.WebApi.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitalApi.Service.Services.Tickets;
 
 public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) : ITicketService
 {
+    public async Task<IEnumerable<Ticket>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(entity => !entity.IsDeleted)
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            entities = entities.Where(entity => entity.Client.FirstName.ToLower().Contains(search.ToLower())
+                || entity.Client.LastName.ToLower().Contains(search.ToLower()));
+
+        return await entities.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
+
     public async Task<Ticket> GetByIdAsync(long id)
     {
         var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories"])
@@ -114,6 +129,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
             await unitOfWork.MedicalServiceTypeHistories.DeleteAsync(history);
         }
         await unitOfWork.Tickets.DeleteAsync(entity);
+        await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
         return true;

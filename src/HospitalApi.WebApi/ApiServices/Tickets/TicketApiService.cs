@@ -10,6 +10,14 @@ namespace HospitalApi.WebApi.ApiServices.Tickets;
 
 public class TicketApiService(ITicketService service, IMapper mapper) : ITicketApiService
 {
+    public async Task<IEnumerable<TicketViewModelModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = await service.GetAllAsync(@params, filter, search);
+
+        return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
+    }
+
+
     public async Task<TicketViewModelModel> GetByIdAsync(long id)
     {
         var entity = await service.GetByIdAsync(id);

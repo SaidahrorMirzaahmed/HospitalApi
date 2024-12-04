@@ -6,6 +6,8 @@ namespace HospitalApi.WebApi.Models.Tickets;
 
 public class TicketViewModelModel
 {
+    public long Id { get; set; }
+
     public bool IsPaid { get; set; }
 
     public bool IsCancelled { get; set; }

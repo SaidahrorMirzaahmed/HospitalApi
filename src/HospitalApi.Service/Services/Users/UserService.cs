@@ -1,14 +1,14 @@
-﻿using HospitalApi.Service.Extensions;
-using HospitalApi.DataAccess.UnitOfWorks;
+﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Domain.Enums;
-using HospitalApi.Service.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Exceptions;
+using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.WebApi.Configurations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HospitalApi.Service.Services.Users;
 
@@ -92,7 +92,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
         var alreadyExistUser = await unitOfWork.Users.SelectAsync(u => (u.Phone == user.Phone || u.Phone == user.Phone) && !u.IsDeleted && u.Id != id);
         if (alreadyExistUser is not null)
-            throw new AlreadyExistException($"This user already exists with this emil={user.Phone}");
+            throw new AlreadyExistException($"This user already exists with this email={user.Phone}");
 
         existUser.Id = id;
         existUser.Phone = user.Phone;
@@ -112,12 +112,14 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
         var alreadyExistUser = await unitOfWork.Users.SelectAsync(u => (u.Phone == user.Phone || u.Phone == user.Phone) && !u.IsDeleted && u.Id != id);
         if (alreadyExistUser is not null)
-            throw new AlreadyExistException($"This user already exists with this emil={user.Phone}");
+            throw new AlreadyExistException($"This user already exists with this email={user.Phone}");
 
         existUser.Id = id;
         existUser.Phone = user.Phone;
         existUser.LastName = user.LastName;
         existUser.FirstName = user.FirstName;
+        existUser.Address = user.Address;
+        existUser.Birth = user.Birth;
         existUser.UpdatedAt = DateTime.UtcNow;
         existUser.UpdatedByUserId = HttpContextHelper.UserId;
 
@@ -133,6 +135,21 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
             {
                 cache.Remove(phone);
                 var user = await unitOfWork.Users.SelectAsync(x => x.Phone == phone && !x.IsDeleted);
+                if (user is null)
+                {
+                    user = new User
+                    {
+                        FirstName = "",
+                        LastName = "",
+                        Address = "",
+                        Phone = phone,
+                        Birth = DateOnly.FromDateTime(DateTime.Now),
+                        Role = UserRole.Client,
+                    };
+                    user.Create();
+                    await unitOfWork.Users.InsertAsync(user);
+                    await unitOfWork.SaveAsync();
+                }
                 var token = AuthHelper.GenerateToken(user);
                 return (user, token);
             }
