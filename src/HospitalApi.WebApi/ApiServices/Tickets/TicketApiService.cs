@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.Tickets;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Tickets;
@@ -35,16 +36,10 @@ public class TicketApiService(ITicketService service, IMapper mapper) : ITicketA
         return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
     }
 
-    public async Task<TicketViewModelModel> CreateAsync(long clientId, long medicalServiceTypeId)
+    public async Task<TicketViewModelModel> CreateAsync(long clientId, IEnumerable<TicketCreateModel> ticketCreateModels)
     {
-        var entity = await service.CreateAsync(clientId, medicalServiceTypeId);
-
-        return mapper.Map<TicketViewModelModel>(entity);
-    }
-
-    public async Task<TicketViewModelModel> CreateAsync(long clientId, IEnumerable<long> medicalServiceTypeIds)
-    {
-        var entity = await service.CreateAsync(clientId, medicalServiceTypeIds);
+        var dtos = mapper.Map<IEnumerable<TicketCreateDto>>(ticketCreateModels);
+        var entity = await service.CreateAsync(clientId, dtos);
 
         return mapper.Map<TicketViewModelModel>(entity);
     }

@@ -19,5 +19,15 @@ public class MedicalServiceTypeConfigurations : IEntityTypeConfiguration<Medical
         builder
             .Navigation(b => b.Staff)
             .AutoInclude(true);
+
+        builder
+            .HasOne(b => b.ClinicQueue)
+            .WithOne(b => b.MedicalServiceType)
+            .HasForeignKey<ClinicQueue>(b => b.MedicalServiceTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Navigation(b => b.ClinicQueue)
+            .AutoInclude(true);
     }
 }

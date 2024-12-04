@@ -22,6 +22,8 @@ public class AppDbContext : DbContext
     public DbSet<MedicalServiceType> MedicalServices { get; set; }
     public DbSet<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<ClinicQueue> ClinicQueues { get; set; }
+    public DbSet<PdfDetails> PdfDetails { get; set; }
     // Tables
     // feces
     public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }

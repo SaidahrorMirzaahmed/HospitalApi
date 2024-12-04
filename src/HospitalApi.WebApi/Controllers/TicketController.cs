@@ -3,6 +3,7 @@ using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.Tickets;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Responses;
+using HospitalApi.WebApi.Models.Tickets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,25 +55,14 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
-    [HttpPost("client-id/{clientId:long}/{medicalServiceTypeId:long}")]
-    public async ValueTask<IActionResult> Post(long clientId, long medicalServiceTypeId)
-    {
-        return Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Ok",
-            Data = await apiService.CreateAsync(clientId, medicalServiceTypeId)
-        });
-    }
-
     [HttpPost("client-id/{clientId:long}")]
-    public async ValueTask<IActionResult> PostByIds(long clientId, IEnumerable<long> medicalServiceTypeId)
+    public async ValueTask<IActionResult> PostByIds(long clientId, IEnumerable<TicketCreateModel> ticketCreateModels)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await apiService.CreateAsync(clientId, medicalServiceTypeId)
+            Data = await apiService.CreateAsync(clientId, ticketCreateModels)
         });
     }
 

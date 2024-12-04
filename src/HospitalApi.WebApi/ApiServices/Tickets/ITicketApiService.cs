@@ -14,9 +14,7 @@ public interface ITicketApiService
 
     Task<IEnumerable<TicketViewModelModel>> GetByClientIdAsync(long id, [FromQuery] PaginationParams @params, [FromQuery] Filter filter, [FromQuery] string search = null);
 
-    Task<TicketViewModelModel> CreateAsync(long clientId, long medicalServiceTypeId);
- 
-    Task<TicketViewModelModel> CreateAsync(long clientId, IEnumerable<long> medicalServiceTypeIds);
+    Task<TicketViewModelModel> CreateAsync(long clientId, IEnumerable<TicketCreateModel> ticketCreateModels);
 
     Task<TicketViewModelModel> UpdateAsync(bool isPaid, bool isCancelled);
 

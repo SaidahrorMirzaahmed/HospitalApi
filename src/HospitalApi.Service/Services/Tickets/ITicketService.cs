@@ -1,5 +1,6 @@
 ﻿using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
+using HospitalApi.Service.Models;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +14,7 @@ public interface ITicketService
 
     Task<IEnumerable<Ticket>> GetByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null);
 
-    Task<Ticket> CreateAsync(long clientId, long medicalServiceId);
-
-    Task<Ticket> CreateAsync(long clientId, IEnumerable<long> medicalServiceIds);
+    Task<Ticket> CreateAsync(long clientId, IEnumerable<TicketCreateDto> createDtos);
 
     Task<Ticket> UpdateAsync(long id, Ticket ticket);
 

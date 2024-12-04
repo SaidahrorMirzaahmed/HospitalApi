@@ -10,7 +10,7 @@ public class MedicalServiceTypeViewModel
 
     public double Price { get; set; }
 
-    public int LastQueue { get; set; }
+    public ClinicQueueViewModel ClinicQueue { get; set; }
 
     public long StaffId { get; set; }
     public UserViewModel Staff { get; set; }

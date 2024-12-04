@@ -3,6 +3,7 @@ using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
+using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
     public async Task<IEnumerable<Ticket>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var entities = unitOfWork.Tickets
-            .SelectAsQueryable(entity => !entity.IsDeleted)
+            .SelectAsQueryable(entity => !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -42,56 +43,31 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
         return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
     }
 
-    public async Task<Ticket> CreateAsync(long clientId, long medicalServiceId)
+    public async Task<Ticket> CreateAsync(long clientId, IEnumerable<TicketCreateDto> dtos)
     {
         await unitOfWork.BeginTransactionAsync();
 
         var ticket = await unitOfWork.Tickets.InsertAsync(new Ticket { ClientId = clientId });
         await unitOfWork.SaveAsync();
 
-        var type = await queueService.CreateQueueAsync(medicalServiceId);
-        var history = new MedicalServiceTypeHistory
-        {
-            ClientId = clientId,
-            TicketId = ticket.Id,
-            MedicalServiceTypeId = type.Id,
-            MedicalServiceType = type,
-            Queue = type.LastQueue,
-            QueueDate = type.QueueDate,
-        };
-        await unitOfWork.MedicalServiceTypeHistories.InsertAsync(history);
-        ticket.CommonPrice = type.Price;
-        ticket.MedicalServiceTypeHistories.Add(history);
-
-        await unitOfWork.CommitTransactionAsync();
-        await unitOfWork.SaveAsync();
-
-        return ticket;
-    }
-
-    public async Task<Ticket> CreateAsync(long clientId, IEnumerable<long> medicalServiceIds)
-    {
-        await unitOfWork.BeginTransactionAsync();
-
-        var ticket = await unitOfWork.Tickets.InsertAsync(new Ticket { ClientId = clientId });
-        await unitOfWork.SaveAsync();
-
-        var types = await queueService.CreateQueuesAsync(medicalServiceIds);
+        var types = await queueService.CreateQueuesAsync(dtos);
         var histories = new List<MedicalServiceTypeHistory>();
 
         foreach (var item in types)
         {
+            var queue = GetCurrentQueue(item);
             histories.Add(new MedicalServiceTypeHistory
             {
                 ClientId = clientId,
                 TicketId = ticket.Id,
-                MedicalServiceTypeId = item.Id,
-                MedicalServiceType = item,
-                Queue = item.LastQueue,
-                QueueDate= item.QueueDate,
+                MedicalServiceTypeId = item.MedicalServiceType.Id,
+                MedicalServiceType = item.MedicalServiceType,
+                Queue = queue,
+                QueueDate = item.BookingDate,
             });
         }
-        ticket.CommonPrice = types.Sum(item => item.Price);
+        await unitOfWork.MedicalServiceTypeHistories.BulkInsertAsync(histories);
+        ticket.CommonPrice = types.Sum(item => item.MedicalServiceType.Price);
         ticket.MedicalServiceTypeHistories = histories;
 
         await unitOfWork.CommitTransactionAsync();
@@ -133,5 +109,24 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
         await unitOfWork.SaveAsync();
 
         return true;
+    }
+
+    private int GetCurrentQueue((MedicalServiceType MedicalServiceType, DateOnly BookingDate) type)
+    {
+        var day = type.BookingDate.Day - DateOnly.FromDateTime(DateTime.Now).Day;
+
+        var queue = day switch
+        {
+            0 => type.MedicalServiceType.ClinicQueue.TodayQueue,
+            1 => type.MedicalServiceType.ClinicQueue.SecondDayQueue,
+            2 => type.MedicalServiceType.ClinicQueue.ThirdDayQueue,
+            3 => type.MedicalServiceType.ClinicQueue.FourthDayQueue,
+            4 => type.MedicalServiceType.ClinicQueue.FifthDayQueue,
+            5 => type.MedicalServiceType.ClinicQueue.SixthDayQueue,
+            6 => type.MedicalServiceType.ClinicQueue.SecondDayQueue,
+            _ => throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists for this day")
+        };
+        
+        return queue;
     }
 }
