@@ -51,7 +51,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
             4 => queue.FifthDayQueue += 1,
             5 => queue.SixthDayQueue += 1,
             6 => queue.SecondDayQueue += 1,
-            _ => throw new ArgumentIsNotValidException($"{nameof(MedicalServiceType)} is not exists for this day")
+            _ => throw new ArgumentIsNotValidException($"{nameof(MedicalServiceType)} is not exists for the day = {bookingDate}")
         };
 
         return queue;

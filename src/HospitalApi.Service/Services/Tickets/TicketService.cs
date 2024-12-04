@@ -124,9 +124,9 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
             4 => type.MedicalServiceType.ClinicQueue.FifthDayQueue,
             5 => type.MedicalServiceType.ClinicQueue.SixthDayQueue,
             6 => type.MedicalServiceType.ClinicQueue.SecondDayQueue,
-            _ => throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists for this day")
+            _ => throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists for the day {type.BookingDate}")
         };
-        
+
         return queue;
     }
 }
