@@ -14,17 +14,14 @@ namespace HospitalApi.WebApi.Controllers;
 public class TicketController(ITicketApiService apiService) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpGet]
-    public async ValueTask<IActionResult> GetAll(
-        [FromQuery] PaginationParams @params,
-        [FromQuery] Filter filter,
-        [FromQuery] string search = null)
+    [HttpGet("pdf/{id:long}")]
+    public async ValueTask<IActionResult> GetPdf(long id)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await apiService.GetAllAsync(@params, filter, search)
+            Data = await apiService.GetPdf(id)
         });
     }
 
@@ -52,6 +49,21 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
             StatusCode = 200,
             Message = "Ok",
             Data = await apiService.GetByClientIdAsync(id, @params, filter, search)
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async ValueTask<IActionResult> GetAll(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetAllAsync(@params, filter, search)
         });
     }
 

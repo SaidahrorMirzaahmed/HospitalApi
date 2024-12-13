@@ -2,13 +2,23 @@
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Services.Laboratories;
+using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Laboratories;
+using HospitalApi.WebApi.Models.Pdfs;
 
 namespace HospitalApi.WebApi.ApiServices.Laboratories;
 
-public class LaboratoryApiService(ILaboratoryService laboratoryService, IMapper mapper) : ILaboratoryApiService
+public class LaboratoryApiService(ILaboratoryService laboratoryService, IPdfGeneratorService pdfGeneratorService, IMapper mapper) : ILaboratoryApiService
 {
+    public async Task<PdfDetailsViewModel> GeneratePdfAsync(long laboratoryId)
+    {
+        var laboratory = await laboratoryService.GetAsync(laboratoryId);
+        var entity = await pdfGeneratorService.CreateDocument(laboratory);
+
+        return mapper.Map<PdfDetailsViewModel>(entity);
+    }
+
     public async Task<LaboratoryViewModel> CreateByTorchAsync(long clientId)
     {
         var laboratory = await laboratoryService.CreateByTorchTableAsync(clientId);

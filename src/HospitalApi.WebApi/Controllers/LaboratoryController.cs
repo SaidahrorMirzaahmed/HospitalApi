@@ -14,6 +14,18 @@ namespace HospitalApi.WebApi.Controllers;
 public class LaboratoryController(ILaboratoryApiService service) : ControllerBase
 {
     [AllowAnonymous]
+    [HttpGet("pdf/{id:long}")]
+    public async ValueTask<IActionResult> GetPdf(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GeneratePdfAsync(id)
+        });
+    }
+
+    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {

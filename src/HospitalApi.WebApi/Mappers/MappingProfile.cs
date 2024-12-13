@@ -7,6 +7,7 @@ using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
+using HospitalApi.WebApi.Models.Pdfs;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Tickets;
 using HospitalApi.WebApi.Models.Users;
@@ -83,5 +84,6 @@ public class MappingProfile : Profile
                 MedicalServiceTypeHistories = context.Mapper.Map<IEnumerable<MedicalServiceTypeHistoryViewModel>>(src.MedicalServiceTypeHistories)
             });
         CreateMap<TicketCreateModel, TicketCreateDto>().ReverseMap();
+        CreateMap<PdfDetails, PdfDetailsViewModel>().ReverseMap();
     }
 }
