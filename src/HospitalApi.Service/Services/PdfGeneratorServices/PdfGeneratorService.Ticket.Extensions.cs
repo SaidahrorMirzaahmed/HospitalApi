@@ -1,4 +1,5 @@
 ﻿using HospitalApi.Domain.Entities;
+using HospitalApi.WebApi.Configurations;
 using iText.IO.Font;
 using iText.IO.Image;
 using iText.Kernel.Colors;
@@ -18,7 +19,7 @@ public partial class PdfGeneratorService
     #region
     private void CreateHeaderForTicket(Document document)
     {
-        var logoPath = "D:\\F\\clinic logo.png";
+        var logoPath = Path.Combine(EnvironmentHelper.WebRootPath, "Clinic\\turonlogo.png");
         var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
         Table table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 2 }))
