@@ -12,6 +12,17 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class RecipesController(IRecipeApiService service) : BaseController
 {
+    [HttpPost("pdf/{id:long}")]
+    public async ValueTask<IActionResult> PostAsync(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.PostPdfAsync(id)
+        });
+    }
+
     [HttpPost]
     public async ValueTask<IActionResult> PostAsync(RecipeCreateModel createModel)
     {

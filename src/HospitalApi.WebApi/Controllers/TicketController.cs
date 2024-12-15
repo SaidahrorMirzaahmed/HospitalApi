@@ -14,18 +14,6 @@ namespace HospitalApi.WebApi.Controllers;
 public class TicketController(ITicketApiService apiService) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpGet("pdf/{id:long}")]
-    public async ValueTask<IActionResult> GetPdf(long id)
-    {
-        return Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Ok",
-            Data = await apiService.GetPdf(id)
-        });
-    }
-
-    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -64,6 +52,17 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
             StatusCode = 200,
             Message = "Ok",
             Data = await apiService.GetAllAsync(@params, filter, search)
+        });
+    }
+
+    [HttpPost("pdf/{id:long}")]
+    public async ValueTask<IActionResult> GetPdf(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetPdf(id)
         });
     }
 

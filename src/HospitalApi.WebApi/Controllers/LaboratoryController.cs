@@ -14,18 +14,6 @@ namespace HospitalApi.WebApi.Controllers;
 public class LaboratoryController(ILaboratoryApiService service) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpGet("pdf/{id:long}")]
-    public async ValueTask<IActionResult> GetPdf(long id)
-    {
-        return Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Ok",
-            Data = await service.GeneratePdfAsync(id)
-        });
-    }
-
-    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -64,6 +52,18 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
             StatusCode = 200,
             Message = "Ok",
             Data = await service.GetAllAsync(@params, filter, search)
+        });
+    }
+
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [HttpPost("pdf/{id:long}")]
+    public async ValueTask<IActionResult> GetPdf(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GeneratePdfAsync(id)
         });
     }
 

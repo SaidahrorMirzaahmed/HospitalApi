@@ -9,6 +9,8 @@ using HospitalApi.WebApi.Validations.Recipes;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Helpers;
 using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Models.Pdfs;
+using HospitalApi.Service.Services.PdfGeneratorServices;
 
 namespace HospitalApi.WebApi.ApiServices.Recipes;
 
@@ -17,9 +19,18 @@ public class RecipeApiService(
     IRecipeService service,
     IUnitOfWork unitOfWork,
     IAssetService assetService,
+    IPdfGeneratorService pdfGeneratorService,
     RecipeCreateModelValidator validations,
     RecipeUpdateModelValidator validations1) : IRecipeApiService
 {
+    public async Task<PdfDetailsViewModel> PostPdfAsync(long id)
+    {
+        var entity = await service.GetAsync(id);
+        var pdf = await pdfGeneratorService.CreateDocument(entity);
+
+        return mapper.Map<PdfDetailsViewModel>(pdf);
+    }
+    
     public async Task<RecipeViewModel> PostAsync(RecipeCreateModel createModel)
     {
         await validations.EnsureValidatedAsync(createModel);

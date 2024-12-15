@@ -4,6 +4,7 @@ using iText.IO.Font;
 using iText.IO.Image;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
+using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
@@ -129,9 +130,10 @@ public partial class PdfGeneratorService
     #endregion
 
     #region
-    private void CreateFooter(iText.Layout.Document document, User staff)
+    private void CreateFooter(PdfDocument pdf, Document document, User staff)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
+        float marginBottom = 40;
 
         Table table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 3 }))
             .UseAllAvailableWidth();
@@ -152,6 +154,13 @@ public partial class PdfGeneratorService
 
         table.AddCell(firstCell);
         table.AddCell(secondCell);
+
+        table.SetFixedPosition(
+            pdf.GetNumberOfPages(),
+            document.GetLeftMargin(),
+            marginBottom,
+            pdf.GetDefaultPageSize().GetWidth() - document.GetLeftMargin() - document.GetRightMargin()
+        );
 
         document.Add(table);
     }

@@ -25,13 +25,14 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
         {
             using (PdfDocument pdf = new PdfDocument(writer))
             {
+                pdf.SetDefaultPageSize(PageSize.A4);
                 Document document = new Document(pdf);
 
                 CreateHeader(document);
                 CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType);
                 CreateUserDetails(document, laboratory.Client);
                 CreateTable();
-                CreateFooter(document, laboratory.Staff);
+                CreateFooter(pdf, document, laboratory.Staff);
 
                 document.Close();
             }
@@ -72,6 +73,49 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateUserDetailsForTicket(document, ticket.Client);
                 CreateTableForTicket(document, ticket.MedicalServiceTypeHistories);
                 CreateFooterForTicket(pdf, document, ticket.CommonPrice);
+
+                document.Close();
+            }
+        }
+
+        var result = await unitOfWork.PdfDetails.InsertAsync(new PdfDetails
+        {
+            PdfName = fileName,
+            PdfPath = $"{folderName}//{fileName}"
+        });
+
+        return result;
+    }
+
+    public async Task<PdfDetails> CreateDocument(Recipe recipe)
+    {
+        var folderName = "Recipes";
+        var directory = System.IO.Path.Combine(EnvironmentHelper.WebRootPath, folderName);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        string fileName = $"{recipe.Client.FirstName}-{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
+        var fullPath = System.IO.Path.Combine(directory, fileName);
+        float width = 416;
+        float height = 568;
+        PageSize customPageSize = new PageSize(width, height);
+
+        using (PdfWriter writer = new PdfWriter(fullPath))
+        {
+            using (PdfDocument pdf = new PdfDocument(writer))
+            {
+                pdf.SetDefaultPageSize(PageSize.A4);
+                Document document = new Document(pdf);
+
+                CreateHeader(document);
+                CreateRecipeDetails(document);
+                CreateUserDetails(document, recipe.Client);
+                CreateTable();
+                CreateRecipeFooter(pdf, document, recipe.Staff);
+
+                document.Close();
 
                 document.Close();
             }
