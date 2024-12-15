@@ -15,7 +15,7 @@ namespace HospitalApi.Service.Services.PdfGeneratorServices;
 
 public partial class PdfGeneratorService
 {
-
+    #region
     private void CreateHeaderForTicket(Document document)
     {
         var logoPath = "D:\\F\\clinic logo.png";
@@ -52,7 +52,9 @@ public partial class PdfGeneratorService
         document.Add(new Paragraph("\n"));
         document.Add(lineSeparator);
     }
+    #endregion
 
+    #region
     private void CreateUserDetailsForTicket(Document document, User user)
     {
         Paragraph paragraph = new Paragraph("F.I")
@@ -67,7 +69,9 @@ public partial class PdfGeneratorService
         document.Add(paragraph);
         document.Add(userDetails);
     }
+    #endregion
 
+    #region
     private void CreateTableForTicket(Document document, IEnumerable<MedicalServiceTypeHistory> histories)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
@@ -87,7 +91,9 @@ public partial class PdfGeneratorService
             document.Add(table);
         }
     }
+    #endregion
 
+    #region
     private void CreateFooterForTicket(PdfDocument pdf, Document document, double price)
     {
         float pageHeight = pdf.GetLastPage().GetPageSize().GetHeight();
@@ -122,7 +128,9 @@ public partial class PdfGeneratorService
         document.Add(paragraph);
         document.Add(details);
     }
+    #endregion
 
+    #region
     private Table CreateCellForTicket(MedicalServiceTypeHistory history)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
@@ -173,4 +181,5 @@ public partial class PdfGeneratorService
 
         return table;
     }
+    #endregion
 }

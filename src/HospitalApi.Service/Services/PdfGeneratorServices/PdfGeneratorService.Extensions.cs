@@ -121,10 +121,8 @@ public partial class PdfGeneratorService
 
         document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.Now)} й.    Соат {TimeOnly.FromDateTime(DateTime.Now)}").SetFont(font).SetFontSize(13));
 
-        // Add space for Фамилия, исми and Ёши
         document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.Now).Year - client.Birth.Year}").SetFont(font).SetFontSize(13));
 
-        // Add space for Манзили
         document.Add(new Paragraph($"Манзили {client.Address}").SetFont(font).SetFontSize(13));
     }
     #endregion

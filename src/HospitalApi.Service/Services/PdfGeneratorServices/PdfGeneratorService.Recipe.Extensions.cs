@@ -13,18 +13,36 @@ namespace HospitalApi.Service.Services.PdfGeneratorServices;
 public partial class PdfGeneratorService : IPdfGeneratorService
 {
     #region
-    private void CreateRecipeDetails(Document document)
+    private void CreateDetailsForRecipe(Document document)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         string tableName = string.Empty;
 
         Paragraph paragraph = new Paragraph($"АМБУЛАТОР КАРТА")
             .SetFont(font)
-            .SetFontSize(14) // Font size
+            .SetFontSize(16)
+            .SetMarginBottom(5)
             .SetTextAlignment(TextAlignment.CENTER)
             .SetFontColor(ColorConstants.RED);
 
         document.Add(paragraph);
+    }
+    #endregion
+
+    #region
+    private void CreateUserDetailsForRecipe(Document document, User client)
+    {
+        PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
+
+        document.Add(new Paragraph($"Мурожаат санаси {DateOnly.FromDateTime(DateTime.Now)} й." +
+            "                " +
+            $"Соат {TimeOnly.FromDateTime(DateTime.Now)}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+
+        document.Add(new Paragraph($"Бемор\nФИШ: {client.LastName}, {client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+
+        document.Add(new Paragraph($"Туғилган йили: {DateOnly.FromDateTime(DateTime.Now).Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+
+        document.Add(new Paragraph($"Яшаш манзили: {client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
     }
     #endregion
 
@@ -62,6 +80,39 @@ public partial class PdfGeneratorService : IPdfGeneratorService
         );
 
         document.Add(table);
+    }
+    #endregion
+
+    #region
+    private void CreateTableForRecipe(Document document, Recipe recipe)
+    {
+        PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
+
+        Paragraph complains = new Paragraph($"Шикоятлари:\n{recipe.Complaints}")
+            .SetFont(font)
+            .SetFontSize(15)
+            .SetMarginBottom(10);
+
+        Paragraph diagnosis = new Paragraph($"Ташхиси:\n{recipe.Diagnosis}")
+            .SetFont(font)
+            .SetFontSize(15)
+            .SetMarginBottom(10);
+
+        Paragraph checkUps = new Paragraph($"Текширувлар:\n{recipe.CheckUps}")
+            .SetFont(font)
+            .SetFontSize(15)
+            .SetMarginBottom(10);
+
+        Paragraph recommendations = new Paragraph($"Тавсиялар:\n{recipe.Recommendations}")
+            .SetFont(font)
+            .SetFontSize(15)
+            .SetMarginBottom(10);
+
+        document
+            .Add(complains)
+            .Add(diagnosis)
+            .Add(checkUps)
+            .Add(recommendations);
     }
     #endregion
 }
