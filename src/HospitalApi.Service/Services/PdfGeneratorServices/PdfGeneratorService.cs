@@ -1,6 +1,7 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.WebApi.Configurations;
+using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
 
@@ -11,7 +12,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
     public async Task<PdfDetails> CreateDocument(Laboratory laboratory)
     {
         var folderName = "Laboratories";
-        var directory = Path.Combine(EnvironmentHelper.WebRootPath, folderName);
+        var directory = System.IO.Path.Combine(EnvironmentHelper.WebRootPath, folderName);
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
@@ -48,7 +49,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
     public async Task<PdfDetails> CreateDocument(Ticket ticket)
     {
         var folderName = "Tickets";
-        var directory = Path.Combine(EnvironmentHelper.WebRootPath, folderName);
+        var directory = System.IO.Path.Combine(EnvironmentHelper.WebRootPath, folderName);
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
@@ -56,17 +57,21 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
 
         string fileName = $"{ticket.Client.FirstName}-{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
         var fullPath = System.IO.Path.Combine(directory, fileName);
+        float width = 416;
+        float height = 568;
+        PageSize customPageSize = new PageSize(width, height);
 
         using (PdfWriter writer = new PdfWriter(fullPath))
         {
             using (PdfDocument pdf = new PdfDocument(writer))
             {
+                pdf.SetDefaultPageSize(customPageSize);
                 Document document = new Document(pdf);
 
                 CreateHeaderForTicket(document);
                 CreateUserDetailsForTicket(document, ticket.Client);
                 CreateTableForTicket(document, ticket.MedicalServiceTypeHistories);
-                CreateFooterForTicket(document, ticket.CommonPrice);
+                CreateFooterForTicket(pdf, document, ticket.CommonPrice);
 
                 document.Close();
             }

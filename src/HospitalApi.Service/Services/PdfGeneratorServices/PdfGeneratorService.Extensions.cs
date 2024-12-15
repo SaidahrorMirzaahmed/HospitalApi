@@ -103,11 +103,11 @@ public partial class PdfGeneratorService
         else if (tableType == LaboratoryTableType.Torch)
             tableName = "Экспресс усулда TORCH IgG/IgM аниклаш";
 
-            Paragraph paragraph = new Paragraph($"{tableName}")
-                .SetFont(font)
-                .SetFontSize(14) // Font size
-                .SetTextAlignment(TextAlignment.CENTER)
-                .SetFontColor(ColorConstants.RED);
+        Paragraph paragraph = new Paragraph($"{tableName}")
+            .SetFont(font)
+            .SetFontSize(14) // Font size
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetFontColor(ColorConstants.RED);
 
         document.Add(paragraph);
     }
