@@ -37,7 +37,7 @@ public partial class PdfGeneratorService
                 .SetFont(font)
                 .SetFontSize(12)
                 .SetTextAlignment(TextAlignment.CENTER)
-            .Add(new Paragraph("Косонсој тумани")
+            .Add(new Paragraph("Косонсой тумани")
                 .SetFont(font)
                 .SetFontSize(12)
                 .SetTextAlignment(TextAlignment.CENTER))
@@ -120,9 +120,9 @@ public partial class PdfGeneratorService
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.Now)} й.    Соат {TimeOnly.FromDateTime(DateTime.Now)}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5))}").SetFont(font).SetFontSize(13));
 
-        document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.Now).Year - client.Birth.Year}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}").SetFont(font).SetFontSize(13));
 
         document.Add(new Paragraph($"Манзили {client.Address}").SetFont(font).SetFontSize(13));
     }

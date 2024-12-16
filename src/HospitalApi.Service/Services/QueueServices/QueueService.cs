@@ -40,7 +40,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
 
     private ClinicQueue CreateQueue(ClinicQueue queue, DateOnly bookingDate)
     {
-        var dayDifference = bookingDate.Day - DateOnly.FromDateTime(DateTime.Now).Day;
+        var dayDifference = bookingDate.Day - DateOnly.FromDateTime(DateTime.UtcNow).Day;
 
         var number = dayDifference switch
         {

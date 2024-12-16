@@ -10,7 +10,7 @@ using iText.Layout.Properties;
 
 namespace HospitalApi.Service.Services.PdfGeneratorServices;
 
-public partial class PdfGeneratorService : IPdfGeneratorService
+public partial class PdfGeneratorService
 {
     #region
     private void CreateDetailsForRecipe(Document document)
