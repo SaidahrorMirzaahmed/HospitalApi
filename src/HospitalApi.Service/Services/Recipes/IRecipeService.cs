@@ -6,8 +6,8 @@ namespace HospitalApi.Service.Services.Recipes;
 
 public interface IRecipeService
 {
-    Task<Recipe> CreateAsync(Recipe recipe);
-    Task<Recipe> UpdateAsync(long id, Recipe recipe);
+    Task<Recipe> CreateAsync(Recipe recipe, IEnumerable<long> ids);
+    Task<Recipe> UpdateAsync(long id, Recipe recipe, IEnumerable<long> ids);
     Task<bool> DeleteAsync(long id);
     Task<Recipe> GetAsync(long id);
     Task<IEnumerable<Recipe>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);

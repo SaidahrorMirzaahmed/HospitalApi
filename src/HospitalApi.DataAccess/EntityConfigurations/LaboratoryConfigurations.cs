@@ -9,6 +9,10 @@ public class LaboratoryConfigurations : IEntityTypeConfiguration<Laboratory>
     public void Configure(EntityTypeBuilder<Laboratory> builder)
     {
         builder
+            .Property(entity => entity.RecipeId)
+            .IsRequired(false);
+
+        builder
             .HasOne(entity => entity.Client)
             .WithMany()
             .HasForeignKey(entity => entity.ClientId)

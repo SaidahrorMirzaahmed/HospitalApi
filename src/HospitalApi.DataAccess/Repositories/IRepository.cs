@@ -8,7 +8,7 @@ public interface IRepository<T> where T : Auditable
     Task<T> InsertAsync(T entity);
     Task<IEnumerable<T>> BulkInsertAsync(IEnumerable<T> entities);
     Task<T> UpdateAsync(T entity);
-    //Task BulkUpdateAsync(IEnumerable<T> entities);
+    Task<IEnumerable<T>> BulkUpdateAsync(IEnumerable<T> entities);
     Task<T> DeleteAsync(T entity);
     //Task BulkDeleteAsyn(IEnumerable<T> entities);
     Task<T> DropAsync(T entity);

@@ -35,14 +35,11 @@ public class Repository<T> : IRepository<T> where T : Auditable
         return await Task.FromResult(entity);
     }
 
-    //public async Task BulkUpdateAsync(IEnumerable<T> entities)
-    //{
-    //    await context.BulkUpdateAsync(entities.Select(entity =>
-    //        {
-    //            entity.UpdatedAt = DateTime.UtcNow;
-    //            return entity;
-    //        }));
-    //}
+    public async Task<IEnumerable<T>> BulkUpdateAsync(IEnumerable<T> entities)
+    {
+        context.UpdateRange(entities);
+        return entities;
+    }
 
     public async Task<T> DeleteAsync(T entity)
     {

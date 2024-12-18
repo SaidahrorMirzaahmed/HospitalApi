@@ -18,7 +18,6 @@ public class RecipeApiService(
     IMapper mapper,
     IRecipeService service,
     IUnitOfWork unitOfWork,
-    IAssetService assetService,
     IPdfGeneratorService pdfGeneratorService,
     RecipeCreateModelValidator validations,
     RecipeUpdateModelValidator validations1) : IRecipeApiService
@@ -37,15 +36,8 @@ public class RecipeApiService(
         await unitOfWork.BeginTransactionAsync();
         var mapped = mapper.Map<Recipe>(createModel);
         mapped.StaffId = HttpContextHelper.UserId;
-        var res = await service.CreateAsync(mapped);
-        
-        if (createModel.Picture is not null)
-        {
-            var asset = await assetService.UploadAsync(createModel.Picture);
+        var res = await service.CreateAsync(mapped, createModel.CheckUps);
 
-            res.PictureId = asset.Id;
-            res.Picture = asset;   
-        }
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
@@ -59,19 +51,7 @@ public class RecipeApiService(
 
         var mappedRecipe = mapper.Map<Recipe>(createModel);
         mappedRecipe.StaffId = HttpContextHelper.UserId;
-        var updatedRecipe = await service.UpdateAsync(id, mappedRecipe);
-        
-        if (createModel.Picture is null)
-        {
-            updatedRecipe.PictureId = null;
-        }
-        else
-        {
-            var asset = await assetService.UploadAsync(createModel.Picture);
-
-            updatedRecipe.PictureId = asset.Id;
-            updatedRecipe.Picture = asset;   
-        }
+        var updatedRecipe = await service.UpdateAsync(id, mappedRecipe, createModel.CheckUps);
         
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();

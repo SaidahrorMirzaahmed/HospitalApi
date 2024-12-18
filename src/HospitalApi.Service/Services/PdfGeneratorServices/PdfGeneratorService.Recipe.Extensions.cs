@@ -1,4 +1,6 @@
 ﻿using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Exceptions;
 using iText.IO.Font;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
@@ -98,7 +100,12 @@ public partial class PdfGeneratorService
             .SetFontSize(15)
             .SetMarginBottom(10);
 
-        Paragraph checkUps = new Paragraph($"Текширувлар:\n{recipe.CheckUps}")
+        var checkUpsItems = new List<string>();
+        foreach (var lab in recipe.CheckUps)
+        {
+            checkUpsItems.Add(GetLabTypes(lab));
+        }
+        Paragraph checkUps = new Paragraph($"Текширувлар:\n{string.Join(", ", checkUpsItems)}")
             .SetFont(font)
             .SetFontSize(15)
             .SetMarginBottom(10);
@@ -115,4 +122,19 @@ public partial class PdfGeneratorService
             .Add(recommendations);
     }
     #endregion
+
+    private string GetLabTypes(Laboratory lab)
+    {
+        var item = lab.LaboratoryTableType switch
+        {
+            LaboratoryTableType.AnalysisOfFeces => "Сийдик умумий тахлили",
+            LaboratoryTableType.BiochemicalAnalysisOfBlood => "Қоннинг биокимёвий таҳлили",
+            LaboratoryTableType.CommonAnalysisOfBlood => "Қоннинг умумий таҳлили",
+            LaboratoryTableType.CommonAnalysisOfUrine => "Копрограмма",
+            LaboratoryTableType.Torch => "Экспресс усулда TORCH IgG/IgM аниклаш",
+            _ => throw new NotFoundException()
+        };
+
+        return item;
+    }
 }

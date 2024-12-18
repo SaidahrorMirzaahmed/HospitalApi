@@ -162,7 +162,7 @@ public partial class PdfGeneratorService
 
         // --- Second Row ---
         Cell nameCell = new Cell()
-            .Add(new Paragraph($"{history.MedicalServiceType.Staff.LastName} {history.MedicalServiceType.Staff.FirstName[0]}")
+            .Add(new Paragraph($"{history.MedicalServiceType.Staff.LastName} {history.MedicalServiceType.Staff.FirstName[0]}.")
             .SetFont(font)
             .SetFontSize(12))
             .SetPaddingLeft(10)

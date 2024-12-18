@@ -41,16 +41,13 @@ public class MappingProfile : Profile
             {
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
                 Staff = context.Mapper.Map<UserViewModel>(src.Staff),
-                Picture = context.Mapper.Map<AssetViewModel>(src.Picture),
-                DateOfVisit = src.CreatedAt
+                CheckUps = context.Mapper.Map<IEnumerable<LaboratoryViewModel>>(src.CheckUps),
             })
             .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
-            .ForMember(member => member.Picture, option => option.Ignore())
-            .ReverseMap();
+            .ForMember(dest => dest.CheckUps, opt => opt.Ignore());
         CreateMap<RecipeUpdateModel, Recipe>()
-            .ForMember(member => member.Picture, option => option.Ignore())
-            .ReverseMap();
+            .ForMember(dest => dest.CheckUps, opt => opt.Ignore());
 
         CreateMap<NewsList, NewsListViewModel>().ReverseMap();
         CreateMap<NewsListCreateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();

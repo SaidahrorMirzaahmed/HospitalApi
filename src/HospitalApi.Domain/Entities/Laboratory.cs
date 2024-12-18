@@ -11,6 +11,8 @@ public class Laboratory : Auditable
     public long StaffId { get; set; }
     public User Staff { get; set; }
 
+    public long? RecipeId { get; set; }
+
     public long TableId { get; set; }
     public LaboratoryTableType LaboratoryTableType { get; set; }
 }
