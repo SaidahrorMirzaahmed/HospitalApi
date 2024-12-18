@@ -35,7 +35,21 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
     {
         serviceType.Create();
         var type = await unitOfWork.MedicalServiceTypes.InsertAsync(serviceType);
-        var clinicQueue = await unitOfWork.ClinicQueues.InsertAsync(new ClinicQueue());
+        
+        var queue = new ClinicQueue
+        {
+            MedicalServiceTypeId = type.Id,
+            TodayQueue = 1,
+            QueueDate = DateOnly.FromDateTime(DateTime.UtcNow),
+            SecondDayQueue = 1,
+            ThirdDayQueue = 1,
+            FourthDayQueue = 1,
+            FifthDayQueue = 1,
+            SixthDayQueue = 1,
+            SeventhDayQueue = 1,
+        };
+        queue.Create();
+        var clinicQueue = await unitOfWork.ClinicQueues.InsertAsync(queue);
         type.ClinicQueue = clinicQueue;
 
         return type;

@@ -29,7 +29,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
                 type.MedicalServiceType.ClinicQueue.FourthDayQueue = type.MedicalServiceType.ClinicQueue.FifthDayQueue;
                 type.MedicalServiceType.ClinicQueue.FifthDayQueue = type.MedicalServiceType.ClinicQueue.SixthDayQueue;
                 type.MedicalServiceType.ClinicQueue.SixthDayQueue = type.MedicalServiceType.ClinicQueue.SeventhDayQueue;
-                type.MedicalServiceType.ClinicQueue.SecondDayQueue = 0;
+                type.MedicalServiceType.ClinicQueue.SecondDayQueue = 1;
             }
 
             type.MedicalServiceType.ClinicQueue = CreateQueue(type.MedicalServiceType.ClinicQueue, type.BookingDate);
