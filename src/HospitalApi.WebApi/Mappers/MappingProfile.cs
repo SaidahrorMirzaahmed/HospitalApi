@@ -7,6 +7,7 @@ using HospitalApi.WebApi.Models.Bookings;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
+using HospitalApi.WebApi.Models.Pdfs;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Tickets;
 using HospitalApi.WebApi.Models.Users;
@@ -40,16 +41,13 @@ public class MappingProfile : Profile
             {
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
                 Staff = context.Mapper.Map<UserViewModel>(src.Staff),
-                Picture = context.Mapper.Map<AssetViewModel>(src.Picture),
-                DateOfVisit = src.CreatedAt
+                CheckUps = context.Mapper.Map<IEnumerable<LaboratoryViewModel>>(src.CheckUps),
             })
             .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
-            .ForMember(member => member.Picture, option => option.Ignore())
-            .ReverseMap();
+            .ForMember(dest => dest.CheckUps, opt => opt.Ignore());
         CreateMap<RecipeUpdateModel, Recipe>()
-            .ForMember(member => member.Picture, option => option.Ignore())
-            .ReverseMap();
+            .ForMember(dest => dest.CheckUps, opt => opt.Ignore());
 
         CreateMap<NewsList, NewsListViewModel>().ReverseMap();
         CreateMap<NewsListCreateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
@@ -83,5 +81,6 @@ public class MappingProfile : Profile
                 MedicalServiceTypeHistories = context.Mapper.Map<IEnumerable<MedicalServiceTypeHistoryViewModel>>(src.MedicalServiceTypeHistories)
             });
         CreateMap<TicketCreateModel, TicketCreateDto>().ReverseMap();
+        CreateMap<PdfDetails, PdfDetailsViewModel>().ReverseMap();
     }
 }

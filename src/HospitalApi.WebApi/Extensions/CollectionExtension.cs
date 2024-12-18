@@ -7,6 +7,7 @@ using HospitalApi.Service.Services.MedicalServices;
 using HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
+using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.Service.Services.Recipes;
 using HospitalApi.Service.Services.Tables;
@@ -53,6 +54,7 @@ public static class CollectionExtension
         services.AddScoped<IMedicalTypeServiceHistoryService, MedicalTypeServiceHistoryService>();
         services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<IQueueService, QueueService>();
+        services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
         // Table
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();

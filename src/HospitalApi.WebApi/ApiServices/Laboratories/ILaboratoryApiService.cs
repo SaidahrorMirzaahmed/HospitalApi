@@ -2,11 +2,14 @@
 using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Laboratories;
+using HospitalApi.WebApi.Models.Pdfs;
 
 namespace HospitalApi.WebApi.ApiServices.Laboratories;
 
 public interface ILaboratoryApiService
 {
+    Task<PdfDetailsViewModel> GeneratePdfAsync(long laboratoryId);
+
     Task<LaboratoryViewModel> CreateByTorchAsync(long clientId);
 
     Task<LaboratoryViewModel> CreateByAnalysisOfFecesAsync(long clientId);

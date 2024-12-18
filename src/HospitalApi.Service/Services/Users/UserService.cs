@@ -143,7 +143,7 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
                         LastName = "",
                         Address = "",
                         Phone = phone,
-                        Birth = DateOnly.FromDateTime(DateTime.Now),
+                        Birth = DateOnly.FromDateTime(DateTime.UtcNow),
                         Role = UserRole.Client,
                     };
                     user.Create();

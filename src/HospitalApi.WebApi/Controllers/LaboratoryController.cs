@@ -55,6 +55,18 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [HttpPost("pdf/{id:long}")]
+    public async ValueTask<IActionResult> GetPdf(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.GeneratePdfAsync(id)
+        });
+    }
+
     [HttpPost("analysis-of-feces-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostAnalysisOfFecesTable(long id)
     {
