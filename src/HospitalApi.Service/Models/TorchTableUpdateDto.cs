@@ -1,6 +1,6 @@
-﻿namespace HospitalApi.WebApi.Models.Tables;
+﻿namespace HospitalApi.Service.Models;
 
-public class TorchTableUpdateModel
+public class TorchTableUpdateDto
 {
     public string FirstItemResult { get; set; }
 

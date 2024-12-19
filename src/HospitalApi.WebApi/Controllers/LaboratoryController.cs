@@ -55,6 +55,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [AllowAnonymous]
     [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("pdf/{id:long}")]
     public async ValueTask<IActionResult> GetPdf(long id)

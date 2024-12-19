@@ -1,11 +1,11 @@
 ﻿using HospitalApi.Domain.Entities.Tables;
-using HospitalApi.WebApi.Models.Tables;
+using HospitalApi.Service.Models;
 
-namespace HospitalApi.WebApi.Mappers;
+namespace HospitalApi.Service.Mappers;
 
 public class AnalysisOfFecesTableMapper
 {
-    private readonly static Dictionary<int, AnalysisOfFecesTableResultViewModel> _keyValuePairs = new Dictionary<int, AnalysisOfFecesTableResultViewModel>
+    private readonly static Dictionary<int, AnalysisOfFecesTableResultDto> _keyValuePairs = new Dictionary<int, AnalysisOfFecesTableResultDto>
     {
         // Макроскопия
         { 1, new () { Category = "Макроскопия", Indicator = "Миқдори", Result = null, Standard = "Қаттиқ" } },
@@ -36,9 +36,9 @@ public class AnalysisOfFecesTableMapper
         { 22, new () { Category = "Микроскопия", Indicator = "Замбуруғлар", Result = null, Standard = "-" } },
     };
 
-    public static AnalysisOfFecesTableViewModel GetAnalysisOfFecesTableView(AnalysisOfFecesTable table)
+    public static AnalysisOfFecesTableDto GetAnalysisOfFecesTableView(AnalysisOfFecesTable table)
     {
-        var view = new Dictionary<int, AnalysisOfFecesTableResultViewModel>(_keyValuePairs);
+        var view = new Dictionary<int, AnalysisOfFecesTableResultDto>(_keyValuePairs);
 
         foreach (var item in table.Items.Select(x => new { x.Index, x.Result }))
         {
@@ -48,10 +48,10 @@ public class AnalysisOfFecesTableMapper
             }
         }
 
-        return new AnalysisOfFecesTableViewModel { Id = table.Id, Items = view.Values };
+        return new AnalysisOfFecesTableDto { Id = table.Id, Items = view.Values };
     }
 
-    public static AnalysisOfFecesTable CreateAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateModel model)
+    public static AnalysisOfFecesTable CreateAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateDto model)
     {
         var items = new List<AnalysisOfFecesTableResult>
         {

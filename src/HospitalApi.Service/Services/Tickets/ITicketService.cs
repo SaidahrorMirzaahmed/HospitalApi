@@ -2,7 +2,6 @@
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Models;
 using HospitalApi.WebApi.Configurations;
-using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.Service.Services.Tickets;
 

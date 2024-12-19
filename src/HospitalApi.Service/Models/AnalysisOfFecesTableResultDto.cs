@@ -1,7 +1,9 @@
-﻿namespace HospitalApi.WebApi.Models.Tables;
+﻿namespace HospitalApi.Service.Models;
 
-public class CommonAnalysisOfUrineTableResultViewModel
+public class AnalysisOfFecesTableResultDto
 {
+    public string Category { get; set; }
+
     public string Indicator { get; set; }
 
     public string Result { get; set; }

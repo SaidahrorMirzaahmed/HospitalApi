@@ -1,12 +1,12 @@
 ﻿using HospitalApi.Domain.Entities.Tables;
-using HospitalApi.WebApi.Models.Tables;
+using HospitalApi.Service.Models;
 
-namespace HospitalApi.WebApi.Mappers;
+namespace HospitalApi.Service.Mappers;
 
-public static class CommonAnalysisOfBloodTableMapper
+public class CommonAnalysisOfBloodTableMapper
 {
     #region
-    private readonly static Dictionary<int, CommonAnalysisOfBloodTableResultViewModel> _keyValuePairs = new Dictionary<int, CommonAnalysisOfBloodTableResultViewModel>
+    private readonly static Dictionary<int, CommonAnalysisOfBloodTableResultDto> _keyValuePairs = new Dictionary<int, CommonAnalysisOfBloodTableResultDto>
     {
         { 1, new () { Indicator = "Гемоглобин (Hb)", Result = null, Standard = "Ж: 130.0-160.0, А: 120.0-140.0", Unit = "г/л" } },
         { 2, new () { Indicator = "Эритроцитлар (RBC)", Result = null, Standard = "Ж: 4.0-5.0, А: 3.9-4.7", Unit = "10¹²/л" } },
@@ -34,9 +34,9 @@ public static class CommonAnalysisOfBloodTableMapper
     };
     #endregion
 
-    public static CommonAnalysisOfBloodTableViewModel GetCommonAnalysisOfBloodTableView(CommonAnalysisOfBloodTable table)
+    public static CommonAnalysisOfBloodTableDto GetCommonAnalysisOfBloodTableView(CommonAnalysisOfBloodTable table)
     {
-        var view = new Dictionary<int, CommonAnalysisOfBloodTableResultViewModel>(_keyValuePairs);
+        var view = new Dictionary<int, CommonAnalysisOfBloodTableResultDto>(_keyValuePairs);
 
         foreach (var item in table.Items.Select(x => new { x.Index, x.Result }))
         {
@@ -46,14 +46,14 @@ public static class CommonAnalysisOfBloodTableMapper
             }
         }
 
-        return new CommonAnalysisOfBloodTableViewModel
+        return new CommonAnalysisOfBloodTableDto
         {
             Id = table.Id,
             Items = view.Values,
         };
     }
 
-    public static CommonAnalysisOfBloodTable CreateCommonAnalysisOfBloodTable(long id, CommonAnalysisOfBloodTableUpdateModel update)
+    public static CommonAnalysisOfBloodTable CreateCommonAnalysisOfBloodTable(long id, CommonAnalysisOfBloodTableUpdateDto update)
     {
         var items = new List<CommonAnalysisOfBloodTableResult>
         {

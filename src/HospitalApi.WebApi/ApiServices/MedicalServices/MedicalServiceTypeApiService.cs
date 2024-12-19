@@ -33,7 +33,9 @@ public class MedicalServiceTypeApiService(IUnitOfWork unitOfWork,
     public async Task<MedicalServiceTypeViewModel> CreateAsync(MedicalServiceTypeCreateModel serviceType)
     {
         await createModelValidator.EnsureValidatedAsync(serviceType);
+        await unitOfWork.BeginTransactionAsync();
         var type = await service.CreateAsync(mapper.Map<MedicalServiceType>(serviceType));
+        await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
         return mapper.Map<MedicalServiceTypeViewModel>(type);

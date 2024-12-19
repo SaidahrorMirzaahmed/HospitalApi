@@ -1,6 +1,6 @@
-﻿namespace HospitalApi.WebApi.Models.Tables;
+﻿namespace HospitalApi.Service.Models;
 
-public class BiochemicalAnalysisOfBloodTableResultViewModel
+public class BiochemicalAnalysisOfBloodTableResultDto
 {
     public string CheckUp { get; set; }
 

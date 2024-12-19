@@ -9,7 +9,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
 {
     public async Task<IEnumerable<(MedicalServiceType MedicalServiceType, DateOnly BookingDate)>> CreateQueuesAsync(IEnumerable<TicketCreateDto> dtos)
     {
-        
+
         var dtoLookup = dtos.ToDictionary(dto => dto.MedicalServiceId);
         var entities = (await unitOfWork.MedicalServiceTypes
             .SelectAsEnumerableAsync(type => !type.IsDeleted && dtoLookup.Keys.ToList().Contains(type.Id), includes: ["Staff"]))
@@ -29,7 +29,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
                 type.MedicalServiceType.ClinicQueue.FourthDayQueue = type.MedicalServiceType.ClinicQueue.FifthDayQueue;
                 type.MedicalServiceType.ClinicQueue.FifthDayQueue = type.MedicalServiceType.ClinicQueue.SixthDayQueue;
                 type.MedicalServiceType.ClinicQueue.SixthDayQueue = type.MedicalServiceType.ClinicQueue.SeventhDayQueue;
-                type.MedicalServiceType.ClinicQueue.SecondDayQueue = 0;
+                type.MedicalServiceType.ClinicQueue.SecondDayQueue = 1;
             }
 
             type.MedicalServiceType.ClinicQueue = CreateQueue(type.MedicalServiceType.ClinicQueue, type.BookingDate);

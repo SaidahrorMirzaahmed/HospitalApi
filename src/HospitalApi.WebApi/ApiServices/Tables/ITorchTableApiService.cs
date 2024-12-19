@@ -1,10 +1,10 @@
-﻿using HospitalApi.WebApi.Models.Tables;
+﻿using HospitalApi.Service.Models;
 
 namespace HospitalApi.WebApi.ApiServices.Tables;
 
 public interface ITorchTableApiService
 {
-    Task<TorchTableViewModel> GetAsync(long id);
+    Task<TorchTableDto> GetAsync(long id);
 
-    Task<TorchTableViewModel> UpdateAsync(long id, TorchTableUpdateModel update);
+    Task<TorchTableDto> UpdateAsync(long id, TorchTableUpdateDto update);
 }

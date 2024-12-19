@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.PdfGeneratorServices;

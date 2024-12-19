@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Services.Laboratories;
@@ -9,12 +10,15 @@ using HospitalApi.WebApi.Models.Pdfs;
 
 namespace HospitalApi.WebApi.ApiServices.Laboratories;
 
-public class LaboratoryApiService(ILaboratoryService laboratoryService, IPdfGeneratorService pdfGeneratorService, IMapper mapper) : ILaboratoryApiService
+public class LaboratoryApiService(IUnitOfWork unitOfWork, ILaboratoryService laboratoryService, IPdfGeneratorService pdfGeneratorService, IMapper mapper) : ILaboratoryApiService
 {
     public async Task<PdfDetailsViewModel> GeneratePdfAsync(long laboratoryId)
     {
         var laboratory = await laboratoryService.GetAsync(laboratoryId);
+        await unitOfWork.BeginTransactionAsync();
         var entity = await pdfGeneratorService.CreateDocument(laboratory);
+        await unitOfWork.CommitTransactionAsync();
+        await unitOfWork.SaveAsync();
 
         return mapper.Map<PdfDetailsViewModel>(entity);
     }

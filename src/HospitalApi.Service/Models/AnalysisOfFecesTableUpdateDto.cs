@@ -1,6 +1,6 @@
-﻿namespace HospitalApi.WebApi.Models.Tables;
+﻿namespace HospitalApi.Service.Models;
 
-public class CommonAnalysisOfBloodTableUpdateModel
+public class AnalysisOfFecesTableUpdateDto
 {
     public string FirstItemResult { get; set; }
     public string SecondItemResult { get; set; }
@@ -24,6 +24,4 @@ public class CommonAnalysisOfBloodTableUpdateModel
     public string TwentiethItemResult { get; set; }
     public string TwentyFirstItemResult { get; set; }
     public string TwentySecondItemResult { get; set; }
-    public string TwentyThirdItemResult { get; set; }
-
 }
