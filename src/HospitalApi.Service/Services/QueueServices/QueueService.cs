@@ -9,7 +9,7 @@ public class QueueService(IUnitOfWork unitOfWork) : IQueueService
 {
     public async Task<IEnumerable<(MedicalServiceType MedicalServiceType, DateOnly BookingDate)>> CreateQueuesAsync(IEnumerable<TicketCreateDto> dtos)
     {
-        
+
         var dtoLookup = dtos.ToDictionary(dto => dto.MedicalServiceId);
         var entities = (await unitOfWork.MedicalServiceTypes
             .SelectAsEnumerableAsync(type => !type.IsDeleted && dtoLookup.Keys.ToList().Contains(type.Id), includes: ["Staff"]))

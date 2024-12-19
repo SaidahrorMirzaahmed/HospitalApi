@@ -2,8 +2,8 @@
 //using HospitalApi.Service.Configurations;
 //using HospitalApi.WebApi.ApiServices.Bookings;
 //using HospitalApi.WebApi.Configurations;
-//using HospitalApi.WebApi.Models.Bookings;
-//using HospitalApi.WebApi.Models.Responses;
+//using HospitalApi.WebApi.Model.Bookings;
+//using HospitalApi.WebApi.Model.Responses;
 //using Microsoft.AspNetCore.Authorization;
 //using Microsoft.AspNetCore.Mvc;
 //using System.ComponentModel.DataAnnotations;

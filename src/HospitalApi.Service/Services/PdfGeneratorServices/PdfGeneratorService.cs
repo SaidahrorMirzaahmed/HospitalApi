@@ -31,7 +31,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateHeader(document);
                 CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType);
                 CreateUserDetails(document, laboratory.Client);
-                CreateTable();
+                CreateTable(pdf, document, laboratory);
                 CreateFooter(pdf, document, laboratory.Staff);
 
                 document.Close();

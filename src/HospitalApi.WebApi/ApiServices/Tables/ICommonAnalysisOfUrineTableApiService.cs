@@ -1,10 +1,10 @@
-﻿using HospitalApi.WebApi.Models.Tables;
+﻿using HospitalApi.Service.Models;
 
 namespace HospitalApi.WebApi.ApiServices.Tables;
 
 public interface ICommonAnalysisOfUrineTableApiService
 {
-    Task<CommonAnalysisOfUrineTableViewModel> GetAsync(long id);
+    Task<CommonAnalysisOfUrineTableDto> GetAsync(long id);
 
-    Task<CommonAnalysisOfUrineTableViewModel> UpdateAsync(long id, CommonAnalysisOfUrineTableUpdateModel update);
+    Task<CommonAnalysisOfUrineTableDto> UpdateAsync(long id, CommonAnalysisOfUrineTableUpdateDto update);
 }

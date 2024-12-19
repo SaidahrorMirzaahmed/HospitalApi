@@ -1,7 +1,7 @@
 ﻿using HospitalApi.Domain.Enums;
 using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.Models.Responses;
-using HospitalApi.WebApi.Models.Tables;
+using HospitalApi.Service.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +29,7 @@ public class TableController(
     }
 
     [HttpPut("analysis-of-feces-table/{id:long}")]
-    public async ValueTask<IActionResult> PutAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateDto updateModel)
     {
         return Ok(new Response
         {
@@ -52,7 +52,7 @@ public class TableController(
     }
 
     [HttpPut("biochemical-analysis-of-blood-table/{id:long}")]
-    public async ValueTask<IActionResult> PutBiochemicalAnalysisOfBloodTable(long id, BiochemicalAnalysisOfBloodTableUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutBiochemicalAnalysisOfBloodTable(long id, BiochemicalAnalysisOfBloodTableUpdateDto updateModel)
     {
         return Ok(new Response
         {
@@ -75,7 +75,7 @@ public class TableController(
     }
 
     [HttpPut("common-analysis-of-blood-table/{id:long}")]
-    public async ValueTask<IActionResult> PutCommonAnalysisOfBloodTable(long id, CommonAnalysisOfBloodTableUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutCommonAnalysisOfBloodTable(long id, CommonAnalysisOfBloodTableUpdateDto updateModel)
     {
         return Ok(new Response
         {
@@ -98,7 +98,7 @@ public class TableController(
     }
 
     [HttpPut("common-analysis-of-urine-table/{id:long}")]
-    public async ValueTask<IActionResult> PutCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateDto updateModel)
     {
         return Ok(new Response
         {
@@ -121,7 +121,7 @@ public class TableController(
     }
 
     [HttpPut("torch/{id:long}")]
-    public async ValueTask<IActionResult> PutTorchTable(long id, TorchTableUpdateModel updateModel)
+    public async ValueTask<IActionResult> PutTorchTable(long id, TorchTableUpdateDto updateModel)
     {
         return Ok(new Response
         {

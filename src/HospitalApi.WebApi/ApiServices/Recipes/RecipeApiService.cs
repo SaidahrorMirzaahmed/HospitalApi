@@ -25,7 +25,10 @@ public class RecipeApiService(
     public async Task<PdfDetailsViewModel> PostPdfAsync(long id)
     {
         var entity = await service.GetAsync(id);
+        await unitOfWork.BeginTransactionAsync();
         var pdf = await pdfGeneratorService.CreateDocument(entity);
+        await unitOfWork.CommitTransactionAsync();
+        await unitOfWork.SaveAsync();
 
         return mapper.Map<PdfDetailsViewModel>(pdf);
     }

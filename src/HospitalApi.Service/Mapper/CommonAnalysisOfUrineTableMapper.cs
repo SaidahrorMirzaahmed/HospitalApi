@@ -1,13 +1,11 @@
 ﻿using HospitalApi.Domain.Entities.Tables;
-using HospitalApi.WebApi.Models.Tables;
-using System.ComponentModel;
-using System.Diagnostics.Metrics;
+using HospitalApi.Service.Models;
 
-namespace HospitalApi.WebApi.Mappers;
+namespace HospitalApi.Service.Mappers;
 
 public class CommonAnalysisOfUrineTableMapper
 {
-    private readonly static Dictionary<int, CommonAnalysisOfUrineTableResultViewModel> _keyValuePairs = new Dictionary<int, CommonAnalysisOfUrineTableResultViewModel>
+    private readonly static Dictionary<int, CommonAnalysisOfUrineTableResultDto> _keyValuePairs = new Dictionary<int, CommonAnalysisOfUrineTableResultDto>
     {
         { 1, new () { Indicator = "Миқдори", Result = null, Standard = "60 мл" } },
         { 2, new () { Indicator = "Ранги", Result = null, Standard = "Сомон-сариқ" } },
@@ -37,9 +35,9 @@ public class CommonAnalysisOfUrineTableMapper
         { 26, new () { Indicator = "Бактериялар", Result = null, Standard = "abs" } },
     };
 
-    public static CommonAnalysisOfUrineTableViewModel GetCommonAnalysisOfUrineTableView(CommonAnalysisOfUrineTable table)
+    public static CommonAnalysisOfUrineTableDto GetCommonAnalysisOfUrineTableView(CommonAnalysisOfUrineTable table)
     {
-        var view = new Dictionary<int, CommonAnalysisOfUrineTableResultViewModel>(_keyValuePairs);
+        var view = new Dictionary<int, CommonAnalysisOfUrineTableResultDto>(_keyValuePairs);
 
         foreach (var item in table.Items.Select(x => new { x.Index, x.Result }))
         {
@@ -49,14 +47,14 @@ public class CommonAnalysisOfUrineTableMapper
             }
         }
 
-        return new CommonAnalysisOfUrineTableViewModel
+        return new CommonAnalysisOfUrineTableDto
         {
             Id = table.Id,
             Items = view.Values,
         };
     }
 
-    public static CommonAnalysisOfUrineTable CreateCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateModel updateModel)
+    public static CommonAnalysisOfUrineTable CreateCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateDto updateModel)
     {
         var items = new List<CommonAnalysisOfUrineTableResult>
         {

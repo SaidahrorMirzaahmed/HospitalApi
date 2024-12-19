@@ -162,7 +162,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
 
         exists.Delete();
         await unitOfWork.Laboratories.DeleteAsync(exists);
-        await torchTableService.DeleteAsync(exists.TableId);
+        await DeleteByTable(exists, exists.LaboratoryTableType);
         await unitOfWork.SaveAsync();
 
         return true;

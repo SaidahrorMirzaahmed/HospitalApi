@@ -1,5 +1,6 @@
 ﻿using HospitalApi.Domain.Entities;
 using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Exceptions;
 using HospitalApi.WebApi.Configurations;
 using iText.IO.Font;
 using iText.IO.Image;
@@ -120,7 +121,7 @@ public partial class PdfGeneratorService
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5))}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).ToString("HH:mm")}").SetFont(font).SetFontSize(13));
 
         document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}").SetFont(font).SetFontSize(13));
 
@@ -165,14 +166,19 @@ public partial class PdfGeneratorService
     }
     #endregion
 
-    private void CreateTable()
+    private void CreateTable(PdfDocument pdf, Document document, Laboratory laboratory)
     {
-
-    }
-
-
-    private void AddCellToTable()
-    {
-
+        if (laboratory.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
+            CreateAnalysisOfFecesTable(pdf, document, laboratory.TableId);
+        else if (laboratory.LaboratoryTableType == LaboratoryTableType.BiochemicalAnalysisOfBlood)
+            CreateBiochemicalAnalysisOfBloodTable(pdf, document, laboratory.TableId);
+        else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfBlood)
+            CreateCommonAnalysisOfBloodTable(pdf, document, laboratory.TableId);
+        else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfUrine)
+            CreateCommonAnalysisOfUrineTable(pdf, document, laboratory.TableId);
+        else if (laboratory.LaboratoryTableType == LaboratoryTableType.Torch)
+            CreateTorchTable(pdf, document, laboratory.TableId);
+        else
+            throw new ArgumentIsNotValidException($"{nameof(laboratory.LaboratoryTableType)} table is not exists with id = {laboratory.TableId}");
     }
 }

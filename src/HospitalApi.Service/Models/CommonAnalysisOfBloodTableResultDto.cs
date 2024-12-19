@@ -1,6 +1,6 @@
-﻿namespace HospitalApi.WebApi.Models.Tables;
+﻿namespace HospitalApi.Service.Models;
 
-public class CommonAnalysisOfBloodTableResultViewModel
+public class CommonAnalysisOfBloodTableResultDto
 {
     public string Indicator { get; set; }
 
