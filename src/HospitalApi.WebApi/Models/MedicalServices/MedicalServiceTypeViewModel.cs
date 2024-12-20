@@ -6,7 +6,8 @@ public class MedicalServiceTypeViewModel
 {
     public long Id { get; set; }
 
-    public string ServiceType { get; set; }
+    public string ServiceTypeTitle { get; set; }
+    public string ServiceTypeTitleRu { get; set; }
 
     public double Price { get; set; }
 

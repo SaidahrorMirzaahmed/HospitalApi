@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HospitalApi.DataAccess.EntityConfigurations;
 
-public class BiochemicalAnalysisOfBloodTableConfigurations : IEntityTypeConfiguration<BiochemicalAnalysisOfBloodTable>
+public class BiochemicalAnalysisOfBloodTableConfigurations : IEntityTypeConfiguration<BiochemicalAnalysisOfBloodTableResult>
 {
-    public void Configure(EntityTypeBuilder<BiochemicalAnalysisOfBloodTable> builder)
+    public void Configure(EntityTypeBuilder<BiochemicalAnalysisOfBloodTableResult> builder)
     {
         builder
             .HasKey(x => x.Id);
 
         builder
-            .HasMany<BiochemicalAnalysisOfBloodTableResult>()
-            .WithOne()
+            .HasOne(result => result.BiochemicalAnalysisOfBloodTable)
+            .WithMany(table => table.Items)
             .HasForeignKey(x => x.BiochemicalAnalysisOfBloodTableId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

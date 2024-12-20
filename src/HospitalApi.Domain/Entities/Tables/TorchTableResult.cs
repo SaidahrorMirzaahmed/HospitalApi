@@ -5,6 +5,7 @@ namespace HospitalApi.Domain.Entities.Tables;
 public class TorchTableResult : Auditable
 {
     public long TorchTableId { get; set; }
+    public TorchTable TorchTable { get; set; }
 
     public int Index { get; set; }
 

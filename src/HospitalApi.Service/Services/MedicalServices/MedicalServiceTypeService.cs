@@ -26,7 +26,8 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
 
         if (!string.IsNullOrWhiteSpace(search))
             serviceTypes = serviceTypes
-                .Where(type => type.ServiceType.ToLower().Contains(search.ToLower()));
+                .Where(type => type.ServiceTypeTitle.ToLower().Contains(search.ToLower())
+                    || type.ServiceTypeTitleRu.ToLower().Contains(search.ToLower()));
 
         return await serviceTypes.ToListAsync();
     }
@@ -61,7 +62,8 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
             ?? throw new NotFoundException($"{nameof(MedicalServiceType)} is not exists with id = {id}");
 
         exists.Update();
-        exists.ServiceType = serviceType.ServiceType;
+        exists.ServiceTypeTitle = serviceType.ServiceTypeTitle;
+        exists.ServiceTypeTitleRu = serviceType.ServiceTypeTitleRu;
         exists.Price = serviceType.Price;
         exists.StaffId = serviceType.StaffId;
 

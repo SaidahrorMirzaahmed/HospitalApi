@@ -5,6 +5,7 @@ namespace HospitalApi.Domain.Entities.Tables;
 public class CommonAnalysisOfUrineTableResult : Auditable
 {
     public long CommonAnalysisOfUrineTableId { get; set; }
+    public CommonAnalysisOfUrineTable CommonAnalysisOfUrineTable { get; set; }
 
     public int Index { get; set; }
 
