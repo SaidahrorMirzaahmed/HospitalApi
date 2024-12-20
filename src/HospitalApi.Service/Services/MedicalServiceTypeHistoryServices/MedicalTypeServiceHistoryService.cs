@@ -20,7 +20,8 @@ public class MedicalTypeServiceHistoryService(IUnitOfWork unitOfWork) : IMedical
             entities = entities
                 .Where(entity => entity.Client.FirstName.ToLower().Contains(search.ToLower())
                     || entity.Client.LastName.ToLower().Contains(search.ToLower())
-                    || entity.MedicalServiceType.ServiceType.ToLower().Contains(search.ToLower()));
+                    || entity.MedicalServiceType.ServiceTypeTitle.ToLower().Contains(search.ToLower())
+                    || entity.MedicalServiceType.ServiceTypeTitleRu.ToLower().Contains(search.ToLower()));
 
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
     }
@@ -40,7 +41,7 @@ public class MedicalTypeServiceHistoryService(IUnitOfWork unitOfWork) : IMedical
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
-            entities = entities.Where(entity => entity.MedicalServiceType.ServiceType.ToLower().Contains(search.ToLower()));
+            entities = entities.Where(entity => entity.MedicalServiceType.ServiceTypeTitle.ToLower().Contains(search.ToLower()));
 
         return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
     }
@@ -52,7 +53,7 @@ public class MedicalTypeServiceHistoryService(IUnitOfWork unitOfWork) : IMedical
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
-            entities = entities.Where(entity => entity.MedicalServiceType.ServiceType.ToLower().Contains(search.ToLower()));
+            entities = entities.Where(entity => entity.MedicalServiceType.ServiceTypeTitle.ToLower().Contains(search.ToLower()));
 
         return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
     }

@@ -7,7 +7,7 @@ public class MedicalServiceTypeCreateModelValidator : AbstractValidator<MedicalS
 {
     public MedicalServiceTypeCreateModelValidator()
     {
-        RuleFor(b => b.ServiceType)
+        RuleFor(b => b.ServiceTypeTitle)
             .NotEmpty()
             .NotEmpty()
             .WithMessage($"{nameof(MedicalServiceTypeCreateModel)} cant be null or empty");

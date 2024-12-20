@@ -2,7 +2,8 @@
 
 public class MedicalServiceTypeCreateModel
 {
-    public string ServiceType { get; set; }
+    public string ServiceTypeTitle { get; set; }
+    public string ServiceTypeTitleRu { get; set; }
 
     public double Price { get; set; }
 
