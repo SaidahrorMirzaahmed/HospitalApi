@@ -8,14 +8,14 @@ public class CommonAnalysisOfBloodTableMapper
     #region
     private readonly static Dictionary<int, CommonAnalysisOfBloodTableResultDto> _keyValuePairs = new Dictionary<int, CommonAnalysisOfBloodTableResultDto>
     {
-        { 1, new () { Indicator = "Гемоглобин (Hb)", Result = null, Standard = "Ж: 130.0-160.0, А: 120.0-140.0", Unit = "г/л" } },
-        { 2, new () { Indicator = "Эритроцитлар (RBC)", Result = null, Standard = "Ж: 4.0-5.0, А: 3.9-4.7", Unit = "10¹²/л" } },
+        { 1, new () { Indicator = "Гемоглобин (Hb)", Result = null, Standard = "Э: 130.0-160.0, А: 120.0-140.0", Unit = "г/л" } },
+        { 2, new () { Indicator = "Эритроцитлар (RBC)", Result = null, Standard = "Э: 4.0-5.0, А: 3.9-4.7", Unit = "10¹²/л" } },
         { 3, new () { Indicator = "Ранг кўрсаткичи", Result = null, Standard = "0.85-1.05", Unit = null } },
         { 4, new () { Indicator = "Эритроцитлар ўртача ҳажми (MCV)", Result = null, Standard = "80-100", Unit = "Мкм³" } },
         { 5, new () { Indicator = "1 дона эритроцитдаги гемоглобиннинг миқдори (MCH)", Result = null, Standard = "30-35", Unit = "пг" } },
         { 6, new () { Indicator = "Эритроцитдаги гемоглобин концентрацияси (MCHC)", Result = null, Standard = "320-360", Unit = "г/л" } },
         { 7, new () { Indicator = "Эритроцитар анизоцитоз (RDW-CV)", Result = null, Standard = "11.5-14.5", Unit = "%" } },
-        { 8, new () { Indicator = "Гематокрит (HCT)", Result = null, Standard = "Ж: 35-49, А: 32-45", Unit = "%" } },
+        { 8, new () { Indicator = "Гематокрит (HCT)", Result = null, Standard = "Э: 35-49, А: 32-45", Unit = "%" } },
         { 9, new () { Indicator = "Тромбоцитлар (PLT)", Result = null, Standard = "180.0-320.0", Unit = "10⁹/л" } },
         { 10, new () { Indicator = "Тромбоцитлар ўртача ҳажми (MPV)", Result = null, Standard = "3.6-9.4", Unit = "Мкм³" } },
         { 11, new () { Indicator = "Тромбоцитар анизоцитоз (RDW)", Result = null, Standard = "1-20", Unit = "%" } },
@@ -30,7 +30,7 @@ public class CommonAnalysisOfBloodTableMapper
         { 20, new () { Indicator = "Моноцитлар", Result = null, Standard = "3-11", Unit = "%" } },
         { 21, new () { Indicator = "Лимфоцитлар", Result = null, Standard = "19-37", Unit = "%" } },
         { 22, new () { Indicator = "Плазматик ҳужайралар", Result = null, Standard = "-", Unit = null } },
-        { 23, new () { Indicator = "Эритроцитнинг чўкиш тезлиги (ЭЧТ)", Result = null, Standard = "Ж: 2-10, А: 2-15", Unit = "мм/соат" } },
+        { 23, new () { Indicator = "Эритроцитнинг чўкиш тезлиги (ЭЧТ)", Result = null, Standard = "Э: 2-10, А: 2-15", Unit = "Мм/соат" } },
     };
     #endregion
 

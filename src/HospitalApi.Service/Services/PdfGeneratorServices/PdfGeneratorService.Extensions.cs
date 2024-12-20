@@ -108,7 +108,7 @@ public partial class PdfGeneratorService
 
         Paragraph paragraph = new Paragraph($"{tableName}")
             .SetFont(font)
-            .SetFontSize(14) // Font size
+            .SetFontSize(16) // Font size
             .SetTextAlignment(TextAlignment.CENTER)
             .SetFontColor(ColorConstants.RED);
 
@@ -121,11 +121,11 @@ public partial class PdfGeneratorService
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).ToString("HH:mm")}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).ToString("HH:mm")}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Манзили {client.Address}").SetFont(font).SetFontSize(13));
+        document.Add(new Paragraph($"Манзили {client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
     }
     #endregion
 
@@ -166,18 +166,18 @@ public partial class PdfGeneratorService
     }
     #endregion
 
-    private void CreateTable(PdfDocument pdf, Document document, Laboratory laboratory)
+    private void CreateTable(Document document, Laboratory laboratory)
     {
         if (laboratory.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
-            CreateAnalysisOfFecesTable(pdf, document, laboratory.TableId);
+            CreateAnalysisOfFecesTable(document, laboratory.TableId);
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.BiochemicalAnalysisOfBlood)
-            CreateBiochemicalAnalysisOfBloodTable(pdf, document, laboratory.TableId);
+            CreateBiochemicalAnalysisOfBloodTable(document, laboratory.TableId);
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfBlood)
-            CreateCommonAnalysisOfBloodTable(pdf, document, laboratory.TableId);
+            CreateCommonAnalysisOfBloodTable(document, laboratory.TableId);
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfUrine)
-            CreateCommonAnalysisOfUrineTable(pdf, document, laboratory.TableId);
+            CreateCommonAnalysisOfUrineTable(document, laboratory.TableId);
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.Torch)
-            CreateTorchTable(pdf, document, laboratory.TableId);
+            CreateTorchTable(document, laboratory.TableId);
         else
             throw new ArgumentIsNotValidException($"{nameof(laboratory.LaboratoryTableType)} table is not exists with id = {laboratory.TableId}");
     }

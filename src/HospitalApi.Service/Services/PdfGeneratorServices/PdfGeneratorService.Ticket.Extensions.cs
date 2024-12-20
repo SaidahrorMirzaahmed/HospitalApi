@@ -144,7 +144,7 @@ public partial class PdfGeneratorService
 
         // --- First Row ---
         Cell titleCell = new Cell()
-            .Add(new Paragraph(history.MedicalServiceType.ServiceType)
+            .Add(new Paragraph(history.MedicalServiceType.ServiceTypeTitle)
             .SetFont(font)
             .SetFontSize(14))
             .SetPadding(10)

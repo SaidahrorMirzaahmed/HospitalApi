@@ -24,4 +24,5 @@ public class AnalysisOfFecesTableUpdateDto
     public string TwentiethItemResult { get; set; }
     public string TwentyFirstItemResult { get; set; }
     public string TwentySecondItemResult { get; set; }
+    public string TwentyThirdItemResult { get; set; }
 }
