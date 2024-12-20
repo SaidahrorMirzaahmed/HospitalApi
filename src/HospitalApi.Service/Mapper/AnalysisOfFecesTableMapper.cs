@@ -8,10 +8,10 @@ public class AnalysisOfFecesTableMapper
     private readonly static Dictionary<int, AnalysisOfFecesTableResultDto> _keyValuePairs = new Dictionary<int, AnalysisOfFecesTableResultDto>
     {
         // Макроскопия
-        { 1, new () { Category = "Макроскопия", Indicator = "Миқдори", Result = null, Standard = "Қаттиқ" } },
-        { 2, new () { Category = "Макроскопия", Indicator = "Консистенцияси", Result = null, Standard = "Шаклланган" } },
-        { 3, new () { Category = "Макроскопия", Indicator = "Шакли", Result = null, Standard = "Жиғарранг" } },
-        { 4, new () { Category = "Макроскопия", Indicator = "Ранги", Result = null, Standard = "abs" } },
+        { 1, new () { Category = "Макроскопия", Indicator = "Миқдори", Result = null, Standard = "" } },
+        { 2, new () { Category = "Макроскопия", Indicator = "Консистенцияси", Result = null, Standard = "Қаттиқ" } },
+        { 3, new () { Category = "Макроскопия", Indicator = "Шакли", Result = null, Standard = "Шаклланган" } },
+        { 4, new () { Category = "Макроскопия", Indicator = "Ранги", Result = null, Standard = "Жиғарранг" } },
         { 5, new () { Category = "Макроскопия", Indicator = "Шиллиқ", Result = null, Standard = "abs" } },
         { 6, new () { Category = "Макроскопия", Indicator = "Қон", Result = null, Standard = "abs" } },
     
@@ -24,16 +24,17 @@ public class AnalysisOfFecesTableMapper
         { 12, new () { Category = "Биохимия", Indicator = "Крахмал", Result = null, Standard = "abs" } },
     
         // Микроскопия
-        { 13, new () { Category = "Микроскопия", Indicator = "Мушак толалари", Result = null, Standard = "Ҳазм бўлган" } },
-        { 14, new () { Category = "Микроскопия", Indicator = "Бириктирувчи тўқима", Result = null, Standard = "Ҳазм бўлмаган" } },
-        { 15, new () { Category = "Микроскопия", Indicator = "Йодофил флора", Result = null, Standard = "abs" } },
-        { 16, new () { Category = "Микроскопия", Indicator = "Ўсимлик толаси (Ҳазм бўлган)", Result = null, Standard = "abs" } },
-        { 17, new () { Category = "Микроскопия", Indicator = "Ўсимлик толаси (Ҳазм бўлмаган)", Result = null, Standard = "abs" } },
-        { 18, new () { Category = "Микроскопия", Indicator = "Эритроцитлар", Result = null, Standard = "abs" } },
-        { 19, new () { Category = "Микроскопия", Indicator = "Лейкоцитлар", Result = null, Standard = "abs" } },
-        { 20, new () { Category = "Микроскопия", Indicator = "Гижжа тухумлари", Result = null, Standard = "abs" } },
-        { 21, new () { Category = "Микроскопия", Indicator = "Сода ҳайвонлар", Result = null, Standard = "abs" } },
-        { 22, new () { Category = "Микроскопия", Indicator = "Замбуруғлар", Result = null, Standard = "-" } },
+        { 13, new () { Category = "Микроскопия", Indicator = "Мушак толалари Ҳазм бўлган", Result = null, Standard = "abs" } },
+        { 14, new () { Category = "Микроскопия", Indicator = "Мушак толалари Хазм бўлмаган", Result = null, Standard = "Оз микдорда" } },
+        { 15, new () { Category = "Микроскопия", Indicator = "Бириктирувчи тўқима", Result = null, Standard = "abs" } },
+        { 16, new () { Category = "Микроскопия", Indicator = "Йодофил флора", Result = null, Standard = "abs" } },
+        { 17, new () { Category = "Микроскопия", Indicator = "Ўсимлик толаси (Ҳазм бўлган)", Result = null, Standard = "abs" } },
+        { 18, new () { Category = "Микроскопия", Indicator = "Ўсимлик толаси (Ҳазм бўлмаган)", Result = null, Standard = "abs" } },
+        { 19, new () { Category = "Микроскопия", Indicator = "Эритроцитлар", Result = null, Standard = "abs" } },
+        { 20, new () { Category = "Микроскопия", Indicator = "Лейкоцитлар", Result = null, Standard = "abs" } },
+        { 21, new () { Category = "Микроскопия", Indicator = "Гижжа тухумлари", Result = null, Standard = "abs" } },
+        { 22, new () { Category = "Микроскопия", Indicator = "Сода ҳайвонлар", Result = null, Standard = "abs" } },
+        { 23, new () { Category = "Микроскопия", Indicator = "Замбуруғлар", Result = null, Standard = "-" } },
     };
 
     public static AnalysisOfFecesTableDto GetAnalysisOfFecesTableView(AnalysisOfFecesTable table)
@@ -77,6 +78,7 @@ public class AnalysisOfFecesTableMapper
             new () { AnalysisOfFecesTableId = id, Result = model.TwentiethItemResult, Index = 20 },
             new () { AnalysisOfFecesTableId = id, Result = model.TwentyFirstItemResult, Index = 21 },
             new () { AnalysisOfFecesTableId = id, Result = model.TwentySecondItemResult, Index = 22 },
+            new () { AnalysisOfFecesTableId = id, Result = model.TwentySecondItemResult, Index = 23 },
         };
 
         return new AnalysisOfFecesTable { Id = id, Items = items };

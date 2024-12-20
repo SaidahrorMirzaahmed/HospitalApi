@@ -31,7 +31,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateHeader(document);
                 CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType);
                 CreateUserDetails(document, laboratory.Client);
-                CreateTable(pdf, document, laboratory);
+                CreateTable(document, laboratory);
                 CreateFooter(pdf, document, laboratory.Staff);
 
                 document.Close();
@@ -114,8 +114,6 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateUserDetailsForRecipe(document, recipe.Client);
                 CreateTableForRecipe(document, recipe);
                 CreateRecipeFooter(pdf, document, recipe.Staff);
-
-                document.Close();
 
                 document.Close();
             }
