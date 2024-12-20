@@ -5,23 +5,27 @@ namespace HospitalApi.WebApi.Middlewares;
 public class DdosProtectionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IDdosProtectionService _ddosProtectionService;
+    private readonly IServiceProvider _provider;
 
-    public DdosProtectionMiddleware(RequestDelegate next, IDdosProtectionService ddosProtectionService)
+    public DdosProtectionMiddleware(RequestDelegate next, IServiceProvider provider)
     {
         _next = next;
-        _ddosProtectionService = ddosProtectionService;
+        _provider = provider;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var ipAddress = context.Connection.RemoteIpAddress.ToString();
-
-        if (ipAddress is null || !await _ddosProtectionService.IsRequestAllowedAsync(ipAddress))
+        using(var scope = _provider.CreateScope())
         {
-            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-            await context.Response.WriteAsync("Too many requests. Please try again later.");
-            return;
+            var ddosProtectionService = scope.ServiceProvider.GetRequiredService<IDdosProtectionService>();
+            var ipAddress = context.Connection.RemoteIpAddress.ToString();
+            
+            if (ipAddress is null || !await ddosProtectionService.IsRequestAllowedAsync(ipAddress))
+            {
+                context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                await context.Response.WriteAsync("Too many requests. Please try again later.");
+                return;
+            }
         }
 
         await _next(context);

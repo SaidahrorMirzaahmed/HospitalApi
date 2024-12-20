@@ -1,6 +1,7 @@
 using HospitalApi.DataAccess.Contexts;
 using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Mappers;
+using HospitalApi.WebApi.Middlewares;
 using HospitalApi.WebApi.RouteHelper;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddAuthorization();
 
 builder.Services.AddMemoryCache();
+builder.Services.AddDdosProtection();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -63,13 +65,16 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseExceptionHandler();
 
-//app.UseHttpsRedirection();
 app.InjectEnvironmentItems();
-app.MapControllers();
-app.UseStaticFiles();
 app.UseRouting();
+
+app.UseMiddleware<DdosProtectionMiddleware>();
+
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
+app.UseStaticFiles();
+
+app.MapControllers();
 app.UseHttpsRedirection();
 
 app.Run();
