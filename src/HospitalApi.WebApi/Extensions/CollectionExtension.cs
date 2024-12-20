@@ -8,6 +8,7 @@ using HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 using HospitalApi.Service.Services.News;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.PdfGeneratorServices;
+using HospitalApi.Service.Services.ProtectionServices;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.Service.Services.Recipes;
 using HospitalApi.Service.Services.Tables;
@@ -184,5 +185,10 @@ public static class CollectionExtension
                     { jwtSecurityScheme, Array.Empty<string>() }
                 });
         });
+    }
+
+    public static void AddDdosProtection(this IServiceCollection services)
+    {
+        services.AddScoped<IDdosProtectionService, DdosProtectionService>();
     }
 }
