@@ -13,6 +13,7 @@ public partial class PdfGeneratorService
 {
     private void CreateAnalysisOfFecesTable(Document document, long tableId)
     {
+        var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         var labTable = unitOfWork.AnalysisOfFecesTables.SelectAsync(entity => entity.Id == tableId && !entity.IsDeleted).GetAwaiter().GetResult();
         var dto = AnalysisOfFecesTableMapper.GetAnalysisOfFecesTableView(labTable);
         var table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 8, 3, 4 }))
@@ -21,10 +22,10 @@ public partial class PdfGeneratorService
         var borderWidth = 0.5f;
         var category = dto.Items.First().Category;
         var order = 1;
-        var indicator = new string[] { "№", "Кўрсаткичлар", "Натижа", "Норма" };
+        var indicator = new List<(string indicator, TextAlignment alignment)>() { ("№", TextAlignment.CENTER), ("Кўрсаткичлар", TextAlignment.LEFT), ("Натижа", TextAlignment.CENTER), ("Норма", TextAlignment.CENTER) };
 
-        CreateCategoryNameForTable(document, category);
-        CreateRawForTable(table, true, indicator);
+        document.Add(CreateCategoryNameForTable(category).SetMarginTop(0));
+        CreateRawForTable(table, indicator, font, 10, true);
 
         foreach (var item in dto.Items)
         {
@@ -39,12 +40,12 @@ public partial class PdfGeneratorService
                     .UseAllAvailableWidth()
                     .SetBorder(new SolidBorder(ColorConstants.GRAY, borderWidth));
 
-                CreateCategoryNameForTable(document, category);
-                CreateRawForTable(table, true, args: indicator);
+                document.Add(CreateCategoryNameForTable(category));
+                CreateRawForTable(table, indicator, font, 10, true);
             }
 
-            var raw = new string[] { order.ToString(), item.Indicator, item.Result, item.Standard };
-            CreateRawForTable(table, args: raw);
+            var raw = new List<(string indicator, TextAlignment alignment)>() { (order.ToString(), TextAlignment.CENTER), (item.Indicator, TextAlignment.LEFT), (item.Result, TextAlignment.CENTER), (item.Standard, TextAlignment.CENTER) };
+            CreateRawForTable(table, raw, font, 8);
 
             order++;
         }
@@ -54,6 +55,7 @@ public partial class PdfGeneratorService
 
     private void CreateBiochemicalAnalysisOfBloodTable(Document document, long tableId)
     {
+        var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         var dtoTable = unitOfWork.BiochemicalAnalysisOfBloodTables.SelectAsync(entity => entity.Id == tableId && !entity.IsDeleted).GetAwaiter().GetResult();
         var dto = BiochemicalAnalysisOfBloodTableMapper.GetBiochemicalAnalysisOfBloodTableView(dtoTable);
         var table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 8, 3, 3, 3 }))
@@ -62,14 +64,14 @@ public partial class PdfGeneratorService
 
         var borderWidth = 0.5f;
         var order = 1;
-        var indicator = new string[] { "№", "Текширув", "Натижа", "Норма", "Бирлиги" };
+        var indicator = new List<(string indicator, TextAlignment alignment)>() { ("№", TextAlignment.CENTER), ("Текширув", TextAlignment.LEFT), ("Натижа", TextAlignment.CENTER), ("Норма", TextAlignment.CENTER), ("Бирлиги", TextAlignment.CENTER) };
 
-        CreateRawForTable(table, true, indicator);
+        CreateRawForTable(table, indicator, font, 15, true);
 
-        foreach(var item in dto.Items)
+        foreach (var item in dto.Items)
         {
-            var raw = new string[] { order.ToString(), item.CheckUp, item.Result, item.Standard, item.Unit };
-            CreateRawForTable(table, args: raw);
+            var raw = new List<(string indicator, TextAlignment alignment)>() { (order.ToString(), TextAlignment.CENTER), (item.CheckUp, TextAlignment.LEFT), (item.Result, TextAlignment.CENTER), (item.Standard, TextAlignment.CENTER), (item.Unit, TextAlignment.CENTER) };
+            CreateRawForTable(table, raw, font, 12);
             order++;
         }
 
@@ -78,6 +80,7 @@ public partial class PdfGeneratorService
 
     private void CreateCommonAnalysisOfBloodTable(Document document, long tableId)
     {
+        var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         var dtoTable = unitOfWork.CommonAnalysisOfBloodTables.SelectAsync(entity => entity.Id == tableId && !entity.IsDeleted).GetAwaiter().GetResult();
         var dto = CommonAnalysisOfBloodTableMapper.GetCommonAnalysisOfBloodTableView(dtoTable);
         var table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 8, 3, 3, 3 }))
@@ -86,14 +89,14 @@ public partial class PdfGeneratorService
 
         var borderWidth = 0.5f;
         var order = 1;
-        var indicator = new string[] { "№", "Кўрсаткич", "Натижа", "Норма", "СИ бирлиги" };
+        var indicator = new List<(string indicator, TextAlignment alignment)>() { ("№", TextAlignment.CENTER), ("Кўрсаткич", TextAlignment.LEFT), ("Натижа", TextAlignment.CENTER), ("Норма", TextAlignment.CENTER), ("СИ бирлиги", TextAlignment.CENTER) };
 
-        CreateRawForTable(table, true, indicator);
+        CreateRawForTable(table, indicator, font, 12, true);
 
         foreach (var item in dto.Items)
         {
-            var raw = new string[] { order.ToString(), item.Indicator, item.Result, item.Standard, item.Unit };
-            CreateRawForTable(table, args: raw);
+            var raw = new List<(string indicator, TextAlignment alignment)>() { (order.ToString(), TextAlignment.CENTER), (item.Indicator, TextAlignment.LEFT), (item.Result, TextAlignment.CENTER), (item.Standard, TextAlignment.CENTER), (item.Unit, TextAlignment.CENTER) };
+            CreateRawForTable(table, raw, font, 9);
             order++;
         }
 
@@ -102,6 +105,7 @@ public partial class PdfGeneratorService
 
     private void CreateCommonAnalysisOfUrineTable(Document document, long tableId)
     {
+        var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         var dtoTable = unitOfWork.CommonAnalysisOfUrineTable.SelectAsync(entity => entity.Id == tableId && !entity.IsDeleted).GetAwaiter().GetResult();
         var dto = CommonAnalysisOfUrineTableMapper.GetCommonAnalysisOfUrineTableView(dtoTable);
         var table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 8, 4, 4 }))
@@ -110,14 +114,14 @@ public partial class PdfGeneratorService
 
         var borderWidth = 0.5f;
         var order = 1;
-        var indicator = new string[] { "№", "Кўрсаткич", "Натижа", "Норма" };
+        var indicator = new List<(string indicator, TextAlignment alignment)>() { ("№", TextAlignment.CENTER), ("Кўрсаткич", TextAlignment.LEFT), ("Натижа", TextAlignment.CENTER), ("Норма", TextAlignment.CENTER) };
 
-        CreateRawForTable(table, true, indicator);
+        CreateRawForTable(table, indicator, font, 12, true);
 
         foreach (var item in dto.Items)
         {
-            var raw = new string[] { order.ToString(), item.Indicator, item.Result, item.Standard };
-            CreateRawForTable(table, args: raw);
+            var raw = new List<(string indicator, TextAlignment alignment)>() { (order.ToString(), TextAlignment.CENTER), (item.Indicator, TextAlignment.LEFT), (item.Result, TextAlignment.CENTER), (item.Standard, TextAlignment.CENTER) };
+            CreateRawForTable(table, raw, font, 8);
             order++;
         }
 
@@ -126,6 +130,7 @@ public partial class PdfGeneratorService
 
     private void CreateTorchTable(Document document, long tableId)
     {
+        var font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         var dtoTable = unitOfWork.TorchTables.SelectAsync(entity => entity.Id == tableId && !entity.IsDeleted).GetAwaiter().GetResult();
         var dto = TorchMapper.GetTorchTableView(dtoTable);
         var table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 8, 4, 4 }))
@@ -134,14 +139,14 @@ public partial class PdfGeneratorService
 
         var borderWidth = 0.5f;
         var order = 1;
-        var indicator = new string[] { "№", "Текширув", "Натижа", "Норма" };
+        var indicator = new List<(string indicator, TextAlignment alignment)>(){ ("№", TextAlignment.CENTER), ("Текширув", TextAlignment.LEFT), ("Натижа", TextAlignment.CENTER), ("Норма", TextAlignment.CENTER) };
 
-        CreateRawForTable(table, true, indicator);
+        CreateRawForTable(table, indicator, font, 15, true);
 
         foreach (var item in dto.Items)
         {
-            var raw = new string[] { order.ToString(), item.CheckUp, item.Result, item.Standard };
-            CreateRawForTable(table, args: raw);
+            var raw = new List<(string indicator, TextAlignment alignment)>() { (order.ToString(), TextAlignment.CENTER), (item.CheckUp, TextAlignment.LEFT), (item.Result, TextAlignment.CENTER), (item.Standard, TextAlignment.CENTER) };
+            CreateRawForTable(table, raw, font, 15);
             order++;
         }
 
@@ -149,36 +154,29 @@ public partial class PdfGeneratorService
     }
 
     #region
-    private void CreateCategoryNameForTable(Document document, string content)
+    private Paragraph CreateCategoryNameForTable(string content)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        var paragraph = new Paragraph(content)
+        return new Paragraph(content)
                 .SetFontColor(ColorConstants.RED)
                 .SetFont(font)
-                .SetFontSize(16)
+                .SetFontSize(12)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetMarginTop(20);
-
-        document
-            .Add(paragraph);
+                .SetMarginTop(10);
     }
 
-    private void CreateRawForTable(Table table, bool isHeader = false, params string[] args)
+    private void CreateRawForTable(Table table, IEnumerable<(string indicator, TextAlignment alignment)> values, PdfFont font, int fontSize, bool isHeader = false)
     {
-        PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
-
-        foreach (string arg in args)
+        foreach (var value in values)
         {
-            table.AddCell(CreateCellForTable(arg, isHeader));
+            table.AddCell(CreateCellForTable(value.indicator, font, fontSize, isHeader, value.alignment));
         }
     }
 
-    private Cell CreateCellForTable(string content, bool isHeader = false)
+    private Cell CreateCellForTable(string content, PdfFont font, int fontSize ,bool isHeader = false, TextAlignment alignment = TextAlignment.LEFT)
     {
-        PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
-
-        Cell cell = new Cell().Add(new Paragraph(content is null ? "" : content)).SetFont(font).SetPaddingLeft(5).SetPaddingRight(5);
+        Cell cell = new Cell().Add(new Paragraph(content is null ? "" : content)).SetFont(font).SetFontSize(fontSize).SetPaddingLeft(3).SetPaddingRight(3);
 
         if (isHeader)
             cell
@@ -186,7 +184,7 @@ public partial class PdfGeneratorService
                 .SetBackgroundColor(new DeviceRgb(150, 190, 245))
                 .SetTextAlignment(TextAlignment.CENTER);
         else
-            cell.SetTextAlignment(TextAlignment.LEFT);
+            cell.SetTextAlignment(alignment);
 
 
         return cell;
