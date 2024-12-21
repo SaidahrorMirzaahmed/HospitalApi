@@ -98,6 +98,8 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
         existUser.Phone = user.Phone;
         existUser.LastName = user.LastName;
         existUser.FirstName = user.FirstName;
+        existUser.Address = user.Address;
+        existUser.Birth = user.Birth;
         existUser.UpdatedAt = DateTime.UtcNow;
         existUser.UpdatedByUserId = HttpContextHelper.UserId;
 

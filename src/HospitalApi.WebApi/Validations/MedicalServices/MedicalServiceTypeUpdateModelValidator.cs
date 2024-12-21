@@ -7,9 +7,18 @@ public class MedicalServiceTypeUpdateModelValidator : AbstractValidator<MedicalS
 {
     public MedicalServiceTypeUpdateModelValidator()
     {
-        RuleFor(b => b.Price)
+        RuleFor(b => b.ServiceTypeTitle)
             .NotEmpty()
             .NotNull()
-            .WithMessage($"{nameof(MedicalServiceTypeUpdateModelValidator)}  cant be null or empty");
+            .WithMessage($"{nameof(MedicalServiceTypeCreateModel)} cant be null or empty");
+
+        RuleFor(entity => entity.ServiceTypeTitleRu)
+            .NotEmpty()
+            .NotNull()
+            .WithMessage($"{nameof(MedicalServiceTypeCreateModel.ServiceTypeTitleRu)} cant be null or empty");
+
+        RuleFor(entity => entity.StaffId)
+            .GreaterThan(0)
+            .WithMessage(a => $"{nameof(a.StaffId)} cant be null or 0");
     }
 }
