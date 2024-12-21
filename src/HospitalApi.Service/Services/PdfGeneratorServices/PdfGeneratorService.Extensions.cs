@@ -19,7 +19,7 @@ public partial class PdfGeneratorService
     private string _fontPath = "c:/windows/fonts/arial.ttf";
 
     #region
-    private void CreateHeader(Document document)
+    private void CreateHeader(Document document, int headerFontSize, int logoWidth = 85)
     {
         var logoPath = Path.Combine(EnvironmentHelper.WebRootPath, "Clinic\\turonlogo.png");
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
@@ -29,68 +29,35 @@ public partial class PdfGeneratorService
             .UseAllAvailableWidth();
 
         // First column: Uzbek text
-        Cell leftCell = new Cell()
-            .Add(new Paragraph("Ўзбекистон Республикаси")
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .Add(new Paragraph("Наманган вилояти"))
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER)
-            .Add(new Paragraph("Косонсой тумани")
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .Add(new Paragraph("ТУРОН ТИББИЕТ МЧЖ")
-                .SetFont(font)
-                .SetFontSize(14)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .SetBorder(Border.NO_BORDER)
+        Cell leftCell = CreateCell(font, headerFontSize, TextAlignment.CENTER, "Ўзбекистон Республикаси", "Наманган вилояти", "Косонсой тумани", "ТУРОН ТИББИЕТ МЧЖ")
             .SetFontColor(ColorConstants.BLUE);
 
         // Second column: Logo image
         Image logo = new Image(ImageDataFactory.Create(logoPath))
             .SetHorizontalAlignment(HorizontalAlignment.CENTER)
-            .SetWidth(100); // Adjust size as needed
+            .SetWidth(85);
 
         Cell middleCell = new Cell()
             .Add(logo)
-            .SetTextAlignment(TextAlignment.CENTER)
-            .SetVerticalAlignment(VerticalAlignment.MIDDLE)
-            .SetBorder(Border.NO_BORDER);
-
-        Cell rightCell = new Cell()
-            .Add(new Paragraph("O’zbekiston Respublikasi")
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .Add(new Paragraph("Namangan viloyati")
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .Add(new Paragraph("Kosonsoy tumani")
-                .SetFont(font)
-                .SetFontSize(12)
-                .SetTextAlignment(TextAlignment.CENTER))
-            .Add(new Paragraph("TURON TIBBIYOT MCHJ")
-                .SetFont(font)
-                .SetFontSize(14)
-                .SetTextAlignment(TextAlignment.CENTER))
             .SetBorder(Border.NO_BORDER)
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetVerticalAlignment(VerticalAlignment.MIDDLE);
+
+        Cell rightCell = CreateCell(font, headerFontSize, TextAlignment.CENTER, "O’zbekiston Respublikasi", "Namangan viloyati", "Kosonsoy tumani", "TURON TIBBIYOT MCHJ")
             .SetFontColor(ColorConstants.BLUE);
 
         // Add cells to the table
         headerTable.AddCell(leftCell);
         headerTable.AddCell(middleCell);
         headerTable.AddCell(rightCell);
+
         // Add table to document
         document.Add(headerTable);
     }
     #endregion
 
     #region
-    private void CreateLaboratoryServiceDetails(Document document, LaboratoryTableType tableType)
+    private void CreateLaboratoryServiceDetails(Document document, LaboratoryTableType tableType, int laboratoryDetailsFontSize)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         string tableName = string.Empty;
@@ -106,51 +73,34 @@ public partial class PdfGeneratorService
         else if (tableType == LaboratoryTableType.Torch)
             tableName = "Экспресс усулда TORCH IgG/IgM аниклаш";
 
-        Paragraph paragraph = new Paragraph($"{tableName}")
-            .SetFont(font)
-            .SetFontSize(16) // Font size
-            .SetTextAlignment(TextAlignment.CENTER)
-            .SetFontColor(ColorConstants.RED);
-
-        document.Add(paragraph);
+        document.Add(CreateParagraph(font, laboratoryDetailsFontSize, TextAlignment.CENTER, tableName).SetFontColor(ColorConstants.RED));
     }
     #endregion
 
     #region
-    private void CreateUserDetails(Document document, User client)
+    private void CreateUserInfo(Document document, User client, int userInfoFontSize)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
+        var time = $"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.";
+        var name = $"Фамилия, исми   {client.LastName} {client.FirstName}, ёши   {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}";
+        var address = $"Манзили   {client.Address}";
 
-        document.Add(new Paragraph($"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.    Соат {TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).ToString("HH:mm")}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
-
-        document.Add(new Paragraph($"Фамилия {client.LastName}, исми {client.FirstName} ёши {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
-
-        document.Add(new Paragraph($"Манзили {client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, time));
+        document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, name));
+        document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, address));
     }
     #endregion
 
     #region
-    private void CreateFooter(PdfDocument pdf, Document document, User staff)
+    private void CreateFooter(PdfDocument pdf, Document document, User staff, int footerFontSize)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
         float marginBottom = 40;
 
         Table table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 3 }))
             .UseAllAvailableWidth();
-
-        Cell firstCell = new Cell()
-            .Add(new Paragraph("Лаборант:")
-                .SetFont(font))
-                .SetFontSize(16)
-            .SetBorder(Border.NO_BORDER)
-            .SetTextAlignment(TextAlignment.RIGHT);
-
-        Cell secondCell = new Cell()
-            .Add(new Paragraph($"{staff.LastName} {staff.FirstName}")
-                .SetFont(font))
-                .SetFontSize(16)
-            .SetBorder(Border.NO_BORDER)
-            .SetTextAlignment(TextAlignment.CENTER);
+        Cell firstCell = CreateCell(font, footerFontSize, TextAlignment.RIGHT, "Лаборант:");
+        Cell secondCell = CreateCell(font, footerFontSize, TextAlignment.CENTER, $"{staff.LastName} {staff.FirstName}");
 
         table.AddCell(firstCell);
         table.AddCell(secondCell);
@@ -166,19 +116,76 @@ public partial class PdfGeneratorService
     }
     #endregion
 
-    private void CreateTable(Document document, Laboratory laboratory)
+    private void CreateTable(PdfDocument pdf, Document document, Laboratory laboratory)
     {
         if (laboratory.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
+        {
+            var fontSize = 12;
+            CreateHeader(document, fontSize, 65);
+            CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
+            CreateUserInfo(document, laboratory.Client, fontSize);
             CreateAnalysisOfFecesTable(document, laboratory.TableId);
+            CreateFooter(pdf, document, laboratory.Staff, fontSize);
+        }
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.BiochemicalAnalysisOfBlood)
+        {
+            var fontSize = 15;
+            CreateHeader(document, 12);
+            CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
+            CreateUserInfo(document, laboratory.Client, fontSize);
             CreateBiochemicalAnalysisOfBloodTable(document, laboratory.TableId);
+            CreateFooter(pdf, document, laboratory.Staff, fontSize);
+        }
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfBlood)
+        {
+            var fontSize = 14;
+            CreateHeader(document, 12);
+            CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
+            CreateUserInfo(document, laboratory.Client, fontSize);
             CreateCommonAnalysisOfBloodTable(document, laboratory.TableId);
+            CreateFooter(pdf, document, laboratory.Staff, fontSize);
+        }
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.CommonAnalysisOfUrine)
+        {
+            var fontSize = 14;
+            CreateHeader(document, 12);
+            CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
+            CreateUserInfo(document, laboratory.Client, fontSize);
             CreateCommonAnalysisOfUrineTable(document, laboratory.TableId);
+            CreateFooter(pdf, document, laboratory.Staff, fontSize);
+        }
         else if (laboratory.LaboratoryTableType == LaboratoryTableType.Torch)
+        {
+            var fontSize = 17;
+            CreateHeader(document, 12);
+            CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
+            CreateUserInfo(document, laboratory.Client, fontSize);
             CreateTorchTable(document, laboratory.TableId);
+            CreateFooter(pdf, document, laboratory.Staff, fontSize);
+        }
         else
             throw new ArgumentIsNotValidException($"{nameof(laboratory.LaboratoryTableType)} table is not exists with id = {laboratory.TableId}");
+    }
+
+    private Cell CreateCell(PdfFont font, int fontSize, TextAlignment alignment, params string[] content)
+    {
+        var cell = new Cell()
+            .SetFont(font)
+            .SetFontSize(fontSize)
+            .SetTextAlignment(alignment)
+            .SetBorder(Border.NO_BORDER);
+
+        foreach (var item in content)
+            cell.Add(new Paragraph(item));
+
+        return cell;
+    }
+
+    private Paragraph CreateParagraph(PdfFont font, int fontSize, TextAlignment alignment, string content)
+    {
+        return new Paragraph(content)
+            .SetFont(font)
+            .SetFontSize(fontSize)
+            .SetTextAlignment(alignment);
     }
 }

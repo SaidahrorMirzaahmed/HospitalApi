@@ -28,11 +28,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 pdf.SetDefaultPageSize(PageSize.A4);
                 Document document = new Document(pdf);
 
-                CreateHeader(document);
-                CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType);
-                CreateUserDetails(document, laboratory.Client);
-                CreateTable(document, laboratory);
-                CreateFooter(pdf, document, laboratory.Staff);
+                CreateTable(pdf, document, laboratory);
 
                 document.Close();
             }
@@ -109,7 +105,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 pdf.SetDefaultPageSize(PageSize.A4);
                 Document document = new Document(pdf);
 
-                CreateHeader(document);
+                CreateHeader(document, 12);
                 CreateDetailsForRecipe(document);
                 CreateUserDetailsForRecipe(document, recipe.Client);
                 CreateTableForRecipe(document, recipe);

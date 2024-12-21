@@ -23,6 +23,7 @@ public partial class PdfGeneratorService
         Paragraph paragraph = new Paragraph($"АМБУЛАТОР КАРТА")
             .SetFont(font)
             .SetFontSize(16)
+            .SetMarginTop(20)
             .SetMarginBottom(5)
             .SetTextAlignment(TextAlignment.CENTER)
             .SetFontColor(ColorConstants.RED);
