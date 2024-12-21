@@ -28,7 +28,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 pdf.SetDefaultPageSize(PageSize.A4);
                 Document document = new Document(pdf);
 
-                CreateTable(pdf, document, laboratory);
+                CreateLaboratoryPdf(pdf, document, laboratory);
 
                 document.Close();
             }

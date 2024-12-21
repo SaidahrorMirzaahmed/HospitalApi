@@ -116,7 +116,7 @@ public partial class PdfGeneratorService
     }
     #endregion
 
-    private void CreateTable(PdfDocument pdf, Document document, Laboratory laboratory)
+    private void CreateLaboratoryPdf(PdfDocument pdf, Document document, Laboratory laboratory)
     {
         if (laboratory.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
         {
