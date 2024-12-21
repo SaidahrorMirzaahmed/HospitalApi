@@ -28,7 +28,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 pdf.SetDefaultPageSize(PageSize.A4);
                 Document document = new Document(pdf);
 
-                CreateTable(pdf, document, laboratory);
+                CreateLaboratoryPdf(pdf, document, laboratory);
 
                 document.Close();
             }
@@ -68,7 +68,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateHeaderForTicket(document);
                 CreateUserDetailsForTicket(document, ticket.Client);
                 CreateTableForTicket(document, ticket.MedicalServiceTypeHistories);
-                CreateFooterForTicket(pdf, document, ticket.CommonPrice);
+                CreateFooterForTicket(pdf, document, ticket.CommonPrice, ticket.MedicalServiceTypeHistories.First().QueueDate);
 
                 document.Close();
             }

@@ -60,6 +60,8 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
         existNews.Id = id;
         existNews.Title = news.Title;
         existNews.SubTitle = news.SubTitle;
+        existNews.TitleRu = news.TitleRu;
+        existNews.SubTitleRu = news.SubTitleRu;
         existNews.Update();
 
         await unitOfWork.SaveAsync();

@@ -32,6 +32,7 @@ public partial class PdfGeneratorService
         Paragraph paragraph = new Paragraph($"Turon Tibbiyot Medical")
             .SetFont(font)
             .SetFontSize(14)
+            .SetBold()
             .SetHorizontalAlignment(HorizontalAlignment.CENTER);
 
         table.AddCell(new Cell()
@@ -65,7 +66,8 @@ public partial class PdfGeneratorService
             .SetMarginBottom(0);
 
         Paragraph userDetails = new Paragraph($"{user.LastName} {user.FirstName}")
-            .SetFontSize(20);
+            .SetFontSize(14)
+            .SetBold();
 
         document.Add(paragraph);
         document.Add(userDetails);
@@ -95,13 +97,15 @@ public partial class PdfGeneratorService
     #endregion
 
     #region
-    private void CreateFooterForTicket(PdfDocument pdf, Document document, double price)
+    private void CreateFooterForTicket(PdfDocument pdf, Document document, double price, DateOnly date)
     {
         float pageHeight = pdf.GetLastPage().GetPageSize().GetHeight();
         float marginBottom = 40;
         float lineSpacing = 20;
         float bottomParagraphY = marginBottom;
-        float secondParagraphY = marginBottom + 20 + lineSpacing;
+        float secondParagraphY = marginBottom + lineSpacing;
+        float thirdParagraphY = marginBottom + 20 + lineSpacing;
+
 
         Paragraph paragraph = new Paragraph("To'liq")
             .SetFontColor(ColorConstants.GRAY)
@@ -109,10 +113,21 @@ public partial class PdfGeneratorService
             .SetMarginTop(10)
             .SetMarginBottom(0);
 
+        Paragraph dateParagraph = new Paragraph($"-Sanasi: {date.ToString("dd.MM.yyyy")}")
+            .SetFontSize(14);
+
         Paragraph details = new Paragraph($"-To'liq hisob: {price.ToString("N0", new NumberFormatInfo() { NumberGroupSeparator = " " })} so'm")
-            .SetFontSize(20);
+            .SetFontSize(14)
+            .SetBold();
 
         paragraph.SetFixedPosition(
+            pdf.GetNumberOfPages(),
+            document.GetLeftMargin(),
+            thirdParagraphY,
+            pdf.GetDefaultPageSize().GetWidth() - document.GetLeftMargin() - document.GetRightMargin()
+        );
+
+        dateParagraph.SetFixedPosition(
             pdf.GetNumberOfPages(),
             document.GetLeftMargin(),
             secondParagraphY,
@@ -127,6 +142,7 @@ public partial class PdfGeneratorService
         );
 
         document.Add(paragraph);
+        document.Add(dateParagraph);
         document.Add(details);
     }
     #endregion
@@ -147,12 +163,14 @@ public partial class PdfGeneratorService
             .Add(new Paragraph(history.MedicalServiceType.ServiceTypeTitle)
             .SetFont(font)
             .SetFontSize(14))
+            .SetBold()
             .SetPadding(10)
             .SetBorder(Border.NO_BORDER);
         Cell queueCell = new Cell()
             .Add(new Paragraph($"{history.Queue}-Navbat")
             .SetFont(font)
             .SetFontSize(14)
+            .SetBold()
             .SetTextAlignment(TextAlignment.RIGHT))
             .SetPadding(10)
             .SetBorder(Border.NO_BORDER);

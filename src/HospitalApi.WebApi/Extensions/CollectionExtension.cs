@@ -27,6 +27,7 @@ using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Middlewares;
 using HospitalApi.WebApi.Validations.Bookings;
+using HospitalApi.WebApi.Validations.Laboratories;
 using HospitalApi.WebApi.Validations.MedicalServices;
 using HospitalApi.WebApi.Validations.News;
 using HospitalApi.WebApi.Validations.Recipes;
@@ -127,6 +128,8 @@ public static class CollectionExtension
 
         services.AddTransient<MedicalServiceTypeCreateModelValidator>();
         services.AddTransient<MedicalServiceTypeUpdateModelValidator>();
+
+        services.AddTransient<LaboratoryUpdateModelValidator>();
     }
     public static void AddJwtService(this IServiceCollection services, IConfiguration configuration)
     {

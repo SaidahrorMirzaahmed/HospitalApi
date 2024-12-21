@@ -1,16 +1,21 @@
 ﻿using AutoMapper;
 using HospitalApi.DataAccess.UnitOfWorks;
-using HospitalApi.Domain.Entities;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Services.Laboratories;
 using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Extensions;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.Pdfs;
+using HospitalApi.WebApi.Validations.Laboratories;
 
 namespace HospitalApi.WebApi.ApiServices.Laboratories;
 
-public class LaboratoryApiService(IUnitOfWork unitOfWork, ILaboratoryService laboratoryService, IPdfGeneratorService pdfGeneratorService, IMapper mapper) : ILaboratoryApiService
+public class LaboratoryApiService(IUnitOfWork unitOfWork,
+    ILaboratoryService laboratoryService, 
+    IPdfGeneratorService pdfGeneratorService,
+    IMapper mapper,
+    LaboratoryUpdateModelValidator validator) : ILaboratoryApiService
 {
     public async Task<PdfDetailsViewModel> GeneratePdfAsync(long laboratoryId)
     {
@@ -60,6 +65,7 @@ public class LaboratoryApiService(IUnitOfWork unitOfWork, ILaboratoryService lab
 
     public async Task<LaboratoryViewModel> UpdateAsync(long id, LaboratoryUpdateModel update)
     {
+        await validator.EnsureValidatedAsync(update);
         var laboratory = await laboratoryService.UpdateAsync(id, update.ClientId, update.LaboratoryTableType);
 
         return mapper.Map<LaboratoryViewModel>(laboratory);
