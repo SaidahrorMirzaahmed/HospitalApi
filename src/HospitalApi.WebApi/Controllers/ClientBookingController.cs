@@ -1,4 +1,5 @@
-﻿using HospitalApi.Service.Configurations;
+﻿using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.ClientBookings;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Responses;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalApi.WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class ClientBookingController(IClientBookingApiService apiService) : ControllerBase
 {
     [HttpGet]

@@ -1,8 +1,7 @@
 ﻿using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Models;
 using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.Models.Responses;
-using HospitalApi.Service.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
@@ -16,7 +15,7 @@ public class TableController(
     ICommonAnalysisOfBloodTableApiService commonAnalysisOfBloodTableApiService,
     ICommonAnalysisOfUrineTableApiService commonAnalysisOfUrineTableApiService) : ControllerBase
 {
-    [AllowAnonymous]
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("analysis-of-feces-table/{id:long}")]
     public async ValueTask<IActionResult> GetAnalysisOfFecesTable(long id)
     {
@@ -39,7 +38,6 @@ public class TableController(
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("biochemical-analysis-of-blood-table/{id:long}")]
     public async ValueTask<IActionResult> GetBiochemicalAnalysisOfBloodTable(long id)
     {
@@ -62,7 +60,6 @@ public class TableController(
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("common-analysis-of-blood-table/{id:long}")]
     public async ValueTask<IActionResult> GetCommonAnalysisOfBloodTable(long id)
     {
@@ -85,7 +82,6 @@ public class TableController(
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("common-analysis-of-urine-table/{id:long}")]
     public async ValueTask<IActionResult> GetCommonAnalysisOfUrineTable(long id)
     {
@@ -108,7 +104,6 @@ public class TableController(
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("torch/{id:long}")]
     public async ValueTask<IActionResult> GetTorchTable(long id)
     {

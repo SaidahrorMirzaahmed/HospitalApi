@@ -1,4 +1,5 @@
-﻿using HospitalApi.Service.Configurations;
+﻿using HospitalApi.Domain.Enums;
+using HospitalApi.Service.Configurations;
 using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Responses;
@@ -8,9 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
 
-//[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class UsersController(IUserApiService service) : BaseController
 {
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("/staff")]
     public async ValueTask<IActionResult> PostStaffAsync(StaffCreateModel createModel)
     {
@@ -34,7 +36,6 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
-    [AllowAnonymous]
     [HttpPut("{id:long}")]
     public async ValueTask<IActionResult> PutClientAsync(long id, UserUpdateModel updateModel)
     {
@@ -46,6 +47,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("{id:long}/staff")]
     public async ValueTask<IActionResult> PutStaffAsync(long id, StaffUpdateModel updateModel)
     {
@@ -68,6 +70,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
     {
@@ -79,6 +82,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> GetAllAsync(
         [FromQuery] PaginationParams @params,
@@ -93,6 +97,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [AllowAnonymous]
     [HttpGet("/client")]
     public async ValueTask<IActionResult> GetAllClient(
         [FromQuery] PaginationParams @params,
@@ -107,6 +112,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [AllowAnonymous]
     [HttpGet("/staff")]
     public async ValueTask<IActionResult> GetAllStaff(
         [FromQuery] PaginationParams @params,

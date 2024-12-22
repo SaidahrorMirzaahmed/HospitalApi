@@ -11,6 +11,7 @@ using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Service.Services.ProtectionServices;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.Service.Services.Recipes;
+using HospitalApi.Service.Services.StatisticsServices;
 using HospitalApi.Service.Services.Tables;
 using HospitalApi.Service.Services.Tickets;
 using HospitalApi.Service.Services.Users;
@@ -21,6 +22,7 @@ using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.ApiServices.MedicalServices;
 using HospitalApi.WebApi.ApiServices.News;
 using HospitalApi.WebApi.ApiServices.Recipes;
+using HospitalApi.WebApi.ApiServices.StatisticsDetails;
 using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.ApiServices.Tickets;
 using HospitalApi.WebApi.ApiServices.Users;
@@ -57,6 +59,7 @@ public static class CollectionExtension
         services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<IQueueService, QueueService>();
         services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
+        services.AddScoped<IStatisticsService, StatisticsService>();
         // Table
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
@@ -79,6 +82,7 @@ public static class CollectionExtension
         services.AddScoped<IMedicalServiceTypeApiService, MedicalServiceTypeApiService>();
         services.AddScoped<ITicketApiService, TicketApiService>();
         services.AddScoped<IClientBookingApiService, ClientBookingApiService>();
+        services.AddScoped<IStatisticsApiService, StatisticsApiService>();
         // Table
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();

@@ -4,7 +4,6 @@ using HospitalApi.WebApi.ApiServices.Tickets;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Responses;
 using HospitalApi.WebApi.Models.Tickets;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
@@ -13,7 +12,6 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class TicketController(ITicketApiService apiService) : ControllerBase
 {
-    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -25,7 +23,6 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("client/{id:long}")]
     public async ValueTask<IActionResult> GetByClientId(long id,
         [FromQuery] PaginationParams @params,
@@ -40,7 +37,6 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> GetAll(
         [FromQuery] PaginationParams @params,
@@ -74,6 +70,18 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
             StatusCode = 200,
             Message = "Ok",
             Data = await apiService.CreateAsync(clientId, ticketCreateModels)
+        });
+    }
+
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [HttpPut("{id:long}")]
+    public async ValueTask<IActionResult> Put(long id)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.UpdateAsync(id)
         });
     }
 
