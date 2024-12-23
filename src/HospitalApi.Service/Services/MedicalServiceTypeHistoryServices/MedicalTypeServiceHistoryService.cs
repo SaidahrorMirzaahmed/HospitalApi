@@ -5,6 +5,7 @@ using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 
@@ -18,10 +19,10 @@ public class MedicalTypeServiceHistoryService(IUnitOfWork unitOfWork) : IMedical
 
         if (!string.IsNullOrEmpty(search))
             entities = entities
-                .Where(entity => entity.Client.FirstName.ToLower().Contains(search.ToLower())
-                    || entity.Client.LastName.ToLower().Contains(search.ToLower())
-                    || entity.MedicalServiceType.ServiceTypeTitle.ToLower().Contains(search.ToLower())
-                    || entity.MedicalServiceType.ServiceTypeTitleRu.ToLower().Contains(search.ToLower()));
+                .Where(entity => 
+                    entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+                    || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search)
+                    || entity.QueueDate.ToString().Contains(search));
 
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
     }

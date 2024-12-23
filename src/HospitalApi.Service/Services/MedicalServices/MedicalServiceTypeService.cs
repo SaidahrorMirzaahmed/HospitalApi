@@ -26,8 +26,9 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
 
         if (!string.IsNullOrWhiteSpace(search))
             serviceTypes = serviceTypes
-                .Where(type => type.ServiceTypeTitle.ToLower().Contains(search.ToLower())
-                    || type.ServiceTypeTitleRu.ToLower().Contains(search.ToLower()));
+                .Where(type => type.ServiceTypeTitle.ToLower().Contains(search.ToLower()) || type.ServiceTypeTitleRu.ToLower().Contains(search.ToLower())
+                    || type.Staff.FirstName.ToLower().Contains(search.ToLower()) || type.Staff.LastName.ToLower().Contains(search.ToLower())
+                    || type.Staff.Phone.Contains(search) || type.Staff.Address.ToLower().Contains(search.ToLower()));
 
         return await serviceTypes.ToListAsync();
     }

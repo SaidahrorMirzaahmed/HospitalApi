@@ -10,6 +10,7 @@ using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.Tickets;
 
@@ -22,8 +23,9 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
-            entities = entities.Where(entity => entity.Client.FirstName.ToLower().Contains(search.ToLower())
-                || entity.Client.LastName.ToLower().Contains(search.ToLower()));
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower())|| entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
 
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
     }
