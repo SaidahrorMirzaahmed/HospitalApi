@@ -10,7 +10,6 @@ using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.Tickets;
 
@@ -24,7 +23,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
 
         if (!string.IsNullOrEmpty(search))
             entities = entities.Where(entity =>
-                entity.Client.FirstName.ToLower().Contains(search.ToLower())|| entity.Client.LastName.ToLower().Contains(search.ToLower())
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
             || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
 
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
@@ -52,10 +51,13 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
     {
         await unitOfWork.BeginTransactionAsync();
 
-        var ticket = await unitOfWork.Tickets.InsertAsync(new Ticket { ClientId = clientId });
+        var ticket = new Ticket { ClientId = clientId };
+        ticket.Create();
         if (HttpContextHelper.HttpContext.User.Claims
-            .Any(c => c.Type == ClaimTypes.Role && 
+            .Any(c => c.Type == ClaimTypes.Role &&
                 (c.Value == nameof(UserRole.Staff) || c.Value == nameof(UserRole.Owner)))) ticket.IsPaid = true;
+
+        await unitOfWork.Tickets.InsertAsync(ticket);
         await unitOfWork.SaveAsync();
 
         var types = await queueService.CreateQueuesAsync(dtos);
