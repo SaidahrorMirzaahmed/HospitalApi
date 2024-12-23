@@ -33,4 +33,15 @@ public class AccountsController(IAccountApiService service) : ControllerBase
             Data = await service.VerifySMSCode(phone, code)
         });
     }
+
+    [HttpGet("/verify/token")]
+    public async ValueTask<IActionResult> VerifyToken(string token)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await service.VerifyTokenAsync(token)
+        });
+    }
 }
