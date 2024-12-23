@@ -5,6 +5,7 @@ using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.Recipes;
 
@@ -57,8 +58,8 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
 
         if (!string.IsNullOrEmpty(search))
             res = res.Where(recipe =>
-                recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search));
-
+                recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search)
+                || recipe.Client.Phone.Contains(search) || recipe.Client.Address.ToLower().Contains(search));
         return await Task.FromResult(res);
     }
 

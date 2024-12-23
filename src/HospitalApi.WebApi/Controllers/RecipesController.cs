@@ -4,7 +4,6 @@ using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
@@ -12,7 +11,7 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class RecipesController(IRecipeApiService service) : BaseController
 {
-    [AllowAnonymous]
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("pdf/{id:long}")]
     public async ValueTask<IActionResult> PostAsync(long id)
     {
@@ -57,7 +56,6 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> GetAsync(long id)
     {
@@ -69,7 +67,6 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
-    [AllowAnonymous]
     [HttpGet("user-id/{id:long}")]
     public async ValueTask<IActionResult> GetByUserId(
         long id,
@@ -85,7 +82,6 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> GetAllAsync(
         [FromQuery] PaginationParams @params,
@@ -97,6 +93,6 @@ public class RecipesController(IRecipeApiService service) : BaseController
             StatusCode = 200,
             Message = "Ok",
             Data = await service.GetAllAsync(@params, filter, search)
-        }); 
+        });
     }
 }

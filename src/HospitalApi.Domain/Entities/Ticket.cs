@@ -6,8 +6,6 @@ public class Ticket : Auditable
 {
     public bool IsPaid { get; set; }
 
-    public bool IsCancelled { get; set; }
-
     public double CommonPrice { get; set; }
 
     public long ClientId { get; set; }

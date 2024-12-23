@@ -4,7 +4,6 @@ using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.Configurations;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
@@ -13,7 +12,7 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class LaboratoryController(ILaboratoryApiService service) : ControllerBase
 {
-    [AllowAnonymous]
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -25,7 +24,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [AllowAnonymous]
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("user/{id:long}")]
     public async ValueTask<IActionResult> GetByUserId(long id,
         [FromQuery] PaginationParams @params,
@@ -40,7 +39,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [AllowAnonymous]
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet]
     public async ValueTask<IActionResult> GetAll(
         [FromQuery] PaginationParams @params,
@@ -55,7 +54,6 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [AllowAnonymous]
     [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("pdf/{id:long}")]
     public async ValueTask<IActionResult> GetPdf(long id)

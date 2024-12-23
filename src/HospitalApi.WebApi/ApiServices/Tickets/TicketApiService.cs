@@ -54,9 +54,11 @@ public class TicketApiService(ITicketService service, IMapper mapper, IPdfGenera
         return mapper.Map<TicketViewModelModel>(entity);
     }
 
-    public async Task<TicketViewModelModel> UpdateAsync(bool isPaid, bool isCancelled)
+    public async Task<TicketViewModelModel> UpdateAsync(long id)
     {
-        throw new NotImplementedException();
+        var updatedEntity = await service.UpdateAsync(id, null);
+
+        return mapper.Map<TicketViewModelModel>(updatedEntity);
     }
 
     public async Task<bool> DeleteByIdAsync(long id)

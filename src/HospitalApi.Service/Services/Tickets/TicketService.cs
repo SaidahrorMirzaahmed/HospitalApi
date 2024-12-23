@@ -1,12 +1,15 @@
 ﻿using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
+using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
+using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.QueueServices;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace HospitalApi.Service.Services.Tickets;
 
@@ -19,8 +22,9 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
-            entities = entities.Where(entity => entity.Client.FirstName.ToLower().Contains(search.ToLower())
-                || entity.Client.LastName.ToLower().Contains(search.ToLower()));
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
 
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
     }
@@ -47,7 +51,13 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
     {
         await unitOfWork.BeginTransactionAsync();
 
-        var ticket = await unitOfWork.Tickets.InsertAsync(new Ticket { ClientId = clientId });
+        var ticket = new Ticket { ClientId = clientId };
+        ticket.Create();
+        if (HttpContextHelper.HttpContext.User.Claims
+            .Any(c => c.Type == ClaimTypes.Role &&
+                (c.Value == nameof(UserRole.Staff) || c.Value == nameof(UserRole.Owner)))) ticket.IsPaid = true;
+
+        await unitOfWork.Tickets.InsertAsync(ticket);
         await unitOfWork.SaveAsync();
 
         var types = await queueService.CreateQueuesAsync(dtos);
@@ -82,8 +92,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
             ?? throw new NotFoundException($"{nameof(MedicalServiceTypeHistory)} is not exists with id = {id}");
 
         entity.Update();
-        entity.IsPaid = ticket.IsPaid;
-        entity.IsCancelled = ticket.IsCancelled;
+        entity.IsPaid = true;
 
         await unitOfWork.Tickets.UpdateAsync(entity);
         await unitOfWork.SaveAsync();

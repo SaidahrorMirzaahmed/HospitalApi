@@ -7,6 +7,7 @@ using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Tables;
 using HospitalApi.WebApi.Configurations;
+using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.Laboratories;
 
@@ -24,8 +25,10 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
-            laboratory = laboratory.Where(x => x.Staff.FirstName.Contains(search) || x.Staff.LastName.Contains(search) || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search));
-
+            laboratory = laboratory.Where(x => x.Staff.FirstName.Contains(search) || x.Staff.LastName.Contains(search)
+                || x.Staff.Phone.Contains(search) || x.Staff.Address.ToLower().Contains(search.ToLower())
+                || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search)
+                || x.Client.Phone.Contains(search) || x.Client.Address.ToLower().Contains(search));
         return await Task.FromResult(laboratory);
     }
 
@@ -36,7 +39,10 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
-            laboratory = laboratory.Where(x => x.Staff.FirstName.Contains(search) || x.Staff.LastName.Contains(search) || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search));
+            laboratory = laboratory.Where(x => x.Staff.FirstName.Contains(search) || x.Staff.LastName.Contains(search)
+                || x.Staff.Phone.Contains(search) || x.Staff.Address.ToLower().Contains(search.ToLower())
+                || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search)
+                || x.Client.Phone.Contains(search) || x.Client.Address.ToLower().Contains(search));
 
         return await Task.FromResult(laboratory);
     }

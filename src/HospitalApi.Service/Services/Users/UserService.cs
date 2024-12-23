@@ -64,7 +64,8 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
         if (!string.IsNullOrEmpty(search))
             users = users.Where(user =>
-                user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search));
+                user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search)
+                || user.Phone.Contains(search) || user.Address.ToLower().Contains(search));
 
         return await users.ToPaginateAsQueryable(@params).ToListAsync();
     }
@@ -174,7 +175,8 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
         if (!string.IsNullOrEmpty(search))
             users = users.Where(user =>
-                user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search));
+                user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search)
+                || user.Phone.Contains(search) || user.Address.ToLower().Contains(search));
 
         return await users.ToPaginateAsQueryable(@params).ToListAsync();
     }
@@ -187,7 +189,8 @@ public class UserService(IUnitOfWork unitOfWork, IMemoryCache cache, ICodeSender
 
         if (!string.IsNullOrEmpty(search))
             users = users.Where(user =>
-            user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search));
+            user.FirstName.ToLower().Contains(search) || user.LastName.ToLower().Contains(search)
+            || user.Phone.Contains(search) || user.Address.ToLower().Contains(search));
 
         return await users.ToPaginateAsQueryable(@params).ToListAsync();
     }

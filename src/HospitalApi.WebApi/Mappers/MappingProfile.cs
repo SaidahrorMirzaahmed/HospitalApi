@@ -82,5 +82,16 @@ public class MappingProfile : Profile
             });
         CreateMap<TicketCreateModel, TicketCreateDto>().ReverseMap();
         CreateMap<PdfDetails, PdfDetailsViewModel>().ReverseMap();
+
+        CreateMap<MedicalServiceTypeStatisticsDetailsDto, Models.Statistics.MedicalServiceTypeStatisticsDetailsDto>()
+            .ConstructUsing((src, context) => new Models.Statistics.MedicalServiceTypeStatisticsDetailsDto
+            {
+                MedicalServiceType = context.Mapper.Map<MedicalServiceTypeViewModel>(src.MedicalServiceType)
+            });
+        CreateMap<StatisticsDetailsDto, Models.Statistics.StatisticsDetailsDto>()
+            .ConstructUsing((src, context) => new Models.Statistics.StatisticsDetailsDto
+            {
+                MedicalServiceTypeStatistics = context.Mapper.Map<IEnumerable<Models.Statistics.MedicalServiceTypeStatisticsDetailsDto>>(src.MedicalServiceTypeStatistics)
+            });
     }
 }

@@ -38,8 +38,9 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
-            res = res.Where(user =>
-                user.Title.ToLower().Contains(search) || user.SubTitle.ToLower().Contains(search));
+            res = res.Where(news =>
+                news.Title.ToLower().Contains(search) || news.SubTitle.ToLower().Contains(search)
+                || news.TitleRu.ToLower().Contains(search.ToLower()) || news.SubTitleRu.ToLower().Contains(search.ToLower()));
 
         return await Task.FromResult(res);
     }
