@@ -31,6 +31,34 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService, I
         return await entities.ToPaginateAsQueryable(@params).ToListAsync();
     }
 
+    public async Task<IEnumerable<Ticket>> GetAllPaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(entity => entity.IsPaid && !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
+
+        return await entities.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Ticket>> GetAllUnpaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(entity => !entity.IsPaid && !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
+
+        return await entities.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
 
     public async Task<Ticket> GetByIdAsync(long id)
     {
@@ -44,6 +72,24 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService, I
     {
         var entities = unitOfWork.Tickets
             .SelectAsQueryable(item => item.ClientId == clientId && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
+    }
+
+    public async Task<IEnumerable<Ticket>> GetPaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(item => item.ClientId == clientId && item.IsPaid && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
+    }
+
+    public async Task<IEnumerable<Ticket>> GetUnpaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(item => item.ClientId == clientId && !item.IsPaid && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
             .OrderBy(filter);
 
         return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));

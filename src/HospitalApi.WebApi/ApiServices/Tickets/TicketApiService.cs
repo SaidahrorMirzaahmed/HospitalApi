@@ -20,6 +20,20 @@ public class TicketApiService(IUnitOfWork unitOfWork, ITicketService service, IM
         return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
     }
 
+    public async Task<IEnumerable<TicketViewModelModel>> GetAllPaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = await service.GetAllPaidAsync(@params, filter, search);
+
+        return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
+    }
+
+    public async Task<IEnumerable<TicketViewModelModel>> GetAllUnpaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = await service.GetAllUnpaidAsync(@params, filter, search);
+
+        return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
+    }
+
 
     public async Task<TicketViewModelModel> GetByIdAsync(long id)
     {
@@ -46,6 +60,26 @@ public class TicketApiService(IUnitOfWork unitOfWork, ITicketService service, IM
         [FromQuery] string search = null)
     {
         var entities = await service.GetByClientIdAsync(id, @params, filter, search);
+
+        return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
+    }
+
+    public async Task<IEnumerable<TicketViewModelModel>> GetPaidByClientIdAsync(long id,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        var entities = await service.GetPaidByClientIdAsync(id, @params, filter, search);
+
+        return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
+    }
+
+    public async Task<IEnumerable<TicketViewModelModel>> GetUnpaidByClientIdAsync(long id,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        var entities = await service.GetUnpaidByClientIdAsync(id, @params, filter, search);
 
         return mapper.Map<IEnumerable<TicketViewModelModel>>(entities);
     }

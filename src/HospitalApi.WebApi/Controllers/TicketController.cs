@@ -37,6 +37,34 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
+    [HttpGet("paid/client/{id:long}")]
+    public async ValueTask<IActionResult> GetPaidByClientId(long id,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetPaidByClientIdAsync(id, @params, filter, search)
+        });
+    }
+
+    [HttpGet("unpaid/client/{id:long}")]
+    public async ValueTask<IActionResult> GetUnpaidByClientId(long id,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetUnpaidByClientIdAsync(id, @params, filter, search)
+        });
+    }
+
     [HttpGet]
     public async ValueTask<IActionResult> GetAll(
         [FromQuery] PaginationParams @params,
@@ -51,16 +79,44 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
-    [HttpPost("pdf/{id:long}")]
-    public async ValueTask<IActionResult> GetPdf(long id)
+    [HttpGet("paid")]
+    public async ValueTask<IActionResult> GetAllPaid(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await apiService.GetPdf(id)
+            Data = await apiService.GetAllPaidAsync(@params, filter, search)
         });
     }
+
+    [HttpGet("unpaid")]
+    public async ValueTask<IActionResult> GetAllUnpaid(
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string search = null)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = await apiService.GetAllUnpaidAsync(@params, filter, search)
+        });
+    }
+
+    //[HttpPost("pdf/{id:long}")]
+    //public async ValueTask<IActionResult> GetPdf(long id)
+    //{
+    //    return Ok(new Response
+    //    {
+    //        StatusCode = 200,
+    //        Message = "Ok",
+    //        Data = await apiService.GetPdf(id)
+    //    });
+    //}
 
     [HttpPost("client-id/{clientId:long}")]
     public async ValueTask<IActionResult> PostByIds(long clientId, IEnumerable<TicketCreateModel> ticketCreateModels)

@@ -9,9 +9,17 @@ public interface ITicketService
 {
     Task<IEnumerable<Ticket>> GetAllAsync(PaginationParams @params, Filter filter, string search = null);
 
+    Task<IEnumerable<Ticket>> GetAllPaidAsync(PaginationParams @params, Filter filter, string search = null);
+
+    Task<IEnumerable<Ticket>> GetAllUnpaidAsync(PaginationParams @params, Filter filter, string search = null);
+
     Task<Ticket> GetByIdAsync(long id);
 
     Task<IEnumerable<Ticket>> GetByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null);
+
+    Task<IEnumerable<Ticket>> GetPaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null);
+
+    Task<IEnumerable<Ticket>> GetUnpaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null);
 
     Task<Ticket> CreateAsync(long clientId, IEnumerable<TicketCreateDto> createDtos);
 
