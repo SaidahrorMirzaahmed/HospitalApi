@@ -97,7 +97,7 @@ public partial class PdfGeneratorService
     #endregion
 
     #region
-    private void CreateFooterForTicket(PdfDocument pdf, Document document, double price, DateOnly date)
+    private void CreateFooterForTicket(PdfDocument pdf, Document document, Ticket ticket)
     {
         float pageHeight = pdf.GetLastPage().GetPageSize().GetHeight();
         float marginBottom = 40;
@@ -105,6 +105,7 @@ public partial class PdfGeneratorService
         float bottomParagraphY = marginBottom;
         float secondParagraphY = marginBottom + lineSpacing;
         float thirdParagraphY = marginBottom + 20 + lineSpacing;
+        float fourthParagraphY = marginBottom + 40 + lineSpacing;
 
 
         Paragraph paragraph = new Paragraph("To'liq")
@@ -113,28 +114,42 @@ public partial class PdfGeneratorService
             .SetMarginTop(10)
             .SetMarginBottom(0);
 
-        Paragraph dateParagraph = new Paragraph($"-Sanasi: {date.ToString("dd.MM.yyyy")}")
+        Paragraph dateParagraph = new Paragraph($"-Sanasi: {ticket.MedicalServiceTypeHistories.First().QueueDate.ToString("dd.MM.yyyy")}")
             .SetFontSize(14);
 
-        Paragraph details = new Paragraph($"-To'liq hisob: {price.ToString("N0", new NumberFormatInfo() { NumberGroupSeparator = " " })} so'm")
+        Paragraph detailsPrice = new Paragraph($"-To'liq hisob: {ticket.CommonPrice.ToString("N0", new NumberFormatInfo() { NumberGroupSeparator = " " })} so'm")
+            .SetFontSize(14)
+            .SetBold();
+
+        Paragraph detailsStatus = new Paragraph()
+            .Add(new Text($"-To'lov statusi: "))
+            .Add(new Text(ticket.IsPaid ? "To'langan" : "To'lanmagan")
+                .SetFontColor(ticket.IsPaid ? ColorConstants.GREEN : ColorConstants.RED))
             .SetFontSize(14)
             .SetBold();
 
         paragraph.SetFixedPosition(
             pdf.GetNumberOfPages(),
             document.GetLeftMargin(),
-            thirdParagraphY,
+            fourthParagraphY,
             pdf.GetDefaultPageSize().GetWidth() - document.GetLeftMargin() - document.GetRightMargin()
         );
 
         dateParagraph.SetFixedPosition(
             pdf.GetNumberOfPages(),
             document.GetLeftMargin(),
-            secondParagraphY,
+            thirdParagraphY,
             pdf.GetDefaultPageSize().GetWidth() - document.GetLeftMargin() - document.GetRightMargin()
         );
 
-        details.SetFixedPosition(
+        detailsPrice.SetFixedPosition(
+            pdf.GetNumberOfPages(),
+            document.GetLeftMargin(),
+            secondParagraphY,
+            pdf.GetDefaultPageSize().GetWidth() - document.GetLeftMargin() - document.GetRightMargin()
+        );
+        
+        detailsStatus.SetFixedPosition(
             pdf.GetNumberOfPages(),
             document.GetLeftMargin(),
             marginBottom,
@@ -143,7 +158,8 @@ public partial class PdfGeneratorService
 
         document.Add(paragraph);
         document.Add(dateParagraph);
-        document.Add(details);
+        document.Add(detailsPrice);
+        document.Add(detailsStatus);
     }
     #endregion
 

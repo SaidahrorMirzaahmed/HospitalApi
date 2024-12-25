@@ -68,7 +68,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
                 CreateHeaderForTicket(document);
                 CreateUserDetailsForTicket(document, ticket.Client);
                 CreateTableForTicket(document, ticket.MedicalServiceTypeHistories);
-                CreateFooterForTicket(pdf, document, ticket.CommonPrice, ticket.MedicalServiceTypeHistories.First().QueueDate);
+                CreateFooterForTicket(pdf, document, ticket);
 
                 document.Close();
             }

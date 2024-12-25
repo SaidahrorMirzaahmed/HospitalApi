@@ -15,7 +15,7 @@ public interface ITicketService
 
     Task<Ticket> CreateAsync(long clientId, IEnumerable<TicketCreateDto> createDtos);
 
-    Task<Ticket> UpdateAsync(long id, Ticket ticket);
+    Task<Ticket> UpdateAsync(long id, Ticket ticket, bool isPaid);
 
     Task<bool> DeleteByIdAsync(long id);
 }

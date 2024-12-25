@@ -19,7 +19,7 @@ public interface ITicketApiService
 
     Task<TicketViewModelModel> CreateAsync(long clientId, IEnumerable<TicketCreateModel> ticketCreateModels);
 
-    Task<TicketViewModelModel> UpdateAsync(long id);
+    Task<TicketViewModelModel> UpdateAsync(long id, bool isPaid);
 
     Task<bool> DeleteByIdAsync(long id);
 }
