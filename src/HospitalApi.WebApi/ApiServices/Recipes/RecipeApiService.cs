@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Entities;
-using HospitalApi.Service.Services.Assets;
-using HospitalApi.Service.Services.Recipes;
-using HospitalApi.WebApi.Extensions;
-using HospitalApi.WebApi.Models.Recipes;
-using HospitalApi.WebApi.Validations.Recipes;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Helpers;
-using HospitalApi.WebApi.Configurations;
-using HospitalApi.WebApi.Models.Pdfs;
 using HospitalApi.Service.Services.PdfGeneratorServices;
+using HospitalApi.Service.Services.Recipes;
+using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Extensions;
+using HospitalApi.WebApi.Models.Pdfs;
+using HospitalApi.WebApi.Models.Recipes;
+using HospitalApi.WebApi.Validations.Recipes;
 
 namespace HospitalApi.WebApi.ApiServices.Recipes;
 
@@ -32,7 +31,7 @@ public class RecipeApiService(
 
         return mapper.Map<PdfDetailsViewModel>(pdf);
     }
-    
+
     public async Task<RecipeViewModel> PostAsync(RecipeCreateModel createModel)
     {
         await validations.EnsureValidatedAsync(createModel);
@@ -55,7 +54,7 @@ public class RecipeApiService(
         var mappedRecipe = mapper.Map<Recipe>(createModel);
         mappedRecipe.StaffId = HttpContextHelper.UserId;
         var updatedRecipe = await service.UpdateAsync(id, mappedRecipe, createModel.CheckUps);
-        
+
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 

@@ -37,9 +37,9 @@ public class CommonAnalysisOfUrineTableService(IUnitOfWork unitOfWork) : ICommon
         exists.Update();
         exists.Items = table.Items;
 
-        await unitOfWork.CommonAnalysisOfUrineTable.UpdateAsync(exists);
         if (saveChanges)
             await unitOfWork.SaveAsync();
+
         return exists;
     }
 

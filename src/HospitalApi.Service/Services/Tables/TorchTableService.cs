@@ -37,7 +37,6 @@ public class TorchTableService(IUnitOfWork unitOfWork) : ITorchTableService
         exists.Update();
         exists.Items = table.Items;
 
-        await unitOfWork.TorchTables.UpdateAsync(exists);
         if (saveChanges)
             await unitOfWork.SaveAsync();
 

@@ -7,7 +7,6 @@ using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Tables;
 using HospitalApi.WebApi.Configurations;
-using Telegram.Bot.Types;
 
 namespace HospitalApi.Service.Services.Laboratories;
 
@@ -21,7 +20,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
     public async Task<IEnumerable<Laboratory>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var laboratory = unitOfWork.Laboratories
-            .SelectAsQueryable(expression: x => !x.IsDeleted, isTracked: false, includes: ["Staff", "Client"])
+            .SelectAsQueryable(expression: x => !x.IsDeleted, isTracked: false, includes: ["Staff", "Client", "PdfDetails"])
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -35,7 +34,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
     public async Task<IEnumerable<Laboratory>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
     {
         var laboratory = unitOfWork.Laboratories
-            .SelectAsQueryable(expression: x => (x.ClientId == id || x.StaffId == id) && !x.IsDeleted, isTracked: false, includes: ["Staff", "Client"])
+            .SelectAsQueryable(expression: x => (x.ClientId == id || x.StaffId == id) && !x.IsDeleted, isTracked: false, includes: ["Staff", "Client", "PdfDetails"])
             .OrderBy(filter);
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -50,8 +49,8 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
     public async Task<Laboratory> GetAsync(long id)
     {
         var laboratory = await unitOfWork.Laboratories
-            .SelectAsync(expression: x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client"])
-            ?? throw new NotFoundException($"{nameof(Laboratory)} with this Id is not found {id}");
+            .SelectAsync(expression: x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client", "PdfDetails"])
+                ?? throw new NotFoundException($"{nameof(Laboratory)} with this Id is not found {id}");
 
         return laboratory;
     }
@@ -151,7 +150,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
 
         if (laboratoryTableType != exists.LaboratoryTableType)
         {
-            var updated = await DeleteByTable(exists, laboratoryTableType);
+            var updated = await DeleteByTable(exists, laboratoryTableType, true);
             exists = updated;
         }
 
@@ -174,7 +173,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         return true;
     }
 
-    private async Task<Laboratory> DeleteByTable(Laboratory exists, LaboratoryTableType laboratoryTableType)
+    private async Task<Laboratory> DeleteByTable(Laboratory exists, LaboratoryTableType laboratoryTableType, bool isUpdate = false)
     {
         if (exists.LaboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
         {
@@ -198,6 +197,9 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
         }
         else
             throw new ArgumentIsNotValidException($"Table is not exists with id = {exists.TableId}");
+
+        if (!isUpdate)
+            return exists;
 
         if (laboratoryTableType == LaboratoryTableType.AnalysisOfFeces)
         {

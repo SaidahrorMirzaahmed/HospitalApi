@@ -23,5 +23,11 @@ public class LaboratoryConfigurations : IEntityTypeConfiguration<Laboratory>
             .WithMany()
             .HasForeignKey(entity => entity.StaffId)
             .OnDelete(DeleteBehavior.ClientSetNull);
+
+        builder
+            .HasOne(entity => entity.PdfDetails)
+            .WithMany()
+            .HasForeignKey(entity => entity.PdfDetailsId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
