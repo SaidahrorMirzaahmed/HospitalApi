@@ -132,9 +132,9 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService, I
         ticket.MedicalServiceTypeHistories = histories;
 
         var document = await pdfGeneratorService.CreateDocument(ticket);
-        ticket.PdfDetails.Create();
         ticket.PdfDetailsId = document.Id;
         ticket.PdfDetails = document;
+        ticket.PdfDetails.Create();
 
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();

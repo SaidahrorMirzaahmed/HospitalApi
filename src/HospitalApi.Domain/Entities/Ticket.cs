@@ -11,7 +11,7 @@ public class Ticket : Auditable
     public long ClientId { get; set; }
     public User Client { get; set; }
 
-    public long PdfDetailsId { get; set; }
+    public long? PdfDetailsId { get; set; }
     public PdfDetails PdfDetails { get; set; }
 
     public ICollection<MedicalServiceTypeHistory> MedicalServiceTypeHistories { get; set; }

@@ -28,6 +28,6 @@ public class LaboratoryConfigurations : IEntityTypeConfiguration<Laboratory>
             .HasOne(entity => entity.PdfDetails)
             .WithMany()
             .HasForeignKey(entity => entity.PdfDetailsId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

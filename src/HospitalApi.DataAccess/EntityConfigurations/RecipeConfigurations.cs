@@ -24,6 +24,6 @@ public class RecipeConfigurations : IEntityTypeConfiguration<Recipe>
             .HasOne(entity => entity.PdfDetails)
             .WithMany()
             .HasForeignKey(entity => entity.PdfDetailsId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

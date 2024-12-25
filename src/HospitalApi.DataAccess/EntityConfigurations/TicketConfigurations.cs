@@ -20,7 +20,7 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
             .HasOne(entity => entity.PdfDetails)
             .WithMany()
             .HasForeignKey(entity => entity.PdfDetailsId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .Navigation(b => b.Client)
