@@ -86,13 +86,13 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
         return ticket;
     }
 
-    public async Task<Ticket> UpdateAsync(long id, Ticket ticket)
+    public async Task<Ticket> UpdateAsync(long id, Ticket ticket, bool isPaid)
     {
         var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted)
             ?? throw new NotFoundException($"{nameof(MedicalServiceTypeHistory)} is not exists with id = {id}");
 
         entity.Update();
-        entity.IsPaid = true;
+        entity.IsPaid = isPaid;
 
         await unitOfWork.Tickets.UpdateAsync(entity);
         await unitOfWork.SaveAsync();

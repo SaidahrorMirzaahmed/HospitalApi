@@ -75,13 +75,13 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
 
     [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("{id:long}")]
-    public async ValueTask<IActionResult> Put(long id)
+    public async ValueTask<IActionResult> Put(long id, [FromBody] bool isPaid)
     {
         return Ok(new Response
         {
             StatusCode = 200,
             Message = "Ok",
-            Data = await apiService.UpdateAsync(id)
+            Data = await apiService.UpdateAsync(id, isPaid)
         });
     }
 

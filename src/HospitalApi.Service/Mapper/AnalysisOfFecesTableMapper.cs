@@ -78,7 +78,7 @@ public class AnalysisOfFecesTableMapper
             new () { AnalysisOfFecesTableId = id, Result = model.TwentiethItemResult, Index = 20 },
             new () { AnalysisOfFecesTableId = id, Result = model.TwentyFirstItemResult, Index = 21 },
             new () { AnalysisOfFecesTableId = id, Result = model.TwentySecondItemResult, Index = 22 },
-            new () { AnalysisOfFecesTableId = id, Result = model.TwentySecondItemResult, Index = 23 },
+            new () { AnalysisOfFecesTableId = id, Result = model.TwentyThirdItemResult, Index = 23 },
         };
 
         return new AnalysisOfFecesTable { Id = id, Items = items };

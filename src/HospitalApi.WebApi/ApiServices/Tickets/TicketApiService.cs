@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Service.Configurations;
 using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.PdfGeneratorServices;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.ApiServices.Tickets;
 
-public class TicketApiService(ITicketService service, IMapper mapper, IPdfGeneratorService pdfGeneratorService) : ITicketApiService
+public class TicketApiService(IUnitOfWork unitOfWork, ITicketService service, IMapper mapper, IPdfGeneratorService pdfGeneratorService) : ITicketApiService
 {
     public async Task<IEnumerable<TicketViewModelModel>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
@@ -30,7 +31,10 @@ public class TicketApiService(ITicketService service, IMapper mapper, IPdfGenera
     public async Task<PdfDetailsViewModel> GetPdf(long id)
     {
         var entity = await service.GetByIdAsync(id);
+        await unitOfWork.BeginTransactionAsync();
         var pdf = await pdfGeneratorService.CreateDocument(entity);
+        await unitOfWork.CommitTransactionAsync();
+        await unitOfWork.SaveAsync();
 
         return mapper.Map<PdfDetailsViewModel>(pdf);
     }
@@ -54,9 +58,9 @@ public class TicketApiService(ITicketService service, IMapper mapper, IPdfGenera
         return mapper.Map<TicketViewModelModel>(entity);
     }
 
-    public async Task<TicketViewModelModel> UpdateAsync(long id)
+    public async Task<TicketViewModelModel> UpdateAsync(long id, bool isPaid)
     {
-        var updatedEntity = await service.UpdateAsync(id, null);
+        var updatedEntity = await service.UpdateAsync(id, null, isPaid);
 
         return mapper.Map<TicketViewModelModel>(updatedEntity);
     }
