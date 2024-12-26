@@ -1,13 +1,18 @@
-﻿using HospitalApi.DataAccess.UnitOfWorks;
+﻿using AutoMapper;
+using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Mappers;
 using HospitalApi.Service.Models;
 using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Service.Services.Tables;
+using HospitalApi.WebApi.Models.Laboratories;
 
 namespace HospitalApi.WebApi.ApiServices.Tables;
 
-public class CommonAnalysisOfBloodTableApiService(ICommonAnalysisOfBloodTableService service, IUnitOfWork unitOfWork, IPdfGeneratorService pdfGeneratorService) : ICommonAnalysisOfBloodTableApiService
+public class CommonAnalysisOfBloodTableApiService(ICommonAnalysisOfBloodTableService service,
+    IUnitOfWork unitOfWork,
+    IPdfGeneratorService pdfGeneratorService,
+    IMapper mapper) : ICommonAnalysisOfBloodTableApiService
 {
     public async Task<CommonAnalysisOfBloodTableDto> GetAsync(long id)
     {
@@ -16,7 +21,7 @@ public class CommonAnalysisOfBloodTableApiService(ICommonAnalysisOfBloodTableSer
         return CommonAnalysisOfBloodTableMapper.GetCommonAnalysisOfBloodTableView(table);
     }
 
-    public async Task<CommonAnalysisOfBloodTableDto> UpdateAsync(long id, CommonAnalysisOfBloodTableUpdateDto updateModel)
+    public async Task<LaboratoryViewModel> UpdateAsync(long id, CommonAnalysisOfBloodTableUpdateDto updateModel)
     {
         var updated = await service.UpdateAsync(id, CommonAnalysisOfBloodTableMapper.CreateCommonAnalysisOfBloodTable(id, updateModel));
 
@@ -28,6 +33,6 @@ public class CommonAnalysisOfBloodTableApiService(ICommonAnalysisOfBloodTableSer
         await unitOfWork.Laboratories.UpdateAsync(lab);
         await unitOfWork.SaveAsync();
 
-        return CommonAnalysisOfBloodTableMapper.GetCommonAnalysisOfBloodTableView(updated);
+        return mapper.Map<LaboratoryViewModel>(lab);
     }
 }

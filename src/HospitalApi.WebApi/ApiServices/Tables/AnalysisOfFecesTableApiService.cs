@@ -4,9 +4,14 @@ using HospitalApi.Service.Mappers;
 using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Domain.Enums;
+using AutoMapper;
+using HospitalApi.WebApi.Models.Laboratories;
 namespace HospitalApi.WebApi.ApiServices.Tables;
 
-public class AnalysisOfFecesTableApiService(IAnalysisOfFecesTableService service, IUnitOfWork unitOfWork, IPdfGeneratorService pdfGeneratorService) : IAnalysisOfFecesTableApiService
+public class AnalysisOfFecesTableApiService(IAnalysisOfFecesTableService service,
+    IUnitOfWork unitOfWork, 
+    IPdfGeneratorService pdfGeneratorService,
+    IMapper mapper) : IAnalysisOfFecesTableApiService
 {
     public async Task<AnalysisOfFecesTableDto> GetAsync(long id)
     {
@@ -15,7 +20,7 @@ public class AnalysisOfFecesTableApiService(IAnalysisOfFecesTableService service
         return AnalysisOfFecesTableMapper.GetAnalysisOfFecesTableView(table);
     }
 
-    public async Task<AnalysisOfFecesTableDto> UpdateAsync(long id, AnalysisOfFecesTableUpdateDto update)
+    public async Task<LaboratoryViewModel> UpdateAsync(long id, AnalysisOfFecesTableUpdateDto update)
     {
         var table = AnalysisOfFecesTableMapper.CreateAnalysisOfFecesTable(id, update);
         var updated = await service.UpdateAsync(id, table);
@@ -27,6 +32,6 @@ public class AnalysisOfFecesTableApiService(IAnalysisOfFecesTableService service
         lab.PdfDetails = document;
         await unitOfWork.SaveAsync();
 
-        return AnalysisOfFecesTableMapper.GetAnalysisOfFecesTableView(updated);
+        return mapper.Map<LaboratoryViewModel>(lab);
     }
 }

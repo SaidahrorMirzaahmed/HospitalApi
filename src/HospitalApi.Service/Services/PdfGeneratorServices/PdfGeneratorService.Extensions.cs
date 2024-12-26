@@ -78,12 +78,13 @@ public partial class PdfGeneratorService
     #endregion
 
     #region
-    private void CreateUserInfo(Document document, User client, int userInfoFontSize)
+    private void CreateUserInfo(Document document, Laboratory laboratory, int userInfoFontSize)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
-        var time = $"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5))} й.";
-        var name = $"Фамилия, исми   {client.LastName} {client.FirstName}, ёши   {DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - client.Birth.Year}";
-        var address = $"Манзили   {client.Address}";
+        var time = $"{DateOnly.FromDateTime(laboratory.CreatedAt.AddHours(5))} й.";
+        var name = $"Фамилия, исми   {laboratory.Client.LastName} {laboratory.Client.FirstName}, ёши   " +
+            $"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - laboratory.Client.Birth.Year}";
+        var address = $"Манзили   {laboratory.Client.Address}";
 
         document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, time));
         document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, name));
@@ -123,7 +124,7 @@ public partial class PdfGeneratorService
             var fontSize = 12;
             CreateHeader(document, fontSize, 65);
             CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
-            CreateUserInfo(document, laboratory.Client, fontSize);
+            CreateUserInfo(document, laboratory, fontSize);
             CreateAnalysisOfFecesTable(document, laboratory.TableId);
             CreateFooter(pdf, document, laboratory.Staff, fontSize);
         }
@@ -132,7 +133,7 @@ public partial class PdfGeneratorService
             var fontSize = 15;
             CreateHeader(document, 12);
             CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
-            CreateUserInfo(document, laboratory.Client, fontSize);
+            CreateUserInfo(document, laboratory, fontSize);
             CreateBiochemicalAnalysisOfBloodTable(document, laboratory.TableId);
             CreateFooter(pdf, document, laboratory.Staff, fontSize);
         }
@@ -141,7 +142,7 @@ public partial class PdfGeneratorService
             var fontSize = 14;
             CreateHeader(document, 12);
             CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
-            CreateUserInfo(document, laboratory.Client, fontSize);
+            CreateUserInfo(document, laboratory, fontSize);
             CreateCommonAnalysisOfBloodTable(document, laboratory.TableId);
             CreateFooter(pdf, document, laboratory.Staff, fontSize);
         }
@@ -150,7 +151,7 @@ public partial class PdfGeneratorService
             var fontSize = 14;
             CreateHeader(document, 12);
             CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
-            CreateUserInfo(document, laboratory.Client, fontSize);
+            CreateUserInfo(document, laboratory, fontSize);
             CreateCommonAnalysisOfUrineTable(document, laboratory.TableId);
             CreateFooter(pdf, document, laboratory.Staff, fontSize);
         }
@@ -159,7 +160,7 @@ public partial class PdfGeneratorService
             var fontSize = 17;
             CreateHeader(document, 12);
             CreateLaboratoryServiceDetails(document, laboratory.LaboratoryTableType, fontSize);
-            CreateUserInfo(document, laboratory.Client, fontSize);
+            CreateUserInfo(document, laboratory, fontSize);
             CreateTorchTable(document, laboratory.TableId);
             CreateFooter(pdf, document, laboratory.Staff, fontSize);
         }
