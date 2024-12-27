@@ -19,5 +19,11 @@ public class RecipeConfigurations : IEntityTypeConfiguration<Recipe>
             .WithMany() // Assuming User has a collection of Bookings
             .HasForeignKey(b => b.StaffId)
             .OnDelete(DeleteBehavior.ClientSetNull);
+
+        builder
+            .HasOne(entity => entity.PdfDetails)
+            .WithMany()
+            .HasForeignKey(entity => entity.PdfDetailsId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

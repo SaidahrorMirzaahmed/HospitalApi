@@ -1,4 +1,5 @@
 ﻿using HospitalApi.Service.Models;
+using HospitalApi.WebApi.Models.Laboratories;
 
 namespace HospitalApi.WebApi.ApiServices.Tables;
 
@@ -6,5 +7,5 @@ public interface IBiochemicalAnalysisOfBloodTableApiService
 {
     Task<BiochemicalAnalysisOfBloodTableDto> GetAsync(long id);
 
-    Task<BiochemicalAnalysisOfBloodTableDto> UpdateAsync(long id, BiochemicalAnalysisOfBloodTableUpdateDto update);
+    Task<LaboratoryViewModel> UpdateAsync(long id, BiochemicalAnalysisOfBloodTableUpdateDto update);
 }

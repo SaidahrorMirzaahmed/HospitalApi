@@ -17,6 +17,12 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
+            .HasOne(entity => entity.PdfDetails)
+            .WithMany()
+            .HasForeignKey(entity => entity.PdfDetailsId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
             .Navigation(b => b.Client)
             .AutoInclude(true);
 

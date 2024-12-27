@@ -107,7 +107,7 @@ public partial class PdfGeneratorService(IUnitOfWork unitOfWork) : IPdfGenerator
 
                 CreateHeader(document, 12);
                 CreateDetailsForRecipe(document);
-                CreateUserDetailsForRecipe(document, recipe.Client);
+                CreateUserDetailsForRecipe(document, recipe);
                 CreateTableForRecipe(document, recipe);
                 CreateRecipeFooter(pdf, document, recipe.Staff);
 

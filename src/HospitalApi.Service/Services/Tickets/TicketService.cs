@@ -6,19 +6,49 @@ using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Extensions;
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Models;
+using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Service.Services.QueueServices;
+using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace HospitalApi.Service.Services.Tickets;
 
-public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) : ITicketService
+public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService, IPdfGeneratorService pdfGeneratorService, IUserService userService) : ITicketService
 {
     public async Task<IEnumerable<Ticket>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var entities = unitOfWork.Tickets
-            .SelectAsQueryable(entity => !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories"])
+            .SelectAsQueryable(entity => !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
+
+        return await entities.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Ticket>> GetAllPaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(entity => entity.IsPaid && !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        if (!string.IsNullOrEmpty(search))
+            entities = entities.Where(entity =>
+                entity.Client.FirstName.ToLower().Contains(search.ToLower()) || entity.Client.LastName.ToLower().Contains(search.ToLower())
+            || entity.Client.Phone.Contains(search) || entity.Client.Address.ToLower().Contains(search));
+
+        return await entities.ToPaginateAsQueryable(@params).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Ticket>> GetAllUnpaidAsync(PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(entity => !entity.IsPaid && !entity.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -32,7 +62,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
 
     public async Task<Ticket> GetByIdAsync(long id)
     {
-        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories"])
+        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
             ?? throw new NotFoundException($"{nameof(Ticket)} is not exists with id = {id}");
 
         return entity;
@@ -41,7 +71,25 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
     public async Task<IEnumerable<Ticket>> GetByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null)
     {
         var entities = unitOfWork.Tickets
-            .SelectAsQueryable(item => item.ClientId == clientId && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories"])
+            .SelectAsQueryable(item => item.ClientId == clientId && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
+    }
+
+    public async Task<IEnumerable<Ticket>> GetPaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(item => item.ClientId == clientId && item.IsPaid && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
+            .OrderBy(filter);
+
+        return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
+    }
+
+    public async Task<IEnumerable<Ticket>> GetUnpaidByClientIdAsync(long clientId, PaginationParams @params, Filter filter, string search = null)
+    {
+        var entities = unitOfWork.Tickets
+            .SelectAsQueryable(item => item.ClientId == clientId && !item.IsPaid && !item.IsDeleted, includes: ["Client", "MedicalServiceTypeHistories", "PdfDetails"])
             .OrderBy(filter);
 
         return await Task.FromResult(entities.ToPaginateAsEnumerable(@params));
@@ -49,9 +97,12 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
 
     public async Task<Ticket> CreateAsync(long clientId, IEnumerable<TicketCreateDto> dtos)
     {
+        var client = await unitOfWork.Users.SelectAsync(entity => entity.Id == clientId && !entity.IsDeleted)
+            ?? throw new NotFoundException($"{nameof(User)} is not exists id = {clientId}");
+
         await unitOfWork.BeginTransactionAsync();
 
-        var ticket = new Ticket { ClientId = clientId };
+        var ticket = new Ticket { ClientId = client.Id, Client = client };
         ticket.Create();
         if (HttpContextHelper.HttpContext.User.Claims
             .Any(c => c.Type == ClaimTypes.Role &&
@@ -80,6 +131,11 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
         ticket.CommonPrice = types.Sum(item => item.MedicalServiceType.Price);
         ticket.MedicalServiceTypeHistories = histories;
 
+        var document = await pdfGeneratorService.CreateDocument(ticket);
+        ticket.PdfDetailsId = document.Id;
+        ticket.PdfDetails = document;
+        ticket.PdfDetails.Create();
+
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
@@ -88,13 +144,20 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
 
     public async Task<Ticket> UpdateAsync(long id, Ticket ticket, bool isPaid)
     {
-        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted)
+        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["PdfDetails"])
             ?? throw new NotFoundException($"{nameof(MedicalServiceTypeHistory)} is not exists with id = {id}");
 
+        await unitOfWork.BeginTransactionAsync();
         entity.Update();
         entity.IsPaid = isPaid;
 
+        var document = await pdfGeneratorService.CreateDocument(entity);
+        entity.PdfDetailsId = document.Id;
+        entity.PdfDetails = document;
+
         await unitOfWork.Tickets.UpdateAsync(entity);
+
+        await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
         return entity;
@@ -102,7 +165,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService) :
 
     public async Task<bool> DeleteByIdAsync(long id)
     {
-        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["MedicalServiceTypeHistories"])
+        var entity = await unitOfWork.Tickets.SelectAsync(item => item.Id == id && !item.IsDeleted, includes: ["MedicalServiceTypeHistories", "PdfDetails"])
             ?? throw new NotFoundException($"{nameof(Ticket)} is not exists with id = {id}");
 
         await unitOfWork.BeginTransactionAsync();

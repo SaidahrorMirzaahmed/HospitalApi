@@ -33,19 +33,19 @@ public partial class PdfGeneratorService
     #endregion
 
     #region
-    private void CreateUserDetailsForRecipe(Document document, User client)
+    private void CreateUserDetailsForRecipe(Document document, Recipe recipe)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        document.Add(new Paragraph($"Мурожаат санаси {DateOnly.FromDateTime(DateTime.Now)} й." +
+        document.Add(new Paragraph($"Мурожаат санаси {DateOnly.FromDateTime(recipe.CreatedAt.AddHours(5))} й." +
             "                " +
-            $"Соат {TimeOnly.FromDateTime(DateTime.Now)}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+            $"Соат {TimeOnly.FromDateTime(recipe.CreatedAt.AddHours(5))}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Бемор\nФИШ: {client.LastName}, {client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Бемор\nФИШ: {recipe.Client.LastName}, {recipe.Client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Туғилган йили: {DateOnly.FromDateTime(DateTime.Now).Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Туғилган йили: {DateOnly.FromDateTime(DateTime.Now).Year - recipe.Client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Яшаш манзили: {client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Яшаш манзили: {recipe.Client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
     }
     #endregion
 

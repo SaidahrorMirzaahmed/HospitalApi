@@ -37,9 +37,9 @@ public class AnalysisOfFecesTableService(IUnitOfWork unitOfWork) : IAnalysisOfFe
         exists.Update();
         exists.Items = table.Items;
 
-        await unitOfWork.AnalysisOfFecesTables.UpdateAsync(exists);
         if (saveChanges)
             await unitOfWork.SaveAsync();
+
         return exists;
     }
 

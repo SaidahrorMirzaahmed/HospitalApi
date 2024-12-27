@@ -37,7 +37,6 @@ public class BiochemicalAnalysisOfBloodTableService(IUnitOfWork unitOfWork) : IB
         exists.Update();
         exists.Items = table.Items;
 
-        await unitOfWork.BiochemicalAnalysisOfBloodTables.UpdateAsync(exists);
         if (saveChanges)
             await unitOfWork.SaveAsync();
 

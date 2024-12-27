@@ -13,6 +13,9 @@ public class Laboratory : Auditable
 
     public long? RecipeId { get; set; }
 
+    public long? PdfDetailsId { get; set; }
+    public PdfDetails PdfDetails { get; set; }
+
     public long TableId { get; set; }
     public LaboratoryTableType LaboratoryTableType { get; set; }
 }

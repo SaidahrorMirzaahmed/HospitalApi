@@ -42,6 +42,7 @@ public class MappingProfile : Profile
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
                 Staff = context.Mapper.Map<UserViewModel>(src.Staff),
                 CheckUps = context.Mapper.Map<IEnumerable<LaboratoryViewModel>>(src.CheckUps),
+                PdfDetails = context.Mapper.Map<PdfDetailsViewModel>(src.PdfDetails)
             })
             .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
@@ -53,7 +54,12 @@ public class MappingProfile : Profile
         CreateMap<NewsListCreateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
         CreateMap<NewsListUpdateModel, NewsList>().ForMember(dest => dest.Picture, opt => opt.Ignore()).ReverseMap();
 
-        CreateMap<Laboratory, LaboratoryViewModel>().ReverseMap();
+        CreateMap<Laboratory, LaboratoryViewModel>()
+            .ConstructUsing((src, context) => new LaboratoryViewModel
+            {
+                PdfDetails = context.Mapper.Map<PdfDetailsViewModel>(src.PdfDetails),
+            })
+            .ReverseMap();
         CreateMap<ClinicQueue, ClinicQueueViewModel>().ReverseMap();
         CreateMap<MedicalServiceType, MedicalServiceTypeViewModel>()
             .ConstructUsing((src, context) =>
@@ -78,7 +84,8 @@ public class MappingProfile : Profile
             .ConstructUsing((src, context) => new TicketViewModelModel
             {
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
-                MedicalServiceTypeHistories = context.Mapper.Map<IEnumerable<MedicalServiceTypeHistoryViewModel>>(src.MedicalServiceTypeHistories)
+                MedicalServiceTypeHistories = context.Mapper.Map<IEnumerable<MedicalServiceTypeHistoryViewModel>>(src.MedicalServiceTypeHistories),
+                PdfDetails = context.Mapper.Map<PdfDetailsViewModel>(src.PdfDetails)
             });
         CreateMap<TicketCreateModel, TicketCreateDto>().ReverseMap();
         CreateMap<PdfDetails, PdfDetailsViewModel>().ReverseMap();
