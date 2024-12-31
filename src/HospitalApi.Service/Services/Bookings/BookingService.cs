@@ -54,7 +54,7 @@ public class BookingService(IUnitOfWork unitOfWork) : IBookingService
         if (!string.IsNullOrWhiteSpace(search))
             bookings = bookings.Where(x => x.Staff.FirstName.Contains(search) || x.Staff.LastName.Contains(search) || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search));
 
-        return await Task.FromResult(bookings);
+        return await Task.FromResult(bookings.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<IEnumerable<Booking>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)

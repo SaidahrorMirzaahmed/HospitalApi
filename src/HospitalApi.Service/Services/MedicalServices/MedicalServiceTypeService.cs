@@ -30,7 +30,7 @@ public class MedicalServiceTypeService(IUnitOfWork unitOfWork) : IMedicalService
                     || type.Staff.FirstName.ToLower().Contains(search.ToLower()) || type.Staff.LastName.ToLower().Contains(search.ToLower())
                     || type.Staff.Phone.Contains(search) || type.Staff.Address.ToLower().Contains(search.ToLower()));
 
-        return await serviceTypes.ToListAsync();
+        return await Task.FromResult(serviceTypes.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<MedicalServiceType> CreateAsync(MedicalServiceType serviceType)

@@ -185,7 +185,7 @@ public class TicketService(IUnitOfWork unitOfWork, IQueueService queueService, I
 
     private int GetCurrentQueue((MedicalServiceType MedicalServiceType, DateOnly BookingDate) type)
     {
-        var day = type.BookingDate.Day - DateOnly.FromDateTime(DateTime.Now).Day;
+        var day = type.BookingDate.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
 
         var queue = day switch
         {

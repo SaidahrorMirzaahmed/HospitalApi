@@ -1,4 +1,5 @@
-﻿using HospitalApi.WebApi.Models.Laboratories;
+﻿using HospitalApi.WebApi.Models.Diagnoses;
+using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.Pdfs;
 using HospitalApi.WebApi.Models.Users;
 
@@ -14,7 +15,10 @@ public class RecipeViewModel
     public PdfDetailsViewModel PdfDetails { get; set; }
 
     public string Complaints { get; set; }
-    public string Diagnosis { get; set; }
+
+    public long DiagnosisId { get; set; }
+    public DiagnosisViewModel Diagnosis { get; set; }
+
     public IEnumerable<LaboratoryViewModel> CheckUps { get; set; }
     public string Recommendations { get; set; }
 }

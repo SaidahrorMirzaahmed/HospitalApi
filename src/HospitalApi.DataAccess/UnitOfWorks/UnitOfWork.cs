@@ -20,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Ticket> Tickets { get; }
     public IRepository<ClinicQueue> ClinicQueues { get; }
     public IRepository<PdfDetails> PdfDetails { get; }
+    public IRepository<Diagnosis> Diagnoses { get; }
     // Table
     public IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     public IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
@@ -49,6 +50,7 @@ public class UnitOfWork : IUnitOfWork
         TorchTables = new Repository<TorchTable>(this.context);
         ClinicQueues = new Repository<ClinicQueue>(this.context);
         PdfDetails = new Repository<PdfDetails>(this.context);
+        Diagnoses = new Repository<Diagnosis>(this.context);
     }
 
     public void Dispose()

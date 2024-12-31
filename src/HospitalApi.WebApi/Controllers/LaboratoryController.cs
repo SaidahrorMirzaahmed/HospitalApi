@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalApi.WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class LaboratoryController(ILaboratoryApiService service) : ControllerBase
 {
-    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("{id:long}")]
     public async ValueTask<IActionResult> Get(long id)
     {
@@ -24,7 +23,6 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("user/{id:long}")]
     public async ValueTask<IActionResult> GetByUserId(long id,
         [FromQuery] PaginationParams @params,
@@ -39,7 +37,6 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
-    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet]
     public async ValueTask<IActionResult> GetAll(
         [FromQuery] PaginationParams @params,
@@ -66,6 +63,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
     //    });
     //}
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("analysis-of-feces-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostAnalysisOfFecesTable(long id)
     {
@@ -77,6 +75,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("biochemical-analysis-of-blood-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostBiochemicalAnalysisOfBloodTable(long id)
     {
@@ -88,6 +87,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("common-analysis-of-blood-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostCommonAnalysisOfBlood(long id)
     {
@@ -99,6 +99,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("common-analysis-of-urine-table/client/{id:long}")]
     public async ValueTask<IActionResult> PostCommonAnalysisOfUrine(long id)
     {
@@ -110,6 +111,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost("torch/client/{id:long}")]
     public async ValueTask<IActionResult> PostTorch(long id)
     {
@@ -121,6 +123,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("{id:long}")]
     public async ValueTask<IActionResult> Put(long id, LaboratoryUpdateModel update)
     {
@@ -132,6 +135,7 @@ public class LaboratoryController(ILaboratoryApiService service) : ControllerBas
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpDelete("{id:long}")]
     public async ValueTask<IActionResult> Delete(long id)
     {

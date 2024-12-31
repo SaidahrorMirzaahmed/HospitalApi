@@ -49,7 +49,7 @@ public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGener
     public async Task<IEnumerable<Recipe>> GetAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
         var res = unitOfWork.Recipes
-            .SelectAsQueryable(expression: recipe => !recipe.IsDeleted, isTracked: false, includes: ["Staff", "Client", "CheckUps", "PdfDetails"])
+            .SelectAsQueryable(expression: recipe => !recipe.IsDeleted, isTracked: false, includes: ["Staff", "Client", "CheckUps", "PdfDetails", "Diagnosis"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -62,7 +62,7 @@ public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGener
     public async Task<IEnumerable<Recipe>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
     {
         var res = unitOfWork.Recipes
-            .SelectAsQueryable(expression: recipe => !recipe.IsDeleted && recipe.ClientId == id, isTracked: false, includes: ["Staff", "Client", "CheckUps", "PdfDetails"])
+            .SelectAsQueryable(expression: recipe => !recipe.IsDeleted && recipe.ClientId == id, isTracked: false, includes: ["Staff", "Client", "CheckUps", "PdfDetails", "Diagnosis"])
             .OrderBy(filter);
 
         if (!string.IsNullOrEmpty(search))
@@ -74,7 +74,7 @@ public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGener
 
     public async Task<Recipe> GetAsync(long id)
     {
-        var existRecipe = await unitOfWork.Recipes.SelectAsync(x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client", "CheckUps", "PdfDetails"])
+        var existRecipe = await unitOfWork.Recipes.SelectAsync(x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client", "CheckUps", "PdfDetails", "Diagnosis"])
             ?? throw new NotFoundException($"Recipe with this id is not found id = {id}");
 
         return await Task.FromResult(existRecipe);
@@ -94,6 +94,7 @@ public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGener
         existRecipe.Complaints = recipe.Complaints;
         existRecipe.Diagnosis = recipe.Diagnosis;
         existRecipe.Recommendations = recipe.Recommendations;
+        existRecipe.DiagnosisId = recipe.DiagnosisId;
         existRecipe.PdfDetailsId = document.Id;
         existRecipe.PdfDetails = document;
 

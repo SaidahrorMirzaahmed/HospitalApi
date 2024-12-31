@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalApi.WebApi.Controllers;
 
-[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class RecipesController(IRecipeApiService service) : BaseController
 {
     //[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
@@ -23,6 +23,7 @@ public class RecipesController(IRecipeApiService service) : BaseController
     //    });
     //}
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPost]
     public async ValueTask<IActionResult> PostAsync(RecipeCreateModel createModel)
     {
@@ -34,6 +35,7 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("{id:long}")]
     public async ValueTask<IActionResult> PutAsync(long id, RecipeUpdateModel updateModel)
     {
@@ -45,6 +47,7 @@ public class RecipesController(IRecipeApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpDelete("{id:long}")]
     public async ValueTask<IActionResult> DeleteAsync(long id)
     {

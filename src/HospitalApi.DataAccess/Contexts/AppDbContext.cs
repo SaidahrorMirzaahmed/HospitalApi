@@ -24,6 +24,7 @@ public class AppDbContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<ClinicQueue> ClinicQueues { get; set; }
     public DbSet<PdfDetails> PdfDetails { get; set; }
+    public DbSet<Diagnosis> Diagnoses { get; set; }
     // Tables
     // feces
     public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }
