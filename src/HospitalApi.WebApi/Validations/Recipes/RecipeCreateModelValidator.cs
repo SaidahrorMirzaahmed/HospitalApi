@@ -10,5 +10,9 @@ public class RecipeCreateModelValidator : AbstractValidator<RecipeCreateModel>
         RuleFor(b => b.ClientId)
             .GreaterThan(0)
             .WithMessage(a => $"{nameof(a.ClientId)} cant be null or 0");
+
+        RuleFor(b => b.DiagnosisId)
+            .GreaterThan(0)
+            .WithMessage(a => $"{nameof(a.DiagnosisId)} cant be null or 0");
     }
 }

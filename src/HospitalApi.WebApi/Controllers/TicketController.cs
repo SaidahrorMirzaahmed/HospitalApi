@@ -141,6 +141,7 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpDelete("{id:long}")]
     public async ValueTask<IActionResult> DeleteById(long id)
     {

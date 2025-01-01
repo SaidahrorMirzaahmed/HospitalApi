@@ -71,7 +71,7 @@
 //        {
 //            StatusCode = 200,
 //            Message = "Ok",
-//            Data = await service.GetAllbyUserIdAsync(id, @params, filter, search)
+//            Data = await service.GetAllByUserIdAsync(id, @params, filter, search)
 //        });
 //    }
 

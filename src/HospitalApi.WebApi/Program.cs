@@ -67,6 +67,7 @@ app.UseExceptionHandler();
 
 app.InjectEnvironmentItems();
 app.UseRouting();
+app.SeedData();
 
 app.UseMiddleware<DdosProtectionMiddleware>();
 

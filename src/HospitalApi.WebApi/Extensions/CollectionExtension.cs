@@ -2,6 +2,7 @@
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Assets;
 using HospitalApi.Service.Services.Bookings;
+using HospitalApi.Service.Services.Diagnoses;
 using HospitalApi.Service.Services.Laboratories;
 using HospitalApi.Service.Services.MedicalServices;
 using HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
@@ -18,6 +19,7 @@ using HospitalApi.Service.Services.Users;
 using HospitalApi.WebApi.ApiServices.Accounts;
 using HospitalApi.WebApi.ApiServices.Bookings;
 using HospitalApi.WebApi.ApiServices.ClientBookings;
+using HospitalApi.WebApi.ApiServices.DiagnosisApiServices;
 using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.ApiServices.MedicalServices;
 using HospitalApi.WebApi.ApiServices.News;
@@ -27,6 +29,7 @@ using HospitalApi.WebApi.ApiServices.Tables;
 using HospitalApi.WebApi.ApiServices.Tickets;
 using HospitalApi.WebApi.ApiServices.Users;
 using HospitalApi.WebApi.Configurations;
+using HospitalApi.WebApi.Data;
 using HospitalApi.WebApi.Middlewares;
 using HospitalApi.WebApi.Validations.Bookings;
 using HospitalApi.WebApi.Validations.Laboratories;
@@ -60,6 +63,7 @@ public static class CollectionExtension
         services.AddScoped<IQueueService, QueueService>();
         services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
+        services.AddScoped<IDiagnosisService, DiagnosisService>();
         // Table
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
@@ -83,6 +87,7 @@ public static class CollectionExtension
         services.AddScoped<ITicketApiService, TicketApiService>();
         services.AddScoped<IClientBookingApiService, ClientBookingApiService>();
         services.AddScoped<IStatisticsApiService, StatisticsApiService>();
+        services.AddScoped<IDiagnosisApiService, DiagnosisApiService>();
         // Table
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();
@@ -112,6 +117,14 @@ public static class CollectionExtension
         EnvironmentHelper.PageIndex = Convert.ToInt32(app.Configuration.GetSection("PaginationParams:PageIndex").Value);
         EnvironmentHelper.CodeSenderBotToken = app.Configuration.GetSection("CodeSenderBot:Token").Value;
         EnvironmentHelper.CodeSenderBotReceiverChatId = app.Configuration.GetSection("CodeSenderBot:ChatId").Value;
+    }
+
+    public static async void SeedData(this WebApplication app)
+    {
+        var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+        using var scope = scopeFactory.CreateScope();
+
+        await scope.ServiceProvider.SeedDataAsync();
     }
 
     public static void AddValidators(this IServiceCollection services)

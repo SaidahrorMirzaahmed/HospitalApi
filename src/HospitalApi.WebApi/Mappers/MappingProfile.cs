@@ -4,6 +4,7 @@ using HospitalApi.Domain.Enums;
 using HospitalApi.Service.Models;
 using HospitalApi.WebApi.Models.Assets;
 using HospitalApi.WebApi.Models.Bookings;
+using HospitalApi.WebApi.Models.Diagnoses;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
@@ -42,8 +43,12 @@ public class MappingProfile : Profile
                 Client = context.Mapper.Map<UserViewModel>(src.Client),
                 Staff = context.Mapper.Map<UserViewModel>(src.Staff),
                 CheckUps = context.Mapper.Map<IEnumerable<LaboratoryViewModel>>(src.CheckUps),
-                PdfDetails = context.Mapper.Map<PdfDetailsViewModel>(src.PdfDetails)
+                PdfDetails = context.Mapper.Map<PdfDetailsViewModel>(src.PdfDetails),
+                Diagnosis = context.Mapper.Map<DiagnosisViewModel>(src.Diagnosis)
             })
+            .ReverseMap();
+
+        CreateMap<Diagnosis, DiagnosisViewModel>()
             .ReverseMap();
         CreateMap<RecipeCreateModel, Recipe>()
             .ForMember(dest => dest.CheckUps, opt => opt.Ignore());

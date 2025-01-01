@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalApi.WebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
+
 public class TableController(
     IAnalysisOfFecesTableApiService analysisOfFecesTableApiService,
     ITorchTableApiService torchApiService,
@@ -15,7 +16,6 @@ public class TableController(
     ICommonAnalysisOfBloodTableApiService commonAnalysisOfBloodTableApiService,
     ICommonAnalysisOfUrineTableApiService commonAnalysisOfUrineTableApiService) : ControllerBase
 {
-    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpGet("analysis-of-feces-table/{id:long}")]
     public async ValueTask<IActionResult> GetAnalysisOfFecesTable(long id)
     {
@@ -27,6 +27,7 @@ public class TableController(
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("analysis-of-feces-table/{id:long}")]
     public async ValueTask<IActionResult> PutAnalysisOfFecesTable(long id, AnalysisOfFecesTableUpdateDto updateModel)
     {
@@ -49,6 +50,7 @@ public class TableController(
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("biochemical-analysis-of-blood-table/{id:long}")]
     public async ValueTask<IActionResult> PutBiochemicalAnalysisOfBloodTable(long id, BiochemicalAnalysisOfBloodTableUpdateDto updateModel)
     {
@@ -71,6 +73,7 @@ public class TableController(
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("common-analysis-of-blood-table/{id:long}")]
     public async ValueTask<IActionResult> PutCommonAnalysisOfBloodTable(long id, CommonAnalysisOfBloodTableUpdateDto updateModel)
     {
@@ -93,6 +96,7 @@ public class TableController(
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("common-analysis-of-urine-table/{id:long}")]
     public async ValueTask<IActionResult> PutCommonAnalysisOfUrineTable(long id, CommonAnalysisOfUrineTableUpdateDto updateModel)
     {
@@ -115,6 +119,7 @@ public class TableController(
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpPut("torch/{id:long}")]
     public async ValueTask<IActionResult> PutTorchTable(long id, TorchTableUpdateDto updateModel)
     {

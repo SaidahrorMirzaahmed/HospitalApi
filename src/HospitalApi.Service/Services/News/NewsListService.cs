@@ -42,7 +42,7 @@ public class NewsListService(IUnitOfWork unitOfWork, IAssetService service) : IN
                 news.Title.ToLower().Contains(search) || news.SubTitle.ToLower().Contains(search)
                 || news.TitleRu.ToLower().Contains(search.ToLower()) || news.SubTitleRu.ToLower().Contains(search.ToLower()));
 
-        return await Task.FromResult(res);
+        return await Task.FromResult(res.ToPaginateAsQueryable(@params));
     }
 
     public async Task<NewsList> GetAsync(long id)

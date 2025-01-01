@@ -28,7 +28,8 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
                 || x.Staff.Phone.Contains(search) || x.Staff.Address.ToLower().Contains(search.ToLower())
                 || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search)
                 || x.Client.Phone.Contains(search) || x.Client.Address.ToLower().Contains(search));
-        return await Task.FromResult(laboratory);
+
+        return await Task.FromResult(laboratory.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<IEnumerable<Laboratory>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
@@ -43,7 +44,7 @@ public class LaboratoryService(IUnitOfWork unitOfWork,
                 || x.Client.FirstName.Contains(search) || x.Client.LastName.Contains(search)
                 || x.Client.Phone.Contains(search) || x.Client.Address.ToLower().Contains(search));
 
-        return await Task.FromResult(laboratory);
+        return await Task.FromResult(laboratory.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<Laboratory> GetAsync(long id)
