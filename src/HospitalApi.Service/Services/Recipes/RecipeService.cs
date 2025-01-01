@@ -9,27 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HospitalApi.Service.Services.Recipes;
 
-public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGeneratorService) : IRecipeService
+public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
 {
     public async Task<Recipe> CreateAsync(Recipe recipe, IEnumerable<long> ids)
     {
         recipe.Create();
         var createdRecipe = await unitOfWork.Recipes.InsertAsync(recipe);
         var laboratories = unitOfWork.Laboratories.SelectAsQueryable(laboratory => ids.Contains(laboratory.Id) && !laboratory.IsDeleted);
-        var users = await unitOfWork.Users.SelectAsEnumerableAsync(user => (user.Id == recipe.ClientId || user.Id == recipe.StaffId) && !user.IsDeleted);
         foreach (var laboratory in laboratories)
         {
             laboratory.RecipeId = createdRecipe.Id;
         }
         recipe.CheckUps = (await unitOfWork.Laboratories.BulkUpdateAsync(laboratories)).ToList();
-        recipe.Client = users.First(user => user.Id == recipe.ClientId);
-        recipe.Staff = users.First(user => user.Id == recipe.StaffId);
-
-        var document = await pdfGeneratorService.CreateDocument(recipe);
-        document.Create();
-        await unitOfWork.PdfDetails.InsertAsync(document);
-        recipe.PdfDetailsId = document.Id;
-        recipe.PdfDetails = document;
 
         return createdRecipe;
     }
@@ -85,18 +76,13 @@ public class RecipeService(IUnitOfWork unitOfWork, IPdfGeneratorService pdfGener
         var existRecipe = await unitOfWork.Recipes.SelectAsync(x => x.Id == id && !x.IsDeleted, includes: ["Staff", "Client", "CheckUps"])
             ?? throw new NotFoundException($"Recipe with this id is not found id = {id}");
 
-        var document = await pdfGeneratorService.CreateDocument(existRecipe);
-
         existRecipe.Update();
 
         existRecipe.ClientId = recipe.ClientId;
         existRecipe.StaffId = recipe.StaffId;
-        existRecipe.Complaints = recipe.Complaints;
-        existRecipe.Diagnosis = recipe.Diagnosis;
-        existRecipe.Recommendations = recipe.Recommendations;
         existRecipe.DiagnosisId = recipe.DiagnosisId;
-        existRecipe.PdfDetailsId = document.Id;
-        existRecipe.PdfDetails = document;
+        existRecipe.Complaints = recipe.Complaints;
+        existRecipe.Recommendations = recipe.Recommendations;
 
         var laboratories = unitOfWork.Laboratories.SelectAsQueryable(laboratory => ids.Contains(laboratory.Id) && !laboratory.IsDeleted);
         foreach (var laboratory in existRecipe.CheckUps)

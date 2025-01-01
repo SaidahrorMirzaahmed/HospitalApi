@@ -43,7 +43,13 @@ public class RecipeApiService(
         await unitOfWork.CommitTransactionAsync();
         await unitOfWork.SaveAsync();
 
-        return mapper.Map<RecipeViewModel>(res);
+        var existsRecipe = await service.GetAsync(res.Id);
+        var document = await pdfGeneratorService.CreateDocument(existsRecipe);
+        existsRecipe.PdfDetailsId = document.Id;
+        existsRecipe.PdfDetails = document;
+        await unitOfWork.SaveAsync();
+
+        return mapper.Map<RecipeViewModel>(existsRecipe);
     }
 
     public async Task<RecipeViewModel> PutAsync(long id, RecipeUpdateModel createModel)
@@ -56,6 +62,12 @@ public class RecipeApiService(
         var updatedRecipe = await service.UpdateAsync(id, mappedRecipe, createModel.CheckUps);
 
         await unitOfWork.CommitTransactionAsync();
+        await unitOfWork.SaveAsync();
+
+        var existsRecipe = await service.GetAsync(updatedRecipe.Id);
+        var document = await pdfGeneratorService.CreateDocument(existsRecipe);
+        existsRecipe.PdfDetailsId = document.Id;
+        existsRecipe.PdfDetails = document;
         await unitOfWork.SaveAsync();
 
         return mapper.Map<RecipeViewModel>(updatedRecipe);
@@ -74,7 +86,7 @@ public class RecipeApiService(
         return mapper.Map<IEnumerable<RecipeViewModel>>(res);
     }
 
-    public async Task<IEnumerable<RecipeViewModel>> GetAllbyUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
+    public async Task<IEnumerable<RecipeViewModel>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
     {
         var newsList = await service.GetAllByUserIdAsync(id, @params, filter, search);
         var res = newsList.AsEnumerable();

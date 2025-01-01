@@ -41,9 +41,9 @@ public partial class PdfGeneratorService
             "                " +
             $"Соат {TimeOnly.FromDateTime(recipe.CreatedAt.AddHours(5))}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Бемор\nФИШ: {recipe.Client.LastName}, {recipe.Client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Бемор\nФИШ: {recipe.Client.LastName} {recipe.Client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Туғилган йили: {DateOnly.FromDateTime(DateTime.Now).Year - recipe.Client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Бемор юши: {DateOnly.FromDateTime(DateTime.Now).Year - recipe.Client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
         document.Add(new Paragraph($"Яшаш манзили: {recipe.Client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
     }
@@ -96,7 +96,7 @@ public partial class PdfGeneratorService
             .SetFontSize(15)
             .SetMarginBottom(10);
 
-        Paragraph diagnosis = new Paragraph($"Ташхиси:\n{recipe.Diagnosis}")
+        Paragraph diagnosis = new Paragraph($"Ташхиси:\n{recipe.Diagnosis.Code}")
             .SetFont(font)
             .SetFontSize(15)
             .SetMarginBottom(10);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HospitalApi.DataAccess.UnitOfWorks;
 using HospitalApi.Service.Exceptions;
 using HospitalApi.Service.Helpers;
 using HospitalApi.Service.Services.Users;
@@ -13,7 +14,8 @@ namespace HospitalApi.WebApi.ApiServices.Accounts;
 
 public class AccountApiService(
     IMapper mapper,
-    IUserService service) : IAccountApiService
+    IUserService service,
+    IUnitOfWork unitOfWork) : IAccountApiService
 {
     public async Task<bool> SendSMSCodeAsync(string phone)
     {
@@ -42,21 +44,20 @@ public class AccountApiService(
         var key = Encoding.UTF8.GetBytes(EnvironmentHelper.JWTKey);
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        try
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
         {
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key)
-            }, out SecurityToken validatedToken);
-        }
-        catch (Exception)
-        {
-            return await Task.FromResult(false);
-        }
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        }, out SecurityToken validatedToken);
+
+        var jwtToken = tokenHandler.ReadJwtToken(token);
+        var phoneNumber = jwtToken.Claims.FirstOrDefault(c => c.Type == "Phone")?.Value;
+        var userId = Convert.ToInt64(jwtToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value);
+        var user = await unitOfWork.Users.SelectAsync(entity => entity.Id == userId && entity.Phone == phoneNumber && !entity.IsDeleted)
+            ?? throw new CustomException("Token is invalid", 403);
 
         return await Task.FromResult(true);
     }
