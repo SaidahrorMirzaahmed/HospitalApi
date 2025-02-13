@@ -81,10 +81,9 @@ public partial class PdfGeneratorService
     private void CreateUserInfo(Document document, Laboratory laboratory, int userInfoFontSize)
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
-        var time = $"{DateOnly.FromDateTime(laboratory.CreatedAt.AddHours(5))} й.";
-        var name = $"Фамилия, исми   {laboratory.Client.LastName} {laboratory.Client.FirstName}, ёши   " +
-            $"{DateOnly.FromDateTime(DateTime.UtcNow.AddHours(5)).Year - laboratory.Client.Birth.Year}";
-        var address = $"Манзили   {laboratory.Client.Address}";
+        var time = $"{(DateOnly.FromDateTime(laboratory.CreatedAt.AddHours(5))).ToString("dd.MM.yyyy")} й.";
+        var name = $"Фамилия, исм: {laboratory.Client.LastName} {laboratory.Client.FirstName}, туғилган: {laboratory.Client.Birth.ToString("dd.MM.yyyy")}";
+        var address = $"Манзили: {laboratory.Client.Address}";
 
         document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, time));
         document.Add(CreateParagraph(font, userInfoFontSize, TextAlignment.LEFT, name));

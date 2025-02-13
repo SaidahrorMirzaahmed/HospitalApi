@@ -18,6 +18,7 @@ public interface IUnitOfWork : IDisposable
     IRepository<ClinicQueue> ClinicQueues { get; }
     IRepository<PdfDetails> PdfDetails { get; }
     IRepository<Diagnosis> Diagnoses { get; }
+    IRepository<Note> Notes { get; }
 
     // Tables
     IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }

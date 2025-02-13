@@ -7,7 +7,7 @@ namespace HospitalApi.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Owner))]
 public class StatisticsController(IStatisticsApiService apiService) : ControllerBase
 {
     [HttpGet]

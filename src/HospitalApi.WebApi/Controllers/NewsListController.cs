@@ -9,7 +9,7 @@ using HospitalApi.WebApi.Configurations;
 
 namespace HospitalApi.WebApi.Controllers;
 
-[CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+[CustomAuthorize(nameof(UserRole.Owner))]
 public class NewsListController(INewsListApiService service) : BaseController
 {
     [HttpPost]

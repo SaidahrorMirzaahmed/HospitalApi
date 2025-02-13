@@ -11,6 +11,9 @@ public class EnvironmentHelper
     public static string SmtpPort { get; set; }
     public static string CodeSenderBotToken { get; set; }
     public static string CodeSenderBotReceiverChatId { get; set; }
+    public static string AccountSid { get; set; }
+    public static string AuthToken { get; set; }
+    public static string SenderPhoneNumber { get; set; }
     public static int PageIndex { get; set; }
     public static int PageSize { get; set; }
 }

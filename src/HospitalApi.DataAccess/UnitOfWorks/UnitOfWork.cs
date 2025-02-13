@@ -21,6 +21,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<ClinicQueue> ClinicQueues { get; }
     public IRepository<PdfDetails> PdfDetails { get; }
     public IRepository<Diagnosis> Diagnoses { get; }
+    public IRepository<Note> Notes { get; }
+
     // Table
     public IRepository<AnalysisOfFecesTable> AnalysisOfFecesTables { get; }
     public IRepository<BiochemicalAnalysisOfBloodTable> BiochemicalAnalysisOfBloodTables { get; }
@@ -42,6 +44,7 @@ public class UnitOfWork : IUnitOfWork
         MedicalServiceTypes = new Repository<MedicalServiceType>(this.context);
         MedicalServiceTypeHistories = new Repository<MedicalServiceTypeHistory>(this.context);
         Tickets = new Repository<Ticket>(this.context);
+        Notes = new Repository<Note>(this.context);
         // Table
         AnalysisOfFecesTables = new Repository<AnalysisOfFecesTable>(this.context);
         BiochemicalAnalysisOfBloodTables = new Repository<BiochemicalAnalysisOfBloodTable>(this.context);

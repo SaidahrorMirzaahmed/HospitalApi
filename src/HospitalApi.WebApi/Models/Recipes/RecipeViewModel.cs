@@ -18,6 +18,7 @@ public class RecipeViewModel
 
     public long DiagnosisId { get; set; }
     public DiagnosisViewModel Diagnosis { get; set; }
+    public string DiagnosisTitle { get; set; }
 
     public IEnumerable<LaboratoryViewModel> CheckUps { get; set; }
     public string Recommendations { get; set; }

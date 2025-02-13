@@ -7,6 +7,7 @@ using HospitalApi.Service.Services.Laboratories;
 using HospitalApi.Service.Services.MedicalServices;
 using HospitalApi.Service.Services.MedicalServiceTypeHistoryServices;
 using HospitalApi.Service.Services.News;
+using HospitalApi.Service.Services.Notes;
 using HospitalApi.Service.Services.Notifications;
 using HospitalApi.Service.Services.PdfGeneratorServices;
 using HospitalApi.Service.Services.ProtectionServices;
@@ -23,6 +24,7 @@ using HospitalApi.WebApi.ApiServices.DiagnosisApiServices;
 using HospitalApi.WebApi.ApiServices.Laboratories;
 using HospitalApi.WebApi.ApiServices.MedicalServices;
 using HospitalApi.WebApi.ApiServices.News;
+using HospitalApi.WebApi.ApiServices.Notes;
 using HospitalApi.WebApi.ApiServices.Recipes;
 using HospitalApi.WebApi.ApiServices.StatisticsDetails;
 using HospitalApi.WebApi.ApiServices.Tables;
@@ -64,6 +66,7 @@ public static class CollectionExtension
         services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
         services.AddScoped<IDiagnosisService, DiagnosisService>();
+        services.AddScoped<INoteService, NoteService>();
         // Table
         services.AddScoped<ITorchTableService, TorchTableService>();
         services.AddScoped<IAnalysisOfFecesTableService, AnalysisOfFecesTableService>();
@@ -88,6 +91,7 @@ public static class CollectionExtension
         services.AddScoped<IClientBookingApiService, ClientBookingApiService>();
         services.AddScoped<IStatisticsApiService, StatisticsApiService>();
         services.AddScoped<IDiagnosisApiService, DiagnosisApiService>();
+        services.AddScoped<INoteApiService, NoteApiService>();
         // Table
         services.AddScoped<ITorchTableApiService, TorchTableApiService>();
         services.AddScoped<IAnalysisOfFecesTableApiService, AnalysisOfFecesTableApiService>();

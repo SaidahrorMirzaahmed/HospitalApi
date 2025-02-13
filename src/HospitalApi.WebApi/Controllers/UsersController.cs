@@ -12,7 +12,7 @@ namespace HospitalApi.WebApi.Controllers;
 [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Staff), nameof(UserRole.Owner))]
 public class UsersController(IUserApiService service) : BaseController
 {
-    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
+    [CustomAuthorize(nameof(UserRole.Owner))]
     [HttpPost("/staff")]
     public async ValueTask<IActionResult> PostStaffAsync(StaffCreateModel createModel)
     {
@@ -59,6 +59,7 @@ public class UsersController(IUserApiService service) : BaseController
         });
     }
 
+    [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
     [HttpDelete("{id:long}")]
     public async ValueTask<IActionResult> DeleteAsync(long id)
     {

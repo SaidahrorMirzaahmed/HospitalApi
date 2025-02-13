@@ -8,6 +8,7 @@ using HospitalApi.WebApi.Models.Diagnoses;
 using HospitalApi.WebApi.Models.Laboratories;
 using HospitalApi.WebApi.Models.MedicalServices;
 using HospitalApi.WebApi.Models.News;
+using HospitalApi.WebApi.Models.Notes;
 using HospitalApi.WebApi.Models.Pdfs;
 using HospitalApi.WebApi.Models.Recipes;
 using HospitalApi.WebApi.Models.Tickets;
@@ -105,5 +106,9 @@ public class MappingProfile : Profile
             {
                 MedicalServiceTypeStatistics = context.Mapper.Map<IEnumerable<Models.Statistics.MedicalServiceTypeStatisticsDetailsDto>>(src.MedicalServiceTypeStatistics)
             });
+
+        CreateMap<Note, NoteCreateModel>().ReverseMap();
+        CreateMap<Note, NoteUpdateModel>().ReverseMap();
+        CreateMap<Note, NoteViewModel>().ReverseMap();
     }
 }

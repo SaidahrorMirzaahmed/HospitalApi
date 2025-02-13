@@ -17,6 +17,7 @@ public class Recipe : Auditable
 
     public long? DiagnosisId { get; set; }
     public Diagnosis Diagnosis { get; set; }
+    public string DiagnosisTitle { get; set; }
 
     public ICollection<Laboratory> CheckUps { get; set; }
     public string Recommendations { get; set; }

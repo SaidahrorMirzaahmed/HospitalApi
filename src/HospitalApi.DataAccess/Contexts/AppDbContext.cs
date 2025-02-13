@@ -25,6 +25,7 @@ public class AppDbContext : DbContext
     public DbSet<ClinicQueue> ClinicQueues { get; set; }
     public DbSet<PdfDetails> PdfDetails { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }
+    public DbSet<Note> Notes { get; set; }
     // Tables
     // feces
     public DbSet<AnalysisOfFecesTable> AnalysisOfFecesTables { get; set; }
@@ -59,6 +60,21 @@ public class AppDbContext : DbContext
                 FirstName = "Admin",
                 LastName = "Admin",
                 Phone = "+998906900045",
+                Role = UserRole.Owner,
+            },
+            new User
+            {
+                Id = 2,
+                CreatedAt = default,
+                DeletedAt = null,
+                IsDeleted = false,
+                UpdatedAt = null,
+                UpdatedByUserId = null,
+                CreatedByUserId = 1,
+                DeletedByUserId = null,
+                FirstName = "Максуджон",
+                LastName = "Пулотжонов",
+                Phone = "+998886887888",
                 Role = UserRole.Owner,
             });
 

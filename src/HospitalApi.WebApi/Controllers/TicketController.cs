@@ -130,8 +130,8 @@ public class TicketController(ITicketApiService apiService) : ControllerBase
     }
 
     [CustomAuthorize(nameof(UserRole.Staff), nameof(UserRole.Owner))]
-    [HttpPut("{id:long}")]
-    public async ValueTask<IActionResult> Put(long id, [FromBody] bool isPaid)
+    [HttpPut("{id:long}/{isPaid:bool}")]
+    public async ValueTask<IActionResult> Put(long id, bool isPaid)
     {
         return Ok(new Response
         {

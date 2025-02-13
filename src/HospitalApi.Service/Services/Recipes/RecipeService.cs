@@ -47,7 +47,7 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
             res = res.Where(recipe =>
                 recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search));
 
-        return await res.ToListAsync();
+        return await Task.FromResult(res.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<IEnumerable<Recipe>> GetAllByUserIdAsync(long id, PaginationParams @params, Filter filter, string search = null)
@@ -60,7 +60,8 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
             res = res.Where(recipe =>
                 recipe.Client.FirstName.ToLower().Contains(search) || recipe.Client.LastName.ToLower().Contains(search)
                 || recipe.Client.Phone.Contains(search) || recipe.Client.Address.ToLower().Contains(search));
-        return await Task.FromResult(res);
+        
+        return await Task.FromResult(res.ToPaginateAsEnumerable(@params));
     }
 
     public async Task<Recipe> GetAsync(long id)
@@ -81,6 +82,7 @@ public class RecipeService(IUnitOfWork unitOfWork) : IRecipeService
         existRecipe.ClientId = recipe.ClientId;
         existRecipe.StaffId = recipe.StaffId;
         existRecipe.DiagnosisId = recipe.DiagnosisId;
+        existRecipe.DiagnosisTitle = recipe.DiagnosisTitle;
         existRecipe.Complaints = recipe.Complaints;
         existRecipe.Recommendations = recipe.Recommendations;
 

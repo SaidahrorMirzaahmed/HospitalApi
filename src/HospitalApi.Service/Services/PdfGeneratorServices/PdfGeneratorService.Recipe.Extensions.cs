@@ -37,13 +37,13 @@ public partial class PdfGeneratorService
     {
         PdfFont font = PdfFontFactory.CreateFont(_fontPath, PdfEncodings.IDENTITY_H);
 
-        document.Add(new Paragraph($"Мурожаат санаси {DateOnly.FromDateTime(recipe.CreatedAt.AddHours(5))} й." +
+        document.Add(new Paragraph($"Мурожаат санаси {(DateOnly.FromDateTime(recipe.CreatedAt.AddHours(5))).ToString("dd.MM.yyyy")} й." +
             "                " +
-            $"Соат {TimeOnly.FromDateTime(recipe.CreatedAt.AddHours(5))}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+            $"Соат {(TimeOnly.FromDateTime(recipe.CreatedAt.AddHours(5))).ToString("HH:mm")}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
         document.Add(new Paragraph($"Бемор\nФИШ: {recipe.Client.LastName} {recipe.Client.FirstName}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
-        document.Add(new Paragraph($"Бемор юши: {DateOnly.FromDateTime(DateTime.Now).Year - recipe.Client.Birth.Year}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
+        document.Add(new Paragraph($"Туғилган: {recipe.Client.Birth.ToString("dd.MM.yyyy")}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
 
         document.Add(new Paragraph($"Яшаш манзили: {recipe.Client.Address}").SetFont(font).SetFontSize(15).SetMarginBottom(10));
     }
@@ -96,7 +96,7 @@ public partial class PdfGeneratorService
             .SetFontSize(15)
             .SetMarginBottom(10);
 
-        Paragraph diagnosis = new Paragraph($"Ташхиси:\n{recipe.Diagnosis.Code}")
+        Paragraph diagnosis = new Paragraph($"Ташхиси:\n{recipe.Diagnosis.Code}: {recipe.Diagnosis.Title}")
             .SetFont(font)
             .SetFontSize(15)
             .SetMarginBottom(10);
@@ -118,9 +118,12 @@ public partial class PdfGeneratorService
 
         document
             .Add(complains)
-            .Add(diagnosis)
-            .Add(checkUps)
-            .Add(recommendations);
+            .Add(diagnosis);
+
+        if (checkUpsItems.Count > 0)
+            document.Add(checkUps);
+        
+        document.Add(recommendations);
     }
     #endregion
 
